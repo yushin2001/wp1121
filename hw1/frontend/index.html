@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <title> My Diary </title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="index.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js"
+      integrity="sha512-aoTNnqZcT8B4AmeCFmiSnDlc4Nj/KPaZyB5G7JnOnUEkdNpCZs1LCankiYi01sLTyWy+m2P+W4XM+BuQ3Q4/Dg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+
+  <body>
+    <div class = "topbar">
+      <p> My Diary </p>
+    </div>
+
+    <div class = "container">
+      <div class="upper">
+        <div class = "filter">
+          <button id = "study"> 學業 </button>
+          <button id = "relation"> 人際 </button>
+          <button id = "club"> 社團 </button>
+          <button id = "happy"> 快樂 </button>
+          <button id = "angry"> 生氣 </button>
+          <button id = "sad"> 難過 </button>
+        </div>
+        <a href="#" style="text-decoration:none" type="button" id="new-diary"> 新增日記本 </a>
+    </div>
+
+      <div id="myPopup" class="popup">
+        <div class="popup-content">
+            <p>This is a popup box!</p>
+            <input type="text" id="diary-input" placeholder="new diary" tabindex="1"/>
+            <textarea id="diary-description-input" placeholder="description" tabindex="2"></textarea>
+            <div class="button">
+              <button id="diary-add" tabindex="3"> 儲存 </button>
+              <button id="closePopup"> 取消 </button>
+            </div>
+        </div>
+      </div>
+
+      <div id="diary-section"></div>
+
+      <section id="todos"></section>
+
+  </div>
+  </body>
+
+  <template id="todo-item-template">
+    <details id="" class="todo-item">
+      <summary>
+        <div>
+          <input data-id="" type="checkbox" />
+          <p class="todo-title">todo 1</p>
+        </div>
+        <button data-id="" class="delete-todo">delete</button>
+      </summary>
+      <p class="todo-description">todo 1 description</p>
+    </details>
+  </template>
+</html>
