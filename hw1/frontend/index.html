@@ -15,11 +15,15 @@
   </head>
 
   <body>
+
+    <!-- topbar "My Diary" -->
     <div class = "topbar">
       <p> My Diary </p>
     </div>
 
     <div class = "container">
+
+      <!--  filter button and new-diary button -->
       <div class="upper">
         <div class = "filter">
           <button id = "study"> 學業 </button>
@@ -30,9 +34,10 @@
           <button id = "sad"> 難過 </button>
         </div>
         <a href="#" style="text-decoration:none" type="button" id="new-diary"> 新增日記本 </a>
-    </div>
+      </div>
 
-      <div id="myPopup" class="popup">
+      <!--  popup edit window -->
+      <div id="editPopup" class="popup">
         <div class="popup-content">
             <p id="timing"> Should be time </p>
             <input type="text" id="diary-tag-input" placeholder="tag" tabindex="1"/>
@@ -44,14 +49,26 @@
             </div>
         </div>
       </div>
-
-      <div id="diary-section"></div>
-
+      <!--  popup view window -->
+      <div id="viewPopup" class="popup">
+        <div class="popup-content">
+          <p class="diary-time">time 1</p>
+          <p class="diary-tag">tag 1</p>
+          <p class="diary-mood">mood 1</p>
+          <p class="diary-description">description 1</p>
+          <div class="button">
+            <button id="diary-edit"> 編輯 </button>
+          </div>
+        </div>
+      </div>
+      
+      <!--  diary card section -->
       <section id="diaries"></section>
 
   </div>
   </body>
 
+  <!-- diary card --> 
   <template id="diary-item-template">
     <details id="" class="diary-item">
       <summary>

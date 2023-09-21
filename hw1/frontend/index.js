@@ -23,26 +23,27 @@ function setupEventListeners() {
   const diaryMoodInput = document.querySelector("#diary-mood-input");
   const diaryDescriptionInput = document.querySelector("#diary-description-input");
 
-  /* 新增日記本按鈕 */
+  /* new-diary button */
   const NewDiary = document.querySelector("#new-diary");
   NewDiary.addEventListener("click", function () {
-        myPopup.classList.add("show");
+        editPopup.classList.add("show");
         try {
           document.getElementById("timing").innerHTML = createtime();
+          diaryTime.value = createtime()
         } catch (error) {
           alert("Failed to load time!");
         }
     });
     closePopup.addEventListener("click", function () {
-        myPopup.classList.remove("show");
+        editPopup.classList.remove("show");
     });
     window.addEventListener("click", function (event) {
-        if (event.target == myPopup) {
-            myPopup.classList.remove("show");
+        if (event.target == editPopup) {
+            editPopup.classList.remove("show");
         }
     });
     
-  /* 日記儲存按鈕 */
+  /* diary-add button */
   addDiaryButton.addEventListener("click", async () => {
     const tag = diaryTagInput.value;
     const time = diaryTime.value;
@@ -70,6 +71,7 @@ function setupEventListeners() {
     diaryTagInput.value = "";
     diaryMoodInput.value = "";
     diaryDescriptionInput.value = "";
+    editPopup.classList.remove("show");
   });
 }
 
@@ -82,7 +84,6 @@ function createDiaryElement(diary) {
   const item = itemTemplate.content.cloneNode(true);
   const container = item.querySelector(".diary-item");
   container.id = diary.id;
-  console.log(diary);
   const tag = item.querySelector("p.diary-tag");
   tag.innerText = diary.tag;
   const mood = item.querySelector("p.diary-mood");
