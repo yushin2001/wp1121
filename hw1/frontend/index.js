@@ -1,6 +1,6 @@
 /* global axios */
-const itemTemplate = document.querySelector("#todo-item-template");
-const todoList = document.querySelector("#todos");
+const itemTemplate = document.querySelector("#diary-item-template");
+const DiaryList = document.querySelector("#diaries");
 
 const instance = axios.create({
   baseURL: "http://localhost:8000/api",
@@ -9,16 +9,18 @@ const instance = axios.create({
 async function main() {
   setupEventListeners();
   try {
-    const todos = await getTodos();
-    todos.forEach((todo) => renderTodo(todo));
+    const diaries = await getDiaries();
+    diaries.forEach((diary) => renderDiary(diary));
   } catch (error) {
-    alert("Failed to load todos!");
+    alert("Failed to load diaries!");
   }
 }
 
 function setupEventListeners() {
   const addDiaryButton = document.querySelector("#diary-add");
-  const diaryInput = document.querySelector("#diary-input");
+  const diaryTime = document.querySelector("#timing");
+  const diaryTagInput = document.querySelector("#diary-tag-input");
+  const diaryMoodInput = document.querySelector("#diary-mood-input");
   const diaryDescriptionInput = document.querySelector("#diary-description-input");
 
   /* 新增日記本按鈕 */
@@ -26,7 +28,7 @@ function setupEventListeners() {
   NewDiary.addEventListener("click", function () {
         myPopup.classList.add("show");
         try {
-          const timestamp = createtime();
+          document.getElementById("timing").innerHTML = createtime();
         } catch (error) {
           alert("Failed to load time!");
         }
@@ -39,104 +41,107 @@ function setupEventListeners() {
             myPopup.classList.remove("show");
         }
     });
-
+    
+  /* 日記儲存按鈕 */
   addDiaryButton.addEventListener("click", async () => {
-    const title = diaryInput.value;
+    const tag = diaryTagInput.value;
+    const time = diaryTime.value;
+    const mood = diaryMoodInput.value;
     const description = diaryDescriptionInput.value;
-    if (!title) {
-      alert("Please enter a todo title!");
+    if (!tag) {
+      alert("Please enter a diary tag!");
+      return;
+    }
+    if (!mood) {
+      alert("Please enter a diary mood!");
       return;
     }
     if (!description) {
-      alert("Please enter a todo description!");
+      alert("Please enter a diary description!");
       return;
     }
     try {
-      const todo = await createTodo({ title, description });
-      renderTodo(todo);
+      const diary = await createDiary({ time, description, tag, mood });
+      renderDiary(diary);
     } catch (error) {
-      alert("Failed to create todo!");
+      alert("Failed to create diary!");
       return;
     }
-    diaryInput.value = "";
+    diaryTagInput.value = "";
+    diaryMoodInput.value = "";
     diaryDescriptionInput.value = "";
   });
 }
 
-function renderTodo(todo) {
-  const item = createTodoElement(todo);
-  todoList.appendChild(item);
+function renderDiary(diary) {
+  const item = createDiaryElement(diary);
+  DiaryList.appendChild(item);
 }
 
-function createTodoElement(todo) {
+function createDiaryElement(diary) {
   const item = itemTemplate.content.cloneNode(true);
-  const container = item.querySelector(".todo-item");
-  container.id = todo.id;
-  console.log(todo);
-  const checkbox = item.querySelector(`input[type="checkbox"]`);
-  checkbox.checked = todo.completed;
-  checkbox.dataset.id = todo.id;
-  const title = item.querySelector("p.todo-title");
-  title.innerText = todo.title;
-  const description = item.querySelector("p.todo-description");
-  description.innerText = todo.description;
-  const deleteButton = item.querySelector("button.delete-todo");
-  deleteButton.dataset.id = todo.id;
-  deleteButton.addEventListener("click", () => {
-    deleteTodoElement(todo.id);
-  });
+  const container = item.querySelector(".diary-item");
+  container.id = diary.id;
+  console.log(diary);
+  const tag = item.querySelector("p.diary-tag");
+  tag.innerText = diary.tag;
+  const mood = item.querySelector("p.diary-mood");
+  mood.innerText = diary.mood;
+  const time = item.querySelector("p.diary-time");
+  time.innerText = diary.time;
+  const description = item.querySelector("p.diary-description");
+  description.innerText = diary.description;
   return item;
 }
 
-async function deleteTodoElement(id) {
+async function deleteDiaryElement(id) {
   try {
-    await deleteTodoById(id);
+    await deleteDiaryById(id);
   } catch (error) {
-    alert("Failed to delete todo!");
+    alert("Failed to delete diary!");
   } finally {
-    const todo = document.getElementById(id);
-    todo.remove();
+    const diary = document.getElementById(id);
+    diary.remove();
   }
 }
 
-async function getTodos() {
-  const response = await instance.get("/todos");
+async function getDiaries() {
+  const response = await instance.get("/diaries");
   return response.data;
 }
 
-async function createTodo(todo) {
-  const response = await instance.post("/todos", todo);
+async function createDiary(diary) {
+  const response = await instance.post("/diaries", diary);
   return response.data;
 }
 
 // eslint-disable-next-line no-unused-vars
-async function updateTodoStatus(id, todo) {
-  const response = await instance.put(`/todos/${id}`, todo);
+async function updateDiaryStatus(id, diary) {
+  const response = await instance.put(`/diaries/${id}`, diary);
   return response.data;
 }
 
-async function deleteTodoById(id) {
-  const response = await instance.delete(`/todos/${id}`);
+async function deleteDiaryById(id) {
+  const response = await instance.delete(`/diaries/${id}`);
   return response.data;
 }
 
 // for timestamp
-async function createtime(){
+function createtime(){
   const dayNamesZh = [ '日', '一', '二', '三', '四', '五', '六']
-  const dateObject = new Date()
-  const date = dateObject.getDate()
+  let dateObject = new Date()
+  let date = dateObject.getDate()
   if (date < 10){
     date = '0'+ date
   }
-  const day = dayNamesZh[dateObject.getDay()]
-  const month = dateObject.getMonth() + 1
+  let day = dayNamesZh[dateObject.getDay()]
+  let month = dateObject.getMonth() + 1
   if (month < 10){
     month = '0'+ month
   }
-  const year = dateObject.getFullYear()
-  const formattedDate = year + '.' + month + '.' + date + '(' + day + ')'
+  let year = dateObject.getFullYear()
+  let formattedDate = year + '.' + month + '.' + date + '(' + day + ')'
   return formattedDate;
 }
-
 
 main();

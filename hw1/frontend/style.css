@@ -1,6 +1,6 @@
 :root {
-  --todo-intput-height: 2rem;
-  --todo-intput-font-size: 1rem;
+  --diary-intput-height: 2rem;
+  --diary-intput-font-size: 1rem;
 }
 body {
   text-align: center;
@@ -165,65 +165,56 @@ p {
 
 
 
-
-
-#todos {
+#diaries {
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
   padding: 0 2rem;
   gap: 1rem;
 }
-.todo-item {
+.diary-item {
   background-color: #fff;
   border: 1px solid #ccc;
   padding: 0.5rem;
   border-radius: 1rem;
 }
-.todo-item summary {
+.diary-item summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.todo-item summary > div {
+.diary-item summary > div {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
-.todo-title {
+.diary-tag {
   margin: 0;
   cursor: pointer;
   font-size: 1.5rem;
 }
-.todo-description {
+.diary-mood {
+  margin: 0;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+.diary-time {
+  margin: 0;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+.diary-description {
   margin: 0;
   font-size: 1rem;
   padding: 0 1rem;
 }
-.todo-description:before {
+.diary-description:before {
   content: "";
   display: block;
   height: 1px;
   width: 100%;
   background-color: #ccc;
   margin: 0.5rem 0;
-}
-.todo-item input[type="checkbox"] {
-  height: 1.25rem;
-  width: 1.25rem;
-  cursor: pointer;
-}
-.todo-item button {
-  font-size: 1rem;
-  border-radius: 999px;
-  padding: 0.5rem;
-  border: none;
-  cursor: pointer;
-  background-color: #f55;
-  color: #fff;
-}
-.todo-item button:hover {
-  background-color: #f77;
 }
 
 
@@ -281,12 +272,21 @@ p {
 #diary-add:hover {
   background-color: rgb(194, 182, 182);
 }
-input#diary-input {
+input#diary-tag-input {
   flex-grow: 1;
-  height: var(--todo-intput-height);
-  font-size: var(--todo-intput-font-size);
+  height: var(--diary-intput-height);
+  font-size: var(--diary-intput-font-size);
   border-radius: 0.5rem;
   padding: 0 0.5rem;
+  border: 1px solid #ccc;
+}
+input#diary-mood-input {
+  flex-grow: 1;
+  height: var(--diary-intput-height);
+  font-size: var(--diary-intput-font-size);
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  border: 1px solid #ccc;
 }
 textarea#diary-description-input {
   width: 80%;

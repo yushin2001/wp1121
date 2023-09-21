@@ -34,11 +34,12 @@
 
       <div id="myPopup" class="popup">
         <div class="popup-content">
-            <p>This is a popup box!</p>
-            <input type="text" id="diary-input" placeholder="new diary" tabindex="1"/>
-            <textarea id="diary-description-input" placeholder="description" tabindex="2"></textarea>
+            <p id="timing"> Should be time </p>
+            <input type="text" id="diary-tag-input" placeholder="tag" tabindex="1"/>
+            <input type="text" id="diary-mood-input" placeholder="mood" tabindex="2"/>
+            <textarea id="diary-description-input" placeholder="description" tabindex="3"></textarea>
             <div class="button">
-              <button id="diary-add" tabindex="3"> 儲存 </button>
+              <button id="diary-add" tabindex="4"> 儲存 </button>
               <button id="closePopup"> 取消 </button>
             </div>
         </div>
@@ -46,21 +47,21 @@
 
       <div id="diary-section"></div>
 
-      <section id="todos"></section>
+      <section id="diaries"></section>
 
   </div>
   </body>
 
-  <template id="todo-item-template">
-    <details id="" class="todo-item">
+  <template id="diary-item-template">
+    <details id="" class="diary-item">
       <summary>
         <div>
-          <input data-id="" type="checkbox" />
-          <p class="todo-title">todo 1</p>
+          <p class="diary-time">time 1</p>
+          <p class="diary-tag">tag 1</p>
+          <p class="diary-mood">mood 1</p>
         </div>
-        <button data-id="" class="delete-todo">delete</button>
       </summary>
-      <p class="todo-description">todo 1 description</p>
+      <p class="diary-description">description 1</p>
     </details>
   </template>
 </html>

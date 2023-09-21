@@ -5,7 +5,7 @@ import express from "express";
 import mongoose from "mongoose";
 
 // Routes
-import todoRouter from "./routes/todo.js";
+import diaryRouter from "./routes/diary.js";
 
 dotenv.config();
 
@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // To make the code more readable, we will use `router` to handle each resource.
-app.use("/api/todos", todoRouter);
+app.use("/api/diaries", diaryRouter);
 
 app.get("/heartbeat", (_, res) => {
   return res.send({ message: "Hello World!" });
