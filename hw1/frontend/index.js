@@ -92,7 +92,13 @@ function createDiaryElement(diary) {
   time.innerText = diary.time;
   const description = item.querySelector("p.diary-description");
   description.innerText = diary.description;
-  
+
+  const deleteButton = item.querySelector("button.delete-diary");
+  deleteButton.dataset.id = diary.id;
+  deleteButton.addEventListener("click", () => {
+    deleteDiaryElement(diary.id);
+  });
+
   const diaryelement = item.querySelector("button.view-diary");
   diaryelement.addEventListener("click", function() { 
     viewPopup.classList.add("show");
@@ -137,6 +143,11 @@ async function updateDiaryStatus(id, diary) {
 
 async function deleteDiaryById(id) {
   const response = await instance.delete(`/diaries/${id}`);
+  return response.data;
+}
+
+async function getOneDiary(id) {
+  const response = await instance.get(`/diaries/${id}`);
   return response.data;
 }
 
