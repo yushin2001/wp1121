@@ -37,27 +37,25 @@
       </div>
 
       <!--  popup edit window -->
-      <div id="editPopup" class="popup">
-        <div class="popup-content">
+      <div id="editPopup" class="editpopup">
+        <div class="editpopup-content">
             <p id="timing"> Should be time </p>
             <input type="text" id="diary-tag-input" placeholder="tag" tabindex="1"/>
             <input type="text" id="diary-mood-input" placeholder="mood" tabindex="2"/>
             <textarea id="diary-description-input" placeholder="description" tabindex="3"></textarea>
             <div class="button">
               <button id="diary-add" tabindex="4"> 儲存 </button>
-              <button id="closePopup"> 取消 </button>
+              <button id="editclosePopup"> 取消 </button>
             </div>
         </div>
       </div>
-      <!--  popup view window -->
-      <div id="viewPopup" class="popup">
-        <div class="popup-content">
-          <p class="diary-time">time 1</p>
-          <p class="diary-tag">tag 1</p>
-          <p class="diary-mood">mood 1</p>
-          <p class="diary-description">description 1</p>
+
+      <!--  popup view window  -->
+      <div id="viewPopup" class="viewpopup">
+        <div class="viewpopup-content">
+          <p> Test. </p>
           <div class="button">
-            <button id="diary-edit"> 編輯 </button>
+            <button id="viewclosePopup"> 關閉 </button>
           </div>
         </div>
       </div>
@@ -79,6 +77,7 @@
         </div>
       </summary>
       <p class="diary-description">description 1</p>
+      <button data-id="" class="view-diary"> view </button>
     </details>
   </template>
 </html>

@@ -34,7 +34,7 @@ function setupEventListeners() {
           alert("Failed to load time!");
         }
     });
-    closePopup.addEventListener("click", function () {
+    editclosePopup.addEventListener("click", function () {
         editPopup.classList.remove("show");
     });
     window.addEventListener("click", function (event) {
@@ -92,6 +92,19 @@ function createDiaryElement(diary) {
   time.innerText = diary.time;
   const description = item.querySelector("p.diary-description");
   description.innerText = diary.description;
+  
+  const diaryelement = item.querySelector("button.view-diary");
+  diaryelement.addEventListener("click", function() { 
+    viewPopup.classList.add("show");
+  });
+  viewclosePopup.addEventListener("click", function () {
+    viewPopup.classList.remove("show");
+  });
+  window.addEventListener("click", function (event) {
+    if (event.target == viewPopup) {
+        viewPopup.classList.remove("show");
+    }
+  });
   return item;
 }
 
