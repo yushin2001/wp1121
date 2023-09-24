@@ -288,7 +288,31 @@ textarea#diary-description-input {
   justify-content: center;
   box-sizing: border-box;
 }
+.top-info {
+  display: flex;
+  flex-flow: row;
+  justify-content: left;
+  box-sizing: border-box;
+  align-items: center;
+  border-bottom: 1pt solid #ccc;
+  padding: 0.5rem;
+}
+.top-info .diary-time {
+  margin-right: 10px;
+}
+.top-info .diary-tag {
+  margin-right: 10px;
+}
 #viewclosePopup {
+  display: block;
+  font-size: 15px;
+  border-radius: 5px;
+  margin: 0 0;
+  margin-right: 10px;
+  background-color: rgba(106, 106, 104, 0);
+  cursor: pointer;
+}
+#edit-diary {
   display: block;
   font-size: 15px;
   border-radius: 5px;
@@ -296,7 +320,7 @@ textarea#diary-description-input {
   background-color: rgba(106, 106, 104, 0);
   cursor: pointer;
 }
-#viewclosePopup:hover {
+#viewclosePopup:hover, #edit-diary:hover {
   background-color: rgb(194, 182, 182);
 }
 .show {

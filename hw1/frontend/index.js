@@ -99,8 +99,14 @@ function createDiaryElement(diary) {
     deleteDiaryElement(diary.id);
   });
 
+  /* popup view window */
   const diaryelement = item.querySelector("button.view-diary");
   diaryelement.addEventListener("click", function() { 
+    const onediary = document.getElementById(diary.id);
+    document.querySelector(".viewpopup-content").querySelector(".top-info").querySelector("p.diary-tag").innerHTML = onediary.querySelector("p.diary-tag").innerHTML;
+    document.querySelector(".viewpopup-content").querySelector(".top-info").querySelector("p.diary-mood").innerHTML = onediary.querySelector("p.diary-mood").innerHTML;
+    document.querySelector(".viewpopup-content").querySelector(".top-info").querySelector("p.diary-time").innerHTML = onediary.querySelector("p.diary-time").innerHTML;
+    document.querySelector(".viewpopup-content").querySelector("p.view-diary-description").innerHTML = onediary.querySelector("p.diary-description").innerHTML;
     viewPopup.classList.add("show");
   });
   viewclosePopup.addEventListener("click", function () {
@@ -111,6 +117,7 @@ function createDiaryElement(diary) {
         viewPopup.classList.remove("show");
     }
   });
+
   return item;
 }
 
