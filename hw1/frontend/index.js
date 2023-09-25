@@ -35,10 +35,16 @@ function setupEventListeners() {
         }
     });
     editclosePopup.addEventListener("click", function () {
+        diaryTagInput.value = "";
+        diaryMoodInput.value = "";
+        diaryDescriptionInput.value = "";
         editPopup.classList.remove("show");
     });
     window.addEventListener("click", function (event) {
         if (event.target == editPopup) {
+            diaryTagInput.value = "";
+            diaryMoodInput.value = "";
+            diaryDescriptionInput.value = "";
             editPopup.classList.remove("show");
         }
     });
@@ -98,7 +104,7 @@ function createDiaryElement(diary) {
   deleteButton.addEventListener("click", () => {
     deleteDiaryElement(diary.id);
   });
-
+  
   /* popup view window */
   const diaryelement = item.querySelector("button.view-diary");
   diaryelement.addEventListener("click", function() { 
@@ -115,6 +121,25 @@ function createDiaryElement(diary) {
   window.addEventListener("click", function (event) {
     if (event.target == viewPopup) {
         viewPopup.classList.remove("show");
+    }
+  });
+
+  /* view mode -> edit mode */
+  const editdiary = document.querySelector("#edit-diary");
+  editdiary.addEventListener("click", function() {
+    viewPopup.classList.remove("show");
+    document.querySelector("#re-timing").innerHTML= viewPopup.querySelector(".viewpopup-content").querySelector(".top-info").querySelector(".diary-time").innerHTML;
+    document.querySelector("#re-diary-tag-input").value = viewPopup.querySelector(".viewpopup-content").querySelector(".top-info").querySelector(".diary-tag").innerHTML;
+    document.querySelector("#re-diary-mood-input").value = viewPopup.querySelector(".viewpopup-content").querySelector(".top-info").querySelector(".diary-mood").innerHTML;
+    document.querySelector("#re-diary-description-input").value = viewPopup.querySelector(".viewpopup-content").querySelector(".view-diary-description").innerHTML;
+    reeditPopup.classList.add("show");
+  });
+  reeditclosePopup.addEventListener("click", function () {
+    reeditPopup.classList.remove("show");
+  });
+  window.addEventListener("click", function (event) {
+    if (event.target == reeditPopup) {
+      reeditPopup.classList.remove("show");
     }
   });
 
@@ -150,11 +175,6 @@ async function updateDiaryStatus(id, diary) {
 
 async function deleteDiaryById(id) {
   const response = await instance.delete(`/diaries/${id}`);
-  return response.data;
-}
-
-async function getOneDiary(id) {
-  const response = await instance.get(`/diaries/${id}`);
   return response.data;
 }
 

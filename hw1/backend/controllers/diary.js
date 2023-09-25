@@ -90,19 +90,3 @@ export const deleteDiary = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-
-// Get one diary by id
-export const getOneDiary = async (req, res) => {
-  const { id } = req.params;
-  try {
-    // Check if the id is valid
-    const existedDiary = await DiaryModel.findById(id);
-    if (!existedDiary) {
-      return res.status(404).json({ message: "Diary not found!" });
-    }
-    // Return a diary 
-    return res.status(200).json(existedDiary);
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};

@@ -3,7 +3,6 @@ import {
   getDiaries,
   updateDiary,
   deleteDiary,
-  getOneDiary,
 } from "../controllers/diary.js";
 import express from "express";
 
@@ -21,8 +20,6 @@ router.post("/", createDiary);
 router.put("/:id", updateDiary);
 // DELETE /api/diaries/:id
 router.delete("/:id", deleteDiary);
-// GET /api/diaries/:id
-router.get("/:id", getOneDiary);
 
 // export the router
 export default router;

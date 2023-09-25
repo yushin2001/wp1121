@@ -40,12 +40,26 @@
       <div id="editPopup" class="editpopup">
         <div class="editpopup-content">
             <p id="timing"> Should be time </p>
-            <input type="text" id="diary-tag-input" placeholder="tag" tabindex="1"/>
-            <input type="text" id="diary-mood-input" placeholder="mood" tabindex="2"/>
-            <textarea id="diary-description-input" placeholder="description" tabindex="3"></textarea>
+            <input type="text" id="diary-tag-input" placeholder="tag" tabindex="1" value=""/>
+            <input type="text" id="diary-mood-input" placeholder="mood" tabindex="2" value=""/>
+            <textarea id="diary-description-input" placeholder="description" tabindex="3" value=""></textarea>
             <div class="button">
               <button id="diary-add" tabindex="4"> 儲存 </button>
               <button id="editclosePopup"> 取消 </button>
+            </div>
+        </div>
+      </div>
+
+      <!--  popup re-edit window -->
+      <div id="reeditPopup" class="re-editpopup">
+        <div class="re-editpopup-content">
+            <p id="re-timing"> Should be time </p>
+            <input type="text" id="re-diary-tag-input" placeholder="tag" value=""/>
+            <input type="text" id="re-diary-mood-input" placeholder="mood" value=""/>
+            <textarea id="re-diary-description-input" placeholder="description" value=""></textarea>
+            <div class="button">
+              <button id="re-diary-add"> 儲存 </button>
+              <button id="reeditclosePopup"> 取消 </button>
             </div>
         </div>
       </div>
