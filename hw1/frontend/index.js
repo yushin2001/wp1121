@@ -18,13 +18,13 @@ async function main() {
 
 function setupEventListeners() {
   const addDiaryButton = document.querySelector("#diary-add");
+  const NewDiary = document.querySelector("#new-diary");
   const diaryTime = document.querySelector("#timing");
   const diaryTagInput = document.querySelector("#diary-tag-input");
   const diaryMoodInput = document.querySelector("#diary-mood-input");
   const diaryDescriptionInput = document.querySelector("#diary-description-input");
 
   /* new-diary button */
-  const NewDiary = document.querySelector("#new-diary");
   NewDiary.addEventListener("click", function () {
         editPopup.classList.add("show");
         try {
@@ -98,21 +98,21 @@ function createDiaryElement(diary) {
   time.innerText = diary.time;
   const description = item.querySelector("p.diary-description");
   description.innerText = diary.description;
-
   const deleteButton = item.querySelector("button.delete-diary");
   deleteButton.dataset.id = diary.id;
   deleteButton.addEventListener("click", () => {
     deleteDiaryElement(diary.id);
   });
-  
   /* popup view window */
   const diaryelement = item.querySelector("button.view-diary");
-  diaryelement.addEventListener("click", function() { 
+  diaryelement.addEventListener("click", function() {
     const onediary = document.getElementById(diary.id);
-    document.querySelector(".viewpopup-content").querySelector(".top-info").querySelector("p.diary-tag").innerHTML = onediary.querySelector("p.diary-tag").innerHTML;
-    document.querySelector(".viewpopup-content").querySelector(".top-info").querySelector("p.diary-mood").innerHTML = onediary.querySelector("p.diary-mood").innerHTML;
-    document.querySelector(".viewpopup-content").querySelector(".top-info").querySelector("p.diary-time").innerHTML = onediary.querySelector("p.diary-time").innerHTML;
-    document.querySelector(".viewpopup-content").querySelector("p.view-diary-description").innerHTML = onediary.querySelector("p.diary-description").innerHTML;
+    const view_pop_up = document.querySelector(".viewpopup-content");
+    view_pop_up.querySelector(".id-of-content").innerHTML = diary.id; /* id記錄在視窗上，但看不到 */
+    view_pop_up.querySelector(".top-info").querySelector("p.diary-tag").innerHTML = onediary.querySelector("p.diary-tag").innerHTML;
+    view_pop_up.querySelector(".top-info").querySelector("p.diary-mood").innerHTML = onediary.querySelector("p.diary-mood").innerHTML;
+    view_pop_up.querySelector(".top-info").querySelector("p.diary-time").innerHTML = onediary.querySelector("p.diary-time").innerHTML;
+    view_pop_up.querySelector("p.view-diary-description").innerHTML = onediary.querySelector("p.diary-description").innerHTML;
     viewPopup.classList.add("show");
   });
   viewclosePopup.addEventListener("click", function () {
@@ -123,26 +123,72 @@ function createDiaryElement(diary) {
         viewPopup.classList.remove("show");
     }
   });
-
-  /* view mode -> edit mode */
-  const editdiary = document.querySelector("#edit-diary");
-  editdiary.addEventListener("click", function() {
+  /* view -> edit window */
+  const readdDiaryButton = document.querySelector("#re-diary-add");
+  const rediaryTime = document.querySelector("#re-timing");
+  const rediaryTagInput = document.querySelector("#re-diary-tag-input");
+  const rediaryMoodInput = document.querySelector("#re-diary-mood-input");
+  const rediaryDescriptionInput = document.querySelector("#re-diary-description-input");
+  editdiary.addEventListener("click", function () {
     viewPopup.classList.remove("show");
-    document.querySelector("#re-timing").innerHTML= viewPopup.querySelector(".viewpopup-content").querySelector(".top-info").querySelector(".diary-time").innerHTML;
-    document.querySelector("#re-diary-tag-input").value = viewPopup.querySelector(".viewpopup-content").querySelector(".top-info").querySelector(".diary-tag").innerHTML;
-    document.querySelector("#re-diary-mood-input").value = viewPopup.querySelector(".viewpopup-content").querySelector(".top-info").querySelector(".diary-mood").innerHTML;
-    document.querySelector("#re-diary-description-input").value = viewPopup.querySelector(".viewpopup-content").querySelector(".view-diary-description").innerHTML;
+    const id_of_content = document.querySelector(".viewpopup-content").querySelector(".id-of-content").innerHTML;
+    const onediary = document.getElementById(id_of_content);
+    document.querySelector(".re-editpopup-content").querySelector(".id-edit").innerHTML = id_of_content; /* id記錄在視窗上，但看不到 */
+    rediaryTime.innerHTML = onediary.querySelector("p.diary-time").innerHTML;
+    rediaryTagInput.value = onediary.querySelector("p.diary-tag").innerHTML;
+    rediaryMoodInput.value = onediary.querySelector("p.diary-mood").innerHTML;
+    rediaryDescriptionInput.value = onediary.querySelector("p.diary-description").innerHTML;
     reeditPopup.classList.add("show");
-  });
-  reeditclosePopup.addEventListener("click", function () {
-    reeditPopup.classList.remove("show");
-  });
-  window.addEventListener("click", function (event) {
-    if (event.target == reeditPopup) {
+    reeditclosePopup.addEventListener("click", function () {
       reeditPopup.classList.remove("show");
-    }
+      viewPopup.classList.add("show");
+    });
+    window.addEventListener("click", function (event) {
+      if (event.target == reeditPopup) {
+        reeditPopup.classList.remove("show");
+      }
+    });
+    readdDiaryButton.addEventListener("click", function () {
+      const retag = rediaryTagInput.value;
+      const retime = rediaryTime.innerHTML;
+      const remood = rediaryMoodInput.value;
+      const redescription = rediaryDescriptionInput.value;
+      if (!tag) {
+        alert("Please enter a diary tag!");
+        return;
+      }
+      if (!mood) {
+        alert("Please enter a diary mood!");
+        return;
+      }
+      if (!description) {
+        alert("Please enter a diary description!");
+        return;
+      }
+      const new_content = {"time": retime, "description": redescription, "tag": retag, "mood": remood};
+      try {
+        const new_diary = updateDiaryStatus(id_of_content, new_content);
+        const element = document.getElementById(id_of_content);
+        /* for diary node */
+        element.querySelector(".diary-tag").innerText = retag;
+        element.querySelector(".diary-time").innerText = retime;
+        element.querySelector(".diary-mood").innerText = remood;
+        element.querySelector(".diary-description").innerText = redescription;
+        reeditPopup.classList.remove("show");
+        /* for view popup window */
+        const view_pop_up = document.querySelector(".viewpopup-content");
+        view_pop_up.querySelector(".id-of-content").innerHTML = diary.id; /* id記錄在視窗上，但看不到 */
+        view_pop_up.querySelector(".top-info").querySelector("p.diary-tag").innerHTML = element.querySelector("p.diary-tag").innerHTML;
+        view_pop_up.querySelector(".top-info").querySelector("p.diary-mood").innerHTML = element.querySelector("p.diary-mood").innerHTML;
+        view_pop_up.querySelector(".top-info").querySelector("p.diary-time").innerHTML = element.querySelector("p.diary-time").innerHTML;
+        view_pop_up.querySelector("p.view-diary-description").innerHTML = element.querySelector("p.diary-description").innerHTML;
+        viewPopup.classList.add("show");
+      } catch (error) {
+        alert("Failed to update diary!");
+        return;
+      }
+    });
   });
-
   return item;
 }
 

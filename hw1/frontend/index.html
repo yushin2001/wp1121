@@ -50,9 +50,28 @@
         </div>
       </div>
 
+      <!--  popup view window  -->
+      <div id="viewPopup" class="viewpopup">
+        <div class="viewpopup-content">
+          <p class="id-of-content"> </p>
+          <!--  data fetched from database  -->
+          <div class="top-info">
+            <p class="diary-time">time 1</p>
+            <p class="diary-tag">tag 1</p>
+            <p class="diary-mood">mood 1</p>
+          </div>
+          <p class="view-diary-description">description 1</p>
+          <div class="button">
+            <button id="viewclosePopup"> 關閉 </button>
+            <button id="editdiary"> 編輯 </button>
+          </div>
+        </div>
+      </div>
+
       <!--  popup re-edit window -->
       <div id="reeditPopup" class="re-editpopup">
         <div class="re-editpopup-content">
+            <p class="id-edit"> id </p>
             <p id="re-timing"> Should be time </p>
             <input type="text" id="re-diary-tag-input" placeholder="tag" value=""/>
             <input type="text" id="re-diary-mood-input" placeholder="mood" value=""/>
@@ -64,24 +83,6 @@
         </div>
       </div>
 
-      <!--  popup view window  -->
-      <div id="viewPopup" class="viewpopup">
-        <div class="viewpopup-content">
-          <!--  data fetched from database  -->
-          <div class="top-info">
-            <p class="diary-time">time 1</p>
-            <p class="diary-tag">tag 1</p>
-            <p class="diary-mood">mood 1</p>
-          </div>
-          <p class="view-diary-description">description 1</p>
-
-          <div class="button">
-            <button id="viewclosePopup"> 關閉 </button>
-            <button id="edit-diary"> 編輯 </button>
-          </div>
-        </div>
-      </div>
-      
       <!--  diary card section -->
       <section id="diaries"></section>
 

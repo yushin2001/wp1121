@@ -280,6 +280,9 @@ textarea#diary-description-input {
 .show {
   display: block;
 }
+.id-edit {
+  display: none;
+}
 .re-editpopup-content {
   background-color: white;
   margin: 10% auto;
@@ -363,6 +366,9 @@ textarea#re-diary-description-input {
   justify-content: center;
   box-sizing: border-box;
 }
+.id-of-content {
+  display: none;
+}
 .top-info {
   display: flex;
   flex-flow: row;
@@ -387,7 +393,7 @@ textarea#re-diary-description-input {
   background-color: rgba(106, 106, 104, 0);
   cursor: pointer;
 }
-#edit-diary {
+#editdiary {
   display: block;
   font-size: 15px;
   border-radius: 5px;
@@ -395,7 +401,7 @@ textarea#re-diary-description-input {
   background-color: rgba(106, 106, 104, 0);
   cursor: pointer;
 }
-#viewclosePopup:hover, #edit-diary:hover {
+#viewclosePopup:hover, #editdiary:hover {
   background-color: rgb(194, 182, 182);
 }
 .show {
