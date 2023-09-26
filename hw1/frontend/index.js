@@ -23,6 +23,8 @@ function setupEventListeners() {
   const diaryTagInput = document.querySelector("#diary-tag-input");
   const diaryMoodInput = document.querySelector("#diary-mood-input");
   const diaryDescriptionInput = document.querySelector("#diary-description-input");
+  const editPopup = document.querySelector("#editPopup");
+  const editclosePopup = document.querySelector("#editclosePopup");
 
   /* new-diary button */
   NewDiary.addEventListener("click", function () {
@@ -105,6 +107,8 @@ function createDiaryElement(diary) {
   });
   /* popup view window */
   const diaryelement = item.querySelector("button.view-diary");
+  const viewPopup = document.querySelector("#viewPopup");
+  const viewclosePopup = document.querySelector("#viewclosePopup");
   diaryelement.addEventListener("click", function() {
     const onediary = document.getElementById(diary.id);
     const view_pop_up = document.querySelector(".viewpopup-content");
@@ -129,6 +133,9 @@ function createDiaryElement(diary) {
   const rediaryTagInput = document.querySelector("#re-diary-tag-input");
   const rediaryMoodInput = document.querySelector("#re-diary-mood-input");
   const rediaryDescriptionInput = document.querySelector("#re-diary-description-input");
+  const editdiary = document.querySelector("#editdiary");
+  const reeditPopup = document.querySelector("#reeditPopup");
+  const reeditclosePopup = document.querySelector("#reeditclosePopup");
   editdiary.addEventListener("click", function () {
     viewPopup.classList.remove("show");
     const id_of_content = document.querySelector(".viewpopup-content").querySelector(".id-of-content").innerHTML;
@@ -167,7 +174,7 @@ function createDiaryElement(diary) {
       }
       const new_content = {"time": retime, "description": redescription, "tag": retag, "mood": remood};
       try {
-        const new_diary = updateDiaryStatus(id_of_content, new_content);
+        updateDiaryStatus(id_of_content, new_content);
         const element = document.getElementById(id_of_content);
         /* for diary node */
         element.querySelector(".diary-tag").innerText = retag;
