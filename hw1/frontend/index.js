@@ -25,30 +25,54 @@ function setupEventListeners() {
   const diaryDescriptionInput = document.querySelector("#diary-description-input");
   const editPopup = document.querySelector("#editPopup");
   const editclosePopup = document.querySelector("#editclosePopup");
+  const addstudy = document.querySelector("#add-study");
+  const addrelation = document.querySelector("#add-relation");
+  const addclub = document.querySelector("#add-club");
+  const addhappy = document.querySelector("#add-happy");
+  const addangry = document.querySelector("#add-angry");
+  const addsad = document.querySelector("#add-sad");
 
   /* new-diary button */
   NewDiary.addEventListener("click", function () {
-        editPopup.classList.add("show");
-        try {
-          document.getElementById("timing").innerHTML = createtime();
-          diaryTime.value = createtime()
-        } catch (error) {
-          alert("Failed to load time!");
-        }
+      editPopup.classList.add("show");
+      try {
+        document.getElementById("timing").innerHTML = createtime();
+        diaryTime.value = createtime()
+      } catch (error) {
+        alert("Failed to load time!");
+      }
+    });
+    addstudy.addEventListener("click", function (){
+      diaryTagInput.value = "學業";
+    });
+    addrelation.addEventListener("click", function (){
+      diaryTagInput.value = "人際";
+    });
+    addclub.addEventListener("click", function (){
+      diaryTagInput.value = "社團";
+    });
+    addhappy.addEventListener("click", function (){
+      diaryMoodInput.value = "快樂";
+    });
+    addangry.addEventListener("click", function (){
+      diaryMoodInput.value = "生氣";
+    });
+    addsad.addEventListener("click", function (){
+      diaryMoodInput.value = "難過";
     });
     editclosePopup.addEventListener("click", function () {
-        diaryTagInput.value = "";
-        diaryMoodInput.value = "";
-        diaryDescriptionInput.value = "";
-        editPopup.classList.remove("show");
+      diaryTagInput.value = "";
+      diaryMoodInput.value = "";
+      diaryDescriptionInput.value = "";
+      editPopup.classList.remove("show");
     });
     window.addEventListener("click", function (event) {
-        if (event.target == editPopup) {
-            diaryTagInput.value = "";
-            diaryMoodInput.value = "";
-            diaryDescriptionInput.value = "";
-            editPopup.classList.remove("show");
-        }
+      if (event.target == editPopup) {
+          diaryTagInput.value = "";
+          diaryMoodInput.value = "";
+          diaryDescriptionInput.value = "";
+          editPopup.classList.remove("show");
+      }
     });
     
   /* diary-add button */
@@ -136,6 +160,12 @@ function createDiaryElement(diary) {
   const editdiary = document.querySelector("#editdiary");
   const reeditPopup = document.querySelector("#reeditPopup");
   const reeditclosePopup = document.querySelector("#reeditclosePopup");
+  const editstudy = document.querySelector("#edit-study");
+  const editrelation = document.querySelector("#edit-relation");
+  const editclub = document.querySelector("#edit-club");
+  const edithappy = document.querySelector("#edit-happy");
+  const editangry = document.querySelector("#edit-angry");
+  const editsad = document.querySelector("#edit-sad");
   editdiary.addEventListener("click", function () {
     viewPopup.classList.remove("show");
     const id_of_content = document.querySelector(".viewpopup-content").querySelector(".id-of-content").innerHTML;
@@ -146,6 +176,24 @@ function createDiaryElement(diary) {
     rediaryMoodInput.value = onediary.querySelector("p.diary-mood").innerHTML;
     rediaryDescriptionInput.value = onediary.querySelector("p.diary-description").innerHTML;
     reeditPopup.classList.add("show");
+    editstudy.addEventListener("click", function (){
+      rediaryTagInput.value = "學業";
+    });
+    editrelation.addEventListener("click", function (){
+      rediaryTagInput.value = "人際";
+    });
+    editclub.addEventListener("click", function (){
+      rediaryTagInput.value = "社團";
+    });
+    edithappy.addEventListener("click", function (){
+      rediaryMoodInput.value = "快樂";
+    });
+    editangry.addEventListener("click", function (){
+      rediaryMoodInput.value = "生氣";
+    });
+    editsad.addEventListener("click", function (){
+      rediaryMoodInput.value = "難過";
+    });
     reeditclosePopup.addEventListener("click", function () {
       reeditPopup.classList.remove("show");
       viewPopup.classList.add("show");

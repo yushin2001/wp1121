@@ -26,12 +26,12 @@
       <!--  filter button and new-diary button -->
       <div class="upper">
         <div class = "filter">
-          <button id = "study"> 學業 </button>
-          <button id = "relation"> 人際 </button>
-          <button id = "club"> 社團 </button>
-          <button id = "happy"> 快樂 </button>
-          <button id = "angry"> 生氣 </button>
-          <button id = "sad"> 難過 </button>
+          <button class = "study"> 學業 </button>
+          <button class = "relation"> 人際 </button>
+          <button class = "club"> 社團 </button>
+          <button class = "happy"> 快樂 </button>
+          <button class = "angry"> 生氣 </button>
+          <button class = "sad"> 難過 </button>
         </div>
         <a href="#" style="text-decoration:none" type="button" id="new-diary"> 新增日記本 </a>
       </div>
@@ -40,9 +40,17 @@
       <div id="editPopup" class="editpopup">
         <div class="editpopup-content">
             <p id="timing"> Should be time </p>
-            <input type="text" id="diary-tag-input" placeholder="tag" tabindex="1" value=""/>
-            <input type="text" id="diary-mood-input" placeholder="mood" tabindex="2" value=""/>
-            <textarea id="diary-description-input" placeholder="description" tabindex="3" value=""></textarea>
+            <div class = "add-data">
+              <button id = "add-study" class = "study"> 學業 </button>
+              <button id = "add-relation" class = "relation"> 人際 </button>
+              <button id = "add-club" class = "club"> 社團 </button>
+              <button id = "add-happy" class = "happy"> 快樂 </button>
+              <button id = "add-angry" class = "angry"> 生氣 </button>
+              <button id = "add-sad" class = "sad"> 難過 </button>
+            </div>
+            <input type="text" id="diary-tag-input" placeholder="新增標籤" tabindex="1" value=""/>
+            <input type="text" id="diary-mood-input" placeholder="新增心情" tabindex="2" value=""/>
+            <textarea id="diary-description-input" placeholder="日記內容" tabindex="3" value=""></textarea>
             <div class="button">
               <button id="diary-add" tabindex="4"> 儲存 </button>
               <button id="editclosePopup"> 取消 </button>
@@ -73,9 +81,17 @@
         <div class="re-editpopup-content">
             <p class="id-edit"> id </p>
             <p id="re-timing"> Should be time </p>
-            <input type="text" id="re-diary-tag-input" placeholder="tag" value=""/>
-            <input type="text" id="re-diary-mood-input" placeholder="mood" value=""/>
-            <textarea id="re-diary-description-input" placeholder="description" value=""></textarea>
+            <div class = "add-data">
+              <button id = "edit-study" class = "study"> 學業 </button>
+              <button id = "edit-relation" class = "relation"> 人際 </button>
+              <button id = "edit-club" class = "club"> 社團 </button>
+              <button id = "edit-happy" class = "happy"> 快樂 </button>
+              <button id = "edit-angry" class = "angry"> 生氣 </button>
+              <button id = "edit-sad" class = "sad"> 難過 </button>
+            </div>
+            <input type="text" id="re-diary-tag-input" placeholder="標籤" value=""/>
+            <input type="text" id="re-diary-mood-input" placeholder="心情" value=""/>
+            <textarea id="re-diary-description-input" placeholder="日記內容" value=""></textarea>
             <div class="button">
               <button id="re-diary-add"> 儲存 </button>
               <button id="reeditclosePopup"> 取消 </button>

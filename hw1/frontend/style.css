@@ -57,7 +57,7 @@ p {
   float: left;
   margin-right: 20px;
 }
-#study, #relation, #club {
+.study, .relation, .club {
   font-size: 1rem;
   background-color: #ca3f3f;
   color: white;
@@ -66,10 +66,10 @@ p {
   border: none;
   cursor: pointer;
 }
-#study:hover, #relation:hover, #club:hover {
+.study:hover, .relation:hover, .club:hover {
   background-color: rgb(149, 20, 20);
 }
-#happy, #angry, #sad {
+.happy, .angry, .sad {
   font-size: 1rem;
   background-color: #7ac8da;
   color: white;
@@ -78,7 +78,7 @@ p {
   border: none;
   cursor: pointer;
 }
-#happy:hover, #angry:hover, #sad:hover {
+.happy:hover, .angry:hover, .sad:hover {
   background-color: rgb(44, 134, 148);
 }
 /* new-diary button */
@@ -202,13 +202,11 @@ p {
   border: 1px solid #888888;
   width: 50%;
   font-weight: bolder;
-  flex-flow: row;
-  justify-content: center;
   box-sizing: border-box;
 }
 .button {
   display: flex;
-  padding: 5px;
+  padding: 5px 5px;
   flex-flow: row;
   justify-content: center;
   box-sizing: border-box;
@@ -221,9 +219,6 @@ p {
   background-color: rgba(106, 106, 104, 0);
   cursor: pointer;
 }
-#editclosePopup:hover {
-  background-color: rgb(194, 182, 182);
-}
 #diary-add {
   display: block;
   font-size: 15px;
@@ -232,19 +227,11 @@ p {
   margin-right: 10px;
   background-color: rgba(106, 106, 104, 0);
   cursor: pointer;
-}
-#diary-add:hover {
+  }
+#editclosePopup:hover, #diary-add:hover {
   background-color: rgb(194, 182, 182);
 }
-input#diary-tag-input {
-  flex-grow: 1;
-  height: var(--diary-intput-height);
-  font-size: var(--diary-intput-font-size);
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  border: 1px solid #ccc;
-}
-input#diary-mood-input {
+input#diary-tag-input, input#diary-mood-input {
   flex-grow: 1;
   height: var(--diary-intput-height);
   font-size: var(--diary-intput-font-size);
@@ -257,12 +244,17 @@ textarea#diary-description-input {
   margin-top: 1rem;
   resize: none;
   border-radius: 0.5rem;
+  justify-content: center;
   padding: 0.5rem;
   font-size: 1rem;
   border: 1px solid #ccc;
 }
 .show {
   display: block;
+}
+.add-data {
+  flex-flow: row;
+  padding: 10px;
 }
 
 /* re-edit popup window */
@@ -302,30 +294,19 @@ textarea#diary-description-input {
   background-color: rgba(106, 106, 104, 0);
   cursor: pointer;
 }
-#reeditclosePopup:hover {
-  background-color: rgb(194, 182, 182);
-}
 #re-diary-add {
-  display: block;
-  font-size: 15px;
-  border-radius: 5px;
-  margin: 0 0;
-  margin-right: 10px;
-  background-color: rgba(106, 106, 104, 0);
-  cursor: pointer;
+display: block;
+font-size: 15px;
+border-radius: 5px;
+margin: 0 0;
+margin-right: 10px;
+background-color: rgba(106, 106, 104, 0);
+cursor: pointer;
 }
-#diary-add:hover {
+#reeditclosePopup:hover, #diary-add:hover {
   background-color: rgb(194, 182, 182);
 }
-input#re-diary-tag-input {
-  flex-grow: 1;
-  height: var(--diary-intput-height);
-  font-size: var(--diary-intput-font-size);
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  border: 1px solid #ccc;
-}
-input#re-diary-mood-input {
+input#re-diary-tag-input, input#re-diary-mood-input {
   flex-grow: 1;
   height: var(--diary-intput-height);
   font-size: var(--diary-intput-font-size);
