@@ -13,7 +13,6 @@ h1 {
   font-size: 3rem;
 }
 
-
 /* top bar */
 .topbar {
   display: flex;
@@ -32,7 +31,6 @@ p {
   margin-bottom: 0.5rem;
 }
 
-
 /* Container */
 .container {
   margin-top: 1rem;
@@ -42,7 +40,6 @@ p {
   box-sizing: border-box;
   align-items: center;
 }
-
 
 /* upper div includes filter and new-diary button */
 .upper {
@@ -97,7 +94,6 @@ p {
 #new-diary:hover {
   background-color: rgb(255, 136, 0);
 }
-
 
 /* stores all diary node */
 #diaries {
@@ -181,7 +177,6 @@ p {
 .diary-item button:hover {
   background-color: rgb(89, 87, 87);
 }
-
 
 /* editpopup window */
 .editpopup {
