@@ -17,26 +17,29 @@ cd backend
 yarn
 ```
 
-### 3. Run the server
+### 3. MongoDB setup (week 2)
+
+1. See the tutorial: https://youtu.be/O5cmLDVTgAs?si=CNNLtl9m7kX7GbFh (2:01:08 - 2:03:00)
+2. Copy the connection string.
+3. Create `backend/.env` file and add the following line in the file
+
+```bash
+MONGO_URL=<your connection string>
+```
+
+4. Install dependencies
+
+```bash
+cd backend
+yarn add mongoose
+```
+
+### 4. Run the server
 
 ```bash
 yarn start
 ```
 
-### 4. Open the frontend
+### 5. Open the frontend
 
 Open `frontend/index.html` by clicking it in your file explorer.
-
-Or if you're on ubuntu, you can run the following command to open it in your browser.
-
-```bash
-cd frontend
-xdg-open index.html
-```
-
-If you're on macOS, you can run the following command to open it in your browser.
-
-```bash
-cd frontend
-open index.html
-```
