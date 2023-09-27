@@ -23,3 +23,4 @@ router.delete("/:id", deleteDiary);
 
 // export the router
 export default router;
+
