@@ -19,15 +19,14 @@ yarn
 
 ### 3. MongoDB setup
 
-1. See the tutorial: https://youtu.be/O5cmLDVTgAs?si=CNNLtl9m7kX7GbFh (2:01:08 - 2:03:00)
-2. Copy the connection string.
-3. Create `backend/.env` file and add the following line in the file
+1. Copy the connection string.
+2. Create `backend/.env` file and add the following line in the file
 
 ```bash
 MONGO_URL=<your connection string>
 ```
 
-4. Install dependencies
+3. Install dependencies
 
 ```bash
 cd backend
@@ -43,3 +42,23 @@ yarn start
 ### 5. Open the frontend
 
 Open `frontend/index.html` by clicking it in your file explorer.
+
+
+## Linter checks
+If you only want to do linter checks, you can follow the steps below.
+
+### 1. Backend linter check
+
+```bash
+cd backend
+yarn
+yarn lint
+```
+
+### 2. Frontend linter check
+
+```bash
+cd frontend
+yarn
+yarn lint
+```
