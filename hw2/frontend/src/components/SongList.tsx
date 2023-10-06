@@ -18,6 +18,7 @@ import { deleteSongList, updateSongList } from "@/utils/client";
 import Song from "./Song";
 import type { SongProps } from "./Song";
 import SongDialog from "./SongDialog";
+import logo from './logo.jpeg';
 
 export type SongListProps = {
     id: string;
@@ -61,6 +62,12 @@ export default function SongList({ id, name, songs }: SongListProps) {
       {/* Entire list includes songs and add song button */}
       <Paper className="w-80 p-6">
         
+        <IconButton color="error" onClick={handleDelete}>
+          <DeleteIcon />
+        </IconButton>
+
+        <img src={logo} />
+
         {/* List top section includes title and delete button */}
         <div className="flex gap-4">
           {edittingName ? (
@@ -79,17 +86,11 @@ export default function SongList({ id, name, songs }: SongListProps) {
               onClick={() => setEdittingName(true)}
               className="w-full rounded-md p-2 hover:bg-white/10"
             >
-              <Typography className="text-start" variant="h4">
+              <Typography className="text-start" variant="h5" sx={{ mt: 0.5}}>
                 {name}
               </Typography>
             </button>
           )}
-
-          <div className="grid place-items-center">
-            <IconButton color="error" onClick={handleDelete}>
-              <DeleteIcon />
-            </IconButton>
-          </div>
         </div>
 
         <Divider variant="middle" sx={{ mt: 1, mb: 2 }} />

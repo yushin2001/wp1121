@@ -1,5 +1,4 @@
-// 歌曲編輯邏輯
-
+// 新增歌單視窗，import到Myplaylist底下
 import { useRef } from "react";
 
 import Button from "@mui/material/Button";
@@ -8,6 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
+import Stack from '@mui/material/Stack';
 
 import useSongs from "@/hooks/useSongs";
 import { createSongList } from "@/utils/client";
@@ -25,7 +25,6 @@ export default function NewListDialog({ open, onClose }: NewListDialogProps) {
   const handleAddSongList = async () => {
     try {
       await createSongList({ name: textfieldRef.current?.value ?? "", description: textfielddescript.current?.value ?? ""});
-      alert("Create");
       fetchSongLists();
     } catch (error) {
       alert("Error: Failed to create songlist");
@@ -36,22 +35,24 @@ export default function NewListDialog({ open, onClose }: NewListDialogProps) {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Add a songlist</DialogTitle>
+      <DialogTitle>Add a song list</DialogTitle>
       <DialogContent>
-        <TextField
-          inputRef={textfieldRef}
-          label="SongList Name"
-          variant="outlined"
-          sx={{ mt: 2 }}
-          autoFocus
-        />
-        <TextField
-          inputRef={textfielddescript}
-          label="Description"
-          variant="outlined"
-          sx={{ mt: 2 }}
-          autoFocus
-        />
+        <Stack direction="column">
+          <TextField
+            inputRef={textfieldRef}
+            label="Song List Name"
+            variant="outlined"
+            sx={{ mt: 2, width: '20ch'}}
+            autoFocus
+          />
+          <TextField
+            inputRef={textfielddescript}
+            label="Description"
+            variant="outlined"
+            sx={{ mt: 2, width: '50ch'}}
+            autoFocus
+          />
+        </Stack>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleAddSongList}>add</Button>
