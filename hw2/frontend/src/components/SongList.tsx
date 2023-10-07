@@ -1,40 +1,38 @@
-// 歌單編輯（刪除、更新）
+import { useRef, useState} from "react";
 
-import { useRef, useState } from "react";
-
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Button from "@mui/material/Button";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
 import Input from "@mui/material/Input";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 
 import useSongs from "@/hooks/useSongs";
-import { deleteSongList, updateSongList } from "@/utils/client";
-
-import Song from "./Song";
+import { updateSongList } from "@/utils/client";
 import type { SongProps } from "./Song";
-import SongDialog from "./SongDialog";
+import DeleteSongList from "./DeleteSongList";
 import logo from './logo.jpeg';
+import SongListContent from "./SongListContent";
 
 export type SongListProps = {
-    id: string;
-    name: string;
-    songs: SongProps[];
-  };
+  id: string;
+  name: string;
+  description: string;
+  songs: SongProps[];
+  opendelete: boolean;
+};
 
-export default function SongList({ id, name, songs }: SongListProps) {
-  const [openNewSongDialog, setOpenNewSongDialog] = useState(false);
+export default function SongList({ id, name, description, songs, opendelete }: SongListProps) {
   const [edittingName, setEdittingName] = useState(false);
   const { fetchSongLists } = useSongs();
   const inputRef = useRef<HTMLInputElement>(null);
+  const [openContent, setOpenContent] = useState(false);
 
+  // image button
+  const handleOpen = () => {
+    if (openContent === false) setOpenContent(true);
+    else setOpenContent(false);
+  };
   const handleUpdateName = async () => {
     if (!inputRef.current) return;
-
     const newName = inputRef.current.value;
     if (newName !== name) {
       try {
@@ -47,28 +45,21 @@ export default function SongList({ id, name, songs }: SongListProps) {
     setEdittingName(false);
   };
 
-  const handleDelete = async () => {
-    try {
-      await deleteSongList(id);
-      fetchSongLists();
-    } catch (error) {
-      alert("Error: Failed to delete songlist");
-    }
-  };
-
   return (
     <>
-
       {/* Entire list includes songs and add song button */}
       <Paper className="w-80 p-6">
         
-        <IconButton color="error" onClick={handleDelete}>
-          <DeleteIcon />
-        </IconButton>
+      <DeleteSongList
+        songlistId= {id}
+        open= {opendelete}>
+      </DeleteSongList>
 
-        <img src={logo} />
+        <div>
+          <img src={logo} onClick={handleOpen} />
+        </div>
 
-        {/* List top section includes title and delete button */}
+        {/* List top section includes title */}
         <div className="flex gap-4">
           {edittingName ? (
             <ClickAwayListener onClickAway={handleUpdateName}>
@@ -92,30 +83,8 @@ export default function SongList({ id, name, songs }: SongListProps) {
             </button>
           )}
         </div>
-
-        <Divider variant="middle" sx={{ mt: 1, mb: 2 }} />
-
-        {/* Songs */}
-        <div className="flex flex-col gap-4">
-          {songs.map((song) => (
-            <Song key={song.id} {...song} />
-          ))}
-
-          {/* Add songs */}
-          <Button variant="contained" onClick={() => setOpenNewSongDialog(true)}>
-            <AddIcon className="mr-2" />
-            Add a song
-          </Button>
-        </div>
-
       </Paper>
-
-      <SongDialog
-        variant="new"
-        open={openNewSongDialog}
-        onClose={() => setOpenNewSongDialog(false)}
-        songlistId={id}
-      />
+      <SongListContent id={id} name={name} description={description} songs={songs} openContent={openContent} onClick={() => handleOpen()}/>
     </>
   );
 }

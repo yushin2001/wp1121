@@ -18,7 +18,6 @@ import Typography from "@mui/material/Typography";
 import useSongs from "@/hooks/useSongs";
 import { createSong, deleteSong, updateSong } from "@/utils/client";
 
-
 type NewSongDialogProps = {
   variant: "new";
   open: boolean;
