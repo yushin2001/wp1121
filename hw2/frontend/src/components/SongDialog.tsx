@@ -1,5 +1,3 @@
-// 歌曲編輯機制（新增、刪除、更新）
-
 import { useState } from "react";
 
 import { Delete as DeleteIcon } from "@mui/icons-material";

@@ -56,7 +56,7 @@ export default function SongList({ id, name, description, songs, opendelete }: S
       </DeleteSongList>
 
         <div>
-          <img src={logo} onClick={handleOpen} />
+          <img src={logo} onClick={handleOpen} className='rounded-xl'/>
         </div>
 
         {/* List top section includes title */}

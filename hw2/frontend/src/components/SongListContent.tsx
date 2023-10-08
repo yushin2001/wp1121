@@ -15,9 +15,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import type { TransitionProps } from '@mui/material/transitions';
 import Stack from '@mui/material/Stack';
+import { DataGrid } from '@mui/x-data-grid';
+import type { GridColDef } from '@mui/x-data-grid';
 
 import type { SongProps } from "./Song";
-import Song from "./Song";
+// import Song from "./Song";
 import useSongs from "@/hooks/useSongs";
 import { updateSongList } from "@/utils/client";
 import SongDialog from "./SongDialog";
@@ -75,92 +77,134 @@ export default function SongListContent({ id, name, description, songs, openCont
         setEdittingDescription(false);
     };
 
+    const columns: GridColDef[] = [
+        {
+          field: 'song',
+          headerName: 'Song',
+          minWidth: 150,
+        },
+        {
+          field: 'singer',
+          headerName: 'Singer',
+          minWidth: 150,
+        },
+        {
+          field: 'link',
+          headerName: 'Link',
+          minWidth: 700,
+          renderCell: (params) => (
+            <a href={`${params.value}`}>{params.value}</a>
+          ) 
+        }
+    ];
+
     return (
-        <>  
+        <> 
             <Dialog
             fullScreen
             open={openContent}
             onClose={onClick}
             TransitionComponent={Transition}
-            >
-                <AppBar sx={{ position: 'relative' }}>
+            >       
+                <AppBar position="static">
                     <Toolbar>
-                        <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={onClick}
-                        aria-label="close"
-                        >
-                        <CloseIcon />
-                        </IconButton>
+                    <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+                        WP Music
+                    </Typography>
                     </Toolbar>
                 </AppBar>
+
+                <Toolbar>
+                    <IconButton
+                    edge="start"
+                    color="inherit"
+                    onClick={onClick}
+                    aria-label="close"
+                    >
+                    <CloseIcon />
+                    </IconButton>
+                </Toolbar>
+
                 {/* Top: name, description, img */}
-                <Stack direction="row" spacing={2}>
-                    <img src={logo}/>
-                    <div className="flex gap-4">
-                        {edittingName ? (
-                            <ClickAwayListener onClickAway={handleUpdateName}>
-                            <Input
-                                autoFocus
-                                defaultValue={name}
-                                className="grow"
-                                placeholder="Enter a new name for this songlist..."
-                                sx={{ fontSize: "1.5rem" }}
-                                inputRef={inputRefName}
-                            />
-                            </ClickAwayListener>
-                        ) : (
-                            <button
-                            onClick={() => setEdittingName(true)}
-                            className="w-full rounded-md p-2 hover:bg-white/10"
-                            >
-                            <Typography className="text-start" variant="h5" sx={{ mt: 0.5}}>
-                                {name}
-                            </Typography>
-                            </button>
-                        )}
+                <Stack direction="row" spacing={0.5} justifyContent="flex-start">
+                    <div className="px-5">
+                        <img src={logo} className='rounded-xl'/>
                     </div>
-                    <div className="flex gap-4">
-                        {edittingDescription ? (
-                            <ClickAwayListener onClickAway={handleUpdateDescription}>
-                            <Input
-                                autoFocus
-                                defaultValue={description}
-                                className="grow"
-                                placeholder="Enter a new description for this songlist..."
-                                sx={{ fontSize: "1.5rem" }}
-                                inputRef={inputRefDescription}
-                            />
-                            </ClickAwayListener>
-                        ) : (
-                            <button
-                            onClick={() => setEdittingDescription(true)}
-                            className="w-full rounded-md p-2 hover:bg-white/10"
-                            >
-                            <Typography className="text-start" variant="h5" sx={{ mt: 0.5}}>
-                                {description}
-                            </Typography>
-                            </button>
-                        )}
-                    </div>
-                    {/* Add songs */}
-                    <Button variant="contained" onClick={() => setOpenNewSongDialog(true)}>
-                    <AddIcon className="mr-2" />
-                    Add a song
-                    </Button>
+                    <Stack direction="column">
+                        <div className="flex gap-4">
+                            {edittingName ? (
+                                <ClickAwayListener onClickAway={handleUpdateName}>
+                                <Input
+                                    autoFocus
+                                    defaultValue={name}
+                                    className="grow"
+                                    placeholder="Enter a new name for this songlist..."
+                                    sx={{ fontSize: "1.5rem" }}
+                                    inputRef={inputRefName}
+                                />
+                                </ClickAwayListener>
+                            ) : (
+                                <button
+                                onClick={() => setEdittingName(true)}
+                                className="w-full rounded-md p-2 hover:bg-white/10"
+                                >
+                                <Typography className="text-start" variant="h5" sx={{ mt: 0.5}}>
+                                    {name}
+                                </Typography>
+                                </button>
+                            )}
+                        </div>
+                        <div className="flex gap-4">
+                            {edittingDescription ? (
+                                <ClickAwayListener onClickAway={handleUpdateDescription}>
+                                <Input
+                                    autoFocus
+                                    defaultValue={description}
+                                    className="grow"
+                                    placeholder="Enter a new description for this songlist..."
+                                    sx={{ fontSize: "1.5rem" }}
+                                    inputRef={inputRefDescription}
+                                />
+                                </ClickAwayListener>
+                            ) : (
+                                <button
+                                onClick={() => setEdittingDescription(true)}
+                                className="w-full rounded-md p-2 hover:bg-white/10"
+                                >
+                                <Typography className="text-start" variant="h6" sx={{ mt: 0.5}}>
+                                    {description}
+                                </Typography>
+                                </button>
+                            )}
+                        </div>
+                    </Stack>
                 </Stack>
 
+                {/* Add and delete songs */}
+                <Toolbar>
+                    <Stack direction="row" spacing={1.5}>
+                        <Button variant="contained" onClick={() => setOpenNewSongDialog(true)}>
+                        <AddIcon className="mr-2" />
+                        Add
+                        </Button>
+                        <Button variant="contained">
+                        DELETE
+                        </Button>
+                    </Stack>
+                </Toolbar>
 
                 <Divider variant="middle" sx={{ mt: 1, mb: 2 }} />
 
 
                 {/* Songs */}
-                <div className="flex flex-col gap-4">
-                {songs.map((song) => (
-                    <Song key={song.id} {...song} />
-                ))}
-                </div>
+                <Stack direction="column" className="px-5">
+                    <DataGrid
+                        rows={songs}
+                        columns={columns}
+                        checkboxSelection
+                        disableRowSelectionOnClick
+                    />
+                </Stack>
 
                 <SongDialog
                 variant="new"
@@ -168,7 +212,15 @@ export default function SongListContent({ id, name, description, songs, openCont
                 onClose={() => setOpenNewSongDialog(false)}
                 songlistId={id}
                 />
-            </Dialog>
+                </Dialog>
         </>
     );
 }
+
+/*
+<div className="flex flex-col gap-4">
+{songs.map((song) => (
+    <Song key={song.id} {...song} />
+))}
+</div>
+*/

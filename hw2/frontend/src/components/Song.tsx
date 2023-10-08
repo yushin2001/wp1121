@@ -1,5 +1,3 @@
-// 歌曲本身，包含編輯（新增、刪除、更新）
-
 import { useState } from "react";
 
 import { Paper } from "@mui/material";
