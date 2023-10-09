@@ -124,10 +124,10 @@ export const updateSong = async (
     const newSong = await SongModel.findByIdAndUpdate(
       id,
       {
-        song: song,
-        singer: singer,
-        link: link,
-        song_list_id: song_list_id,
+        song,
+        singer,
+        link,
+        song_list_id,
       },
       { new: true },
     );
@@ -162,20 +162,17 @@ export const deleteSong = async (
   req: Request<{ id: string }>,
   res: Response,
 ) => {
-  // Create mongoose transaction
   const session = await SongModel.startSession();
   session.startTransaction();
 
   try {
     const { id } = req.params;
 
-    // Delete the song from the database
     const deletedSong = await SongModel.findByIdAndDelete(id);
     if (!deletedSong) {
       return res.status(404).json({ error: "id is not valid" });
     }
 
-    // Delete the song from the songlist
     const songlist = await SongListModel.findById(deletedSong.song_list_id);
     if (!songlist) {
       return res.status(404).json({ error: "song_list_id is not valid" });
@@ -183,9 +180,7 @@ export const deleteSong = async (
     songlist.songs = songlist.songs.filter((songId) => songId.toString() !== id);
     await songlist.save();
 
-    // Commit the transaction
     session.commitTransaction();
-
     return res.status(200).send("OK");
   } catch (error) {
     session.abortTransaction();

@@ -22,6 +22,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Checkbox from '@mui/material/Checkbox';
 
 import type { SongProps } from "./Song";
 import Song from "./Song";
@@ -36,7 +37,7 @@ export type SongListContentProps = {
     description: string;
     songs: SongProps[];
     openContent: boolean;
-    onClick:  () => void;
+    onClick: () => void;
 };
 
 const Transition = React.forwardRef(function Transition(
@@ -132,7 +133,7 @@ export default function SongListContent({ id, name, description, songs, openCont
                                 onClick={() => setEdittingName(true)}
                                 className="w-full rounded-md p-2 hover:bg-white/10"
                                 >
-                                <Typography className="text-start" variant="h5" sx={{ mt: 0.5}}>
+                                <Typography className="text-start" variant="h4" sx={{ mt: 0.5 }}>
                                     {name}
                                 </Typography>
                                 </button>
@@ -161,21 +162,22 @@ export default function SongListContent({ id, name, description, songs, openCont
                                 </button>
                             )}
                         </div>
+                        {/* Add and delete songs */}
+                        <div className='p-2'>
+                            <Stack direction="row" spacing={1.5}>
+                                <Button variant="contained" onClick={() => setOpenNewSongDialog(true)}>
+                                <AddIcon className="mr-2" />
+                                Add
+                                </Button>
+                                <Button variant="contained">
+                                DELETE
+                                </Button>
+                            </Stack>
+                        </div>
                     </Stack>
                 </Stack>
 
-                {/* Add and delete songs */}
-                <Toolbar>
-                    <Stack direction="row" spacing={1.5}>
-                        <Button variant="contained" onClick={() => setOpenNewSongDialog(true)}>
-                        <AddIcon className="mr-2" />
-                        Add
-                        </Button>
-                        <Button variant="contained">
-                        DELETE
-                        </Button>
-                    </Stack>
-                </Toolbar>
+
 
                 <Divider variant="middle" sx={{ mt: 1, mb: 2 }} />
 
@@ -187,10 +189,15 @@ export default function SongListContent({ id, name, description, songs, openCont
 
                             <TableHead>
                             <TableRow>
-                                <TableCell> Song </TableCell>
-                                <TableCell> Singer </TableCell>
-                                <TableCell> Link </TableCell>
-                                <TableCell> Edit </TableCell>
+                            <TableCell padding="checkbox">
+                                <Checkbox
+                                    color="primary"
+                                />
+                            </TableCell>
+                            <TableCell> Song </TableCell>
+                            <TableCell> Singer </TableCell>
+                            <TableCell> Link </TableCell>
+                            <TableCell> Edit </TableCell>
                             </TableRow>
                             </TableHead>
 

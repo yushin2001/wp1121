@@ -41,6 +41,7 @@ export default function SongDialog(props: SongDialogProps) {
   const song = variant === "edit" ? props.song : "";
   const singer = variant === "edit" ? props.singer : "";
   const link = variant === "edit" ? props.link : "";
+  const songId = variant === "edit" ? props.songId : "";
 
   const [edittingSong, setEdittingSong] = useState(variant === "new");
   const [edittingSinger, setEdittingSinger] = useState(variant === "new");
@@ -76,7 +77,7 @@ export default function SongDialog(props: SongDialogProps) {
         ) {
           return;
         }
-        await updateSong(props.songId, {
+        await updateSong(songId, {
           song: newSong,
           singer: newSinger,
           link: newLink,
@@ -107,7 +108,6 @@ export default function SongDialog(props: SongDialogProps) {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-
       <DialogTitle className="flex gap-4">
         {edittingSong ? (
           <ClickAwayListener onClickAway={() => { if (variant === "edit") {setEdittingSong(false);}}}>
@@ -127,7 +127,7 @@ export default function SongDialog(props: SongDialogProps) {
             <Typography className="text-start">{newSong}</Typography>
           </button>
         )}
-
+        
         <Select
           value={newSongListId}
           onChange={(e) => setNewSongListId(e.target.value)}
@@ -144,9 +144,7 @@ export default function SongDialog(props: SongDialogProps) {
             <DeleteIcon />
           </IconButton>
         )}
-
       </DialogTitle>
-
       <DialogContent className="w-[600px]">
         {edittingSinger ? (
           <ClickAwayListener
@@ -156,8 +154,8 @@ export default function SongDialog(props: SongDialogProps) {
               }
             }}
           >
-            <textarea
-              className="bg-white/0 p-2"
+            <Input
+              className="w-full rounded-md p-2 hover:bg-white/10"
               autoFocus
               defaultValue={singer}
               placeholder="Add a singer"
@@ -172,7 +170,6 @@ export default function SongDialog(props: SongDialogProps) {
             <Typography className="text-start">{newSinger}</Typography>
           </button>
         )}
-
         {edittingLink ? (
           <ClickAwayListener
             onClickAway={() => {
@@ -181,8 +178,8 @@ export default function SongDialog(props: SongDialogProps) {
               }
             }}
           >
-            <textarea
-              className="bg-white/0 p-2"
+            <Input
+              className="w-full rounded-md p-2 hover:bg-white/10"
               autoFocus
               defaultValue={link}
               placeholder="Add a youtube link"

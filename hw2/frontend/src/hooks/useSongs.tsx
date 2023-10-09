@@ -11,7 +11,6 @@ import type { GetSongsResponse, GetSongListsResponse } from "@lib/shared_types";
 import type { SongListProps } from "@/components/SongList";
 import { getSongs, getSongLists } from "@/utils/client";
 
-
 type SongContextType = {
   songlists: SongListProps[];
   fetchSongLists: () => Promise<void>;
@@ -27,7 +26,6 @@ const SongContext = createContext<SongContextType>({
 type SongProviderProps = {
   children: React.ReactNode;
 };
-
 
 // all data fetching and processing is done here, the rest of the app just consumes the data exposed by this provider
 // when we run fetchSongLists or fetchSongs, we update the state of the provider, which causes the rest of the app to re-render accordingly

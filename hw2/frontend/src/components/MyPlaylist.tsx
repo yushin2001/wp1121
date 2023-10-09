@@ -40,26 +40,25 @@ export default function MyPlaylist(_: MyPlaylistProps) {
 
     return (
         <>
-        <Toolbar>
-            <Stack direction="row" spacing={1.5}>
-                <Typography variant="h5" gutterBottom>
-                    My Playlist
-                </Typography>
-                <Button variant="contained" color="success" onClick={() => setNewSongListDialogOpen(true)}>
-                    ADD
-                </Button>
-                <Button variant="contained" color="success" onClick={() => handleClick()}> {buttonText} </Button>
-            </Stack>
-        </Toolbar>
-        <div className="mx-auto flex max-h-full flex-row gap-6 px-24 py-12">
-            {songlists.map((songlist) => (
-                <SongList key={songlist.id} {...songlist}>
-                    <DeleteSongList songlistId= {songlist.id} open={opendelete}/>
-                </SongList>
-            ))}
-        </div>
-        <NewSongListDialog open={newSongListDialogOpen} onClose={() => setNewSongListDialogOpen(false)}/>
+            <Toolbar className="mt-4">
+                <Stack direction="row" spacing={1.5}>
+                    <Typography variant="h5" gutterBottom>
+                        My Playlist
+                    </Typography>
+                    <Button variant="contained" color="success" onClick={() => setNewSongListDialogOpen(true)}>
+                        ADD
+                    </Button>
+                    <Button variant="contained" color="success" onClick={() => handleClick()}> {buttonText} </Button>
+                </Stack>
+            </Toolbar>
+            <div className=" center flex flex-wrap gap-6 px-24 py-12">
+                {songlists.map((songlist) => (
+                    <SongList key={songlist.id} {...songlist}>
+                        <DeleteSongList songlistId= {songlist.id} open={opendelete}/>
+                    </SongList>
+                ))}
+            </div>
+            <NewSongListDialog open={newSongListDialogOpen} onClose={() => setNewSongListDialogOpen(false)}/>
         </>
 );
 }
-

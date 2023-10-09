@@ -16,7 +16,7 @@ export const getSongLists = async (_: Request, res: Response<GetSongListsRespons
   try {
     const songlists = await SongListModel.find({});
 
-    // Return only the id and name of the list
+    // Return id, name, description of the list
     const songlistsToReturn = songlists.map((songlist) => {
       return {
         id: songlist.id,
@@ -89,7 +89,6 @@ export const updateSongList = async (
       { new: true },
     );
 
-    // If the songlist is not found, return 404
     if (!newSongList) {
       return res.status(404).json({ error: "id is not valid" });
     }
@@ -105,7 +104,6 @@ export const deleteSongList = async (
   req: Request<{ id: string }>,
   res: Response,
 ) => {
-  // Create a transaction
   const session = await SongListModel.startSession();
   session.startTransaction();
 

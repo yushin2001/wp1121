@@ -1,7 +1,7 @@
 import { useState} from "react";
 
-import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import Stack from '@mui/material/Stack';
 
 import type { SongProps } from "./Song";
 import logo from './logo.jpeg';
@@ -27,21 +27,17 @@ export default function SongList({ id, name, description, songs, children }: Son
   return (
     <>
       {/* Entire list includes songs and add song button */}
-      <Paper className="w-80 p-6">
-        
-        {children}
-
+      <Stack direction="column">
         <div>
-          <img src={logo} onClick={handleOpen} className='rounded-xl'/>
+          {children}
+          <img src={logo} onClick={handleOpen} className='rounded-xl w-72 h-48'/>
         </div>
-
-        {/* List top section includes title */}
-        <div className="pt-2">
+        <div className="pt-1">
           <Typography className="text-start" variant="h5" sx={{ mt: 0.5}}>
             {name}
           </Typography>
         </div>
-      </Paper>
+      </Stack>
       <SongListContent id={id} name={name} description={description} songs={songs} openContent={openContent} onClick={() => handleOpen()}/>
     </>
   );

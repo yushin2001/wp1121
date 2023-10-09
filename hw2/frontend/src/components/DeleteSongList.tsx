@@ -1,5 +1,5 @@
-import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
+import HighlightOffSharpIcon from '@mui/icons-material/HighlightOffSharp';
 
 import useSongs from "@/hooks/useSongs";
 import { deleteSongList } from "@/utils/client";
@@ -28,10 +28,8 @@ export default function DeleteSongList(props: DeleteSongListProps) {
     );
   
     return (
-      <>
-        <IconButton color="error" onClick={handleDelete}>
-          <DeleteIcon />
+        <IconButton color="error" onClick={handleDelete}> 
+          <HighlightOffSharpIcon/>
         </IconButton>
-      </>
     );
   }

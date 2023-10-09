@@ -2,7 +2,6 @@ import type { SongData } from "@lib/shared_types";
 import mongoose from "mongoose";
 import type { Types } from "mongoose";
 
-// In `SongData`, we have `list_id` and `id` as a string, but in the database, we want to store them as an ObjectId.
 interface SongDocument
   extends Omit<SongData, "id" | "song_list_id">,
     mongoose.Document {
@@ -11,7 +10,6 @@ interface SongDocument
 
 interface SongModel extends mongoose.Model<SongDocument> {}
 
-// We enforce the type by adding `<SongDocument>` after `mongoose.Schema`.
 const SongSchema = new mongoose.Schema<SongDocument>(
   {
     song: {
