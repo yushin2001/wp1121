@@ -9,6 +9,7 @@ import Toolbar from "@mui/material/Toolbar";
 import SongList from "@/components/SongList";
 import NewSongListDialog from "@/components/NewSongListDialog";
 import useSongs from "@/hooks/useSongs";
+import DeleteSongList from "./DeleteSongList";
 
 export type MyPlaylistProps = {
     children?: React.ReactNode;
@@ -52,10 +53,13 @@ export default function MyPlaylist(_: MyPlaylistProps) {
         </Toolbar>
         <div className="mx-auto flex max-h-full flex-row gap-6 px-24 py-12">
             {songlists.map((songlist) => (
-              <SongList key={songlist.id} {...songlist} opendelete={opendelete}/>
+                <SongList key={songlist.id} {...songlist}>
+                    <DeleteSongList songlistId= {songlist.id} open={opendelete}/>
+                </SongList>
             ))}
         </div>
         <NewSongListDialog open={newSongListDialogOpen} onClose={() => setNewSongListDialogOpen(false)}/>
         </>
 );
 }
+

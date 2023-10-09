@@ -11,6 +11,7 @@ import type { GetSongsResponse, GetSongListsResponse } from "@lib/shared_types";
 import type { SongListProps } from "@/components/SongList";
 import { getSongs, getSongLists } from "@/utils/client";
 
+
 type SongContextType = {
   songlists: SongListProps[];
   fetchSongLists: () => Promise<void>;
@@ -53,6 +54,7 @@ export function SongProvider({ children }: SongProviderProps) {
       alert("Error: failed to fetch songs");
     }
   }, []);
+
 
   // arrange rawSongLists and rawSongs
   const songlists = useMemo(() => {

@@ -55,13 +55,8 @@ export default function SongDialog(props: SongDialogProps) {
 
   const handleClose = () => {
     onClose();
-    if (variant === "edit") {
-      setNewSong(song);
-      setNewSinger(singer);
-      setNewLink(link);
-      setNewSongListId(songlistId);
-    }
   };
+
   const handleSave = async () => {
     try {
       if (variant === "new") {

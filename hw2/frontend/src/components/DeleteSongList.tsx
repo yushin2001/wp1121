@@ -30,7 +30,7 @@ export default function DeleteSongList(props: DeleteSongListProps) {
     return (
       <>
         <IconButton color="error" onClick={handleDelete}>
-        <DeleteIcon />
+          <DeleteIcon />
         </IconButton>
       </>
     );

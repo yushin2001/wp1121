@@ -4,7 +4,6 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 
 import type { SongProps } from "./Song";
-import DeleteSongList from "./DeleteSongList";
 import logo from './logo.jpeg';
 import SongListContent from "./SongListContent";
 
@@ -13,10 +12,10 @@ export type SongListProps = {
   name: string;
   description: string;
   songs: SongProps[];
-  opendelete: boolean;
+  children?: React.ReactNode;
 };
 
-export default function SongList({ id, name, description, songs, opendelete }: SongListProps) {
+export default function SongList({ id, name, description, songs, children }: SongListProps) {
   const [openContent, setOpenContent] = useState(false);
 
   // image button
@@ -29,10 +28,8 @@ export default function SongList({ id, name, description, songs, opendelete }: S
     <>
       {/* Entire list includes songs and add song button */}
       <Paper className="w-80 p-6">
-        <DeleteSongList
-          songlistId= {id}
-          open= {opendelete}>
-        </DeleteSongList>
+        
+        {children}
 
         <div>
           <img src={logo} onClick={handleOpen} className='rounded-xl'/>
