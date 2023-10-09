@@ -1,8 +1,11 @@
 import { useState } from "react";
 
-import { Paper } from "@mui/material";
-
+import Link from '@mui/material/Link';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
 import SongDialog from "./SongDialog";
+import EditIcon from '@mui/icons-material/Edit';
+import IconButton from "@mui/material/IconButton";
 
 export type SongProps = {
   id: string;
@@ -14,18 +17,33 @@ export type SongProps = {
 
 export default function Song({ id, song, singer, link, songlistId }: SongProps) {
   const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
+  const handleEditClick = () => {
     setOpen(true);
-  };
+};
 
   return (
     <>
-      <button onClick={handleClickOpen} className="text-start">
-        <Paper className="flex w-full flex-col p-2" elevation={6}>
-          {song}
-        </Paper>
-      </button>
+      <TableRow key={id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
+
+      <TableCell component="th" scope="row"> {song} </TableCell>
+
+      <TableCell>{singer}</TableCell>
+
+      <TableCell>
+        <Link href={link} underline="hover" target='_blank' rel="noreferrer">
+          {link}
+        </Link>
+      </TableCell>
+
+      <TableCell>
+        <IconButton onClick={handleEditClick}>
+          <EditIcon />
+        </IconButton>
+      </TableCell>
+
+
+      </TableRow>
+
       <SongDialog
         variant="edit"
         open={open}

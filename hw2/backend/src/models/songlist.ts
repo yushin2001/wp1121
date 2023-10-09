@@ -34,5 +34,5 @@ const SongListSchema = new mongoose.Schema<SongListDocument>(
   },
 );
 
-const SongList = mongoose.model<SongListDocument, SongListModel>("List", SongListSchema);
+const SongList = mongoose.model<SongListDocument, SongListModel>("SongList", SongListSchema);
 export default SongList; 

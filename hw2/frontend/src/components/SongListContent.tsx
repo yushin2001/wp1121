@@ -15,11 +15,16 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import type { TransitionProps } from '@mui/material/transitions';
 import Stack from '@mui/material/Stack';
-import { DataGrid } from '@mui/x-data-grid';
-import type { GridColDef } from '@mui/x-data-grid';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 import type { SongProps } from "./Song";
-// import Song from "./Song";
+import Song from "./Song";
 import useSongs from "@/hooks/useSongs";
 import { updateSongList } from "@/utils/client";
 import SongDialog from "./SongDialog";
@@ -76,27 +81,6 @@ export default function SongListContent({ id, name, description, songs, openCont
         }
         setEdittingDescription(false);
     };
-
-    const columns: GridColDef[] = [
-        {
-          field: 'song',
-          headerName: 'Song',
-          minWidth: 150,
-        },
-        {
-          field: 'singer',
-          headerName: 'Singer',
-          minWidth: 150,
-        },
-        {
-          field: 'link',
-          headerName: 'Link',
-          minWidth: 700,
-          renderCell: (params) => (
-            <a href={`${params.value}`}>{params.value}</a>
-          ) 
-        }
-    ];
 
     return (
         <> 
@@ -198,12 +182,26 @@ export default function SongListContent({ id, name, description, songs, openCont
 
                 {/* Songs */}
                 <Stack direction="column" className="px-5">
-                    <DataGrid
-                        rows={songs}
-                        columns={columns}
-                        checkboxSelection
-                        disableRowSelectionOnClick
-                    />
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+
+                            <TableHead>
+                            <TableRow>
+                                <TableCell> Song </TableCell>
+                                <TableCell> Singer </TableCell>
+                                <TableCell> Link </TableCell>
+                                <TableCell> Edit </TableCell>
+                            </TableRow>
+                            </TableHead>
+
+                            <TableBody>
+                            {songs.map((song) => (
+                                <Song key={song.id} {...song} />
+                            ))}
+                            </TableBody>
+
+                        </Table>
+                    </TableContainer>
                 </Stack>
 
                 <SongDialog
@@ -212,15 +210,8 @@ export default function SongListContent({ id, name, description, songs, openCont
                 onClose={() => setOpenNewSongDialog(false)}
                 songlistId={id}
                 />
-                </Dialog>
+
+            </Dialog>
         </>
     );
 }
-
-/*
-<div className="flex flex-col gap-4">
-{songs.map((song) => (
-    <Song key={song.id} {...song} />
-))}
-</div>
-*/

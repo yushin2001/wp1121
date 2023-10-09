@@ -93,29 +93,25 @@ export const createSong = async (
 
 
 // Update a song
+// In `updateSong` function, 2 database operations are performed:
+// 1. Update the song
+// 2. Update the songlist
+// If one of them fails, we need to rollback the other one.
+// To do that, we need to use mongoose transaction.
 export const updateSong = async (
   req: Request<{ id: string }, never, UpdateSongPayload>,
   res: Response<UpdateSongResponse | { error: string }>,
 ) => {
-  // Create mongoose transaction
   const session = await SongModel.startSession();
   session.startTransaction();
-  // In `updateSong` function, 2 database operations are performed:
-  // 1. Update the song
-  // 2. Update the songlist
-  // If one of them fails, we need to rollback the other one.
-  // To do that, we need to use mongoose transaction.
-
   try {
     const { id } = req.params;
     const { song, singer, link, song_list_id } = req.body;
 
-    // Check if the song exists
     const oldSong = await SongModel.findById(id);
     if (!oldSong) {
       return res.status(404).json({ error: "id is not valid" });
     }
-
     // If the user wants to update the song_list_id, we need to check if the songlist exists
     if (song_list_id) {
       // Check if the list exists
@@ -128,44 +124,33 @@ export const updateSong = async (
     const newSong = await SongModel.findByIdAndUpdate(
       id,
       {
-        song,
-        singer,
-        link,
-        song_list_id,
+        song: song,
+        singer: singer,
+        link: link,
+        song_list_id: song_list_id,
       },
       { new: true },
     );
 
-    if (!newSong) {
-      return res.status(404).json({ error: "id is not valid" });
-    }
+    if (!newSong) {return res.status(404).json({ error: "id is not valid" });}
 
     // If the user wants to update the song_list_id, we need to update the songlist as well
     if (song_list_id) {
       // Remove the song from the old songlist
       const oldSongList = await SongListModel.findById(oldSong.song_list_id);
-      if (!oldSongList) {
-        return res.status(404).json({ error: "song_list_id is not valid" });
-      }
-      oldSongList.songs = oldSongList.songs.filter(
-        (songId) => songId.toString() !== id,
-      );
+      if (!oldSongList) {return res.status(404).json({ error: "song_list_id is not valid" });}
+      oldSongList.songs = oldSongList.songs.filter((songId) => songId.toString() !== id);
       await oldSongList.save();
+
       // Add the song to the new list
       const newSongList = await SongListModel.findById(song_list_id);
-      if (!newSongList) {
-        return res.status(404).json({ error: "song_list_id is not valid" });
-      }
+      if (!newSongList) {return res.status(404).json({ error: "song_list_id is not valid" });}
       newSongList.songs.push(newSong.id);
       await newSongList.save();
     }
-
-    // Commit the transaction, this means that all database operations are successful
     await session.commitTransaction();
-
     return res.status(200).send("OK");
   } catch (error) {
-    // Rollback the transaction, this means that one of the database operations is failed
     await session.abortTransaction();
     genericErrorHandler(error, res);
   }

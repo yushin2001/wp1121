@@ -43,8 +43,8 @@ export default function SongDialog(props: SongDialogProps) {
   const link = variant === "edit" ? props.link : "";
 
   const [edittingSong, setEdittingSong] = useState(variant === "new");
-  const [edittingSinger, setEdittingSinger] = useState(variant === "new",);
-  const [edittingLink, setEdittingLink] = useState(variant === "new",);
+  const [edittingSinger, setEdittingSinger] = useState(variant === "new");
+  const [edittingLink, setEdittingLink] = useState(variant === "new");
 
   const [newSong, setNewSong] = useState(song);
   const [newSinger, setNewSinger] = useState(singer);
@@ -62,7 +62,6 @@ export default function SongDialog(props: SongDialogProps) {
       setNewSongListId(songlistId);
     }
   };
-
   const handleSave = async () => {
     try {
       if (variant === "new") {
@@ -72,7 +71,8 @@ export default function SongDialog(props: SongDialogProps) {
           link: newLink,
           song_list_id: songlistId,
         });
-      } else {
+      } 
+      else {
         if (
           newSong === song &&
           newSinger === singer &&
@@ -115,13 +115,7 @@ export default function SongDialog(props: SongDialogProps) {
 
       <DialogTitle className="flex gap-4">
         {edittingSong ? (
-          <ClickAwayListener
-            onClickAway={() => {
-              if (variant === "edit") {
-                setEdittingSong(false);
-              }
-            }}
-          >
+          <ClickAwayListener onClickAway={() => { if (variant === "edit") {setEdittingSong(false);}}}>
             <Input
               autoFocus
               defaultValue={song}

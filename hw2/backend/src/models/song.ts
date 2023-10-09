@@ -45,5 +45,5 @@ const SongSchema = new mongoose.Schema<SongDocument>(
   },
 );
 
-const Song = mongoose.model<SongDocument, SongModel>("Card", SongSchema);
+const Song = mongoose.model<SongDocument, SongModel>("Song", SongSchema);
 export default Song; 

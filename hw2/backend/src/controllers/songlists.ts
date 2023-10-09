@@ -93,7 +93,6 @@ export const updateSongList = async (
     if (!newSongList) {
       return res.status(404).json({ error: "id is not valid" });
     }
-
     return res.status(200).send("OK");
   } catch (error) {
     genericErrorHandler(error, res);
