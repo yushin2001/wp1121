@@ -19,9 +19,6 @@ export type SongProps = {
 export default function Song({ id, song, singer, link, songlistId }: SongProps) {
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(false);
-  const handleEditClick = () => {
-    setOpen(true);
-  };
   const handleChange = () => {
     if (checked === true) setChecked(false);
     else setChecked(true);
@@ -50,7 +47,7 @@ export default function Song({ id, song, singer, link, songlistId }: SongProps) 
         </TableCell>
 
         <TableCell>
-          <IconButton onClick={handleEditClick}>
+          <IconButton onClick={() => setOpen(true)}>
             <EditIcon />
           </IconButton>
         </TableCell>

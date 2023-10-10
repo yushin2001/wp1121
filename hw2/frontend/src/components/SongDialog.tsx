@@ -86,7 +86,7 @@ export default function SongDialog(props: SongDialogProps) {
       }
       fetchSongs();
     } catch (error) {
-      alert("Error: Failed to save card");
+      alert("Error: Failed to save song");
     } finally {
       handleClose();
     }
@@ -108,6 +108,7 @@ export default function SongDialog(props: SongDialogProps) {
 
   return (
     <Dialog open={open} onClose={handleClose}>
+      
       <DialogTitle className="flex gap-4">
         {edittingSong ? (
           <ClickAwayListener onClickAway={() => { if (variant === "edit") {setEdittingSong(false);}}}>
@@ -145,7 +146,8 @@ export default function SongDialog(props: SongDialogProps) {
           </IconButton>
         )}
       </DialogTitle>
-      <DialogContent className="w-[600px]">
+
+      <DialogContent className="w-[600px] space-y-3">
         {edittingSinger ? (
           <ClickAwayListener
             onClickAway={() => {

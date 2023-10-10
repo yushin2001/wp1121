@@ -23,6 +23,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
+import { Delete as DeleteIcon } from "@mui/icons-material";
 
 import type { SongProps } from "./Song";
 import Song from "./Song";
@@ -170,6 +171,7 @@ export default function SongListContent({ id, name, description, songs, openCont
                                 Add
                                 </Button>
                                 <Button variant="contained">
+                                <DeleteIcon className="mr-2"/>
                                 DELETE
                                 </Button>
                             </Stack>
@@ -177,10 +179,7 @@ export default function SongListContent({ id, name, description, songs, openCont
                     </Stack>
                 </Stack>
 
-
-
                 <Divider variant="middle" sx={{ mt: 1, mb: 2 }} />
-
 
                 {/* Songs */}
                 <Stack direction="column" className="px-5">
