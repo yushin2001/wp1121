@@ -14,7 +14,7 @@ import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 
 import useSongs from "@/hooks/useSongs";
-import { createSong, deleteSong, updateSong } from "@/utils/client";
+import { createSong, deleteSong } from "@/utils/client";
 
 type NewSongDialogProps = {
   variant: "new";
@@ -74,15 +74,17 @@ export default function SongDialog(props: SongDialogProps) {
           newSinger === singer &&
           newLink === link &&
           newSongListId === songlistId
-        ) {
-          return;
+        ) {return;}
+        else{
+          await deleteSong(songId);
+          await createSong({
+            song: newSong,
+            singer: newSinger,
+            link: newLink,
+            song_list_id: songlistId,
+          });
+          fetchSongs();
         }
-        await updateSong(songId, {
-          song: newSong,
-          singer: newSinger,
-          link: newLink,
-          song_list_id: newSongListId,
-        });
       }
       fetchSongs();
     } catch (error) {

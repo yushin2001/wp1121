@@ -179,7 +179,7 @@ export default function SongListContent({ id, name, description, songs, openCont
                     </Stack>
                 </Stack>
 
-                <Divider variant="middle" sx={{ mt: 1, mb: 2 }} />
+                <Divider variant="middle" sx={{ mt: 2, mb: 2 }} />
 
                 {/* Songs */}
                 <Stack direction="column" className="px-5">
