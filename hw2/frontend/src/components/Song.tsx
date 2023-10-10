@@ -2,11 +2,9 @@ import { useState } from "react";
 
 import Link from '@mui/material/Link';
 import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
 import SongDialog from "./SongDialog";
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from "@mui/material/IconButton";
-import Checkbox from '@mui/material/Checkbox';
 
 export type SongProps = {
   id: string;
@@ -16,43 +14,26 @@ export type SongProps = {
   songlistId: string;
 };
 
-export default function Song({ id, song, singer, link, songlistId }: SongProps) {
+export default function Song({ id, song, singer, link, songlistId}: SongProps) {
   const [open, setOpen] = useState(false);
-  const [checked, setChecked] = useState(false);
-  const handleChange = () => {
-    if (checked === true) setChecked(false);
-    else setChecked(true);
-  };
 
   return (
     <>
-      <TableRow key={id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
+      <TableCell component="th" scope="row"> {song} </TableCell>
 
-        <TableCell padding="checkbox">
-            <Checkbox 
-            color="primary"
-            checked={checked}
-            onChange={handleChange}
-            />
-        </TableCell>
+      <TableCell>{singer}</TableCell>
 
-        <TableCell component="th" scope="row"> {song} </TableCell>
+      <TableCell>
+        <Link href={link} underline="hover" target='_blank' rel="noreferrer">
+          {link}
+        </Link>
+      </TableCell>
 
-        <TableCell>{singer}</TableCell>
-
-        <TableCell>
-          <Link href={link} underline="hover" target='_blank' rel="noreferrer">
-            {link}
-          </Link>
-        </TableCell>
-
-        <TableCell>
-          <IconButton onClick={() => setOpen(true)}>
-            <EditIcon />
-          </IconButton>
-        </TableCell>
-
-      </TableRow>
+      <TableCell>
+        <IconButton onClick={() => setOpen(true)}>
+          <EditIcon />
+        </IconButton>
+      </TableCell>
 
       <SongDialog
         variant="edit"

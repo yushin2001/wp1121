@@ -57,6 +57,17 @@ export default function SongListContent({ id, name, description, songs, openCont
     const [edittingDescription, setEdittingDescription] = useState(false);
     const inputRefDescription = useRef<HTMLInputElement>(null);
 
+    //select
+    const [selectedRow, setSelectedRow] = useState<SongProps[]>([]);
+    const handleSelectRow = (song: SongProps) => {
+        if (selectedRow.includes(song)){
+            setSelectedRow(prev => prev.filter(element => element !== song ));
+        }
+        else {
+            setSelectedRow(prevArray => [...prevArray, song]);
+        }
+    }
+
     const handleUpdateName = async () => {
         if (!inputRefName.current) return;
         const newName = inputRefName.current.value;
@@ -187,22 +198,33 @@ export default function SongListContent({ id, name, description, songs, openCont
                         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
 
                             <TableHead>
-                            <TableRow>
-                            <TableCell padding="checkbox">
-                                <Checkbox
-                                    color="primary"
-                                />
-                            </TableCell>
-                            <TableCell> Song </TableCell>
-                            <TableCell> Singer </TableCell>
-                            <TableCell> Link </TableCell>
-                            <TableCell> Edit </TableCell>
-                            </TableRow>
+                                <TableRow>
+                                <TableCell padding="checkbox">
+                                    <Checkbox
+                                        color="primary"
+                                    />
+                                </TableCell>
+                                <TableCell> Song </TableCell>
+                                <TableCell> Singer </TableCell>
+                                <TableCell> Link </TableCell>
+                                <TableCell> Edit </TableCell>
+                                </TableRow>
                             </TableHead>
 
                             <TableBody>
                             {songs.map((song) => (
-                                <Song key={song.id} {...song} />
+                                <>
+                                    <TableRow key={song.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                        <TableCell padding="checkbox">
+                                        <Checkbox 
+                                        color="primary"
+                                        key={song.id}
+                                        onClick={() => handleSelectRow(song)}
+                                        />
+                                        </TableCell>
+                                        <Song key={song.id} {...song} />
+                                    </TableRow>
+                                </>
                             ))}
                             </TableBody>
 
