@@ -53,7 +53,6 @@ export function SongProvider({ children }: SongProviderProps) {
     }
   }, []);
 
-
   // arrange rawSongLists and rawSongs
   const songlists = useMemo(() => {
     const songlistMap = rawSongLists.reduce(

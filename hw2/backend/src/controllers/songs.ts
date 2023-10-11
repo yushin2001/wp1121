@@ -1,5 +1,3 @@
-// Get songs
-// Path: backend/src/controllers/songs.ts
 import SongModel from "../models/song";
 import SongListModel from "../models/songlist";
 import { genericErrorHandler } from "../utils/errors";
@@ -39,12 +37,10 @@ export const getSong = async (
 ) => {
   try {
     const { id } = req.params;
-
     const song = await SongModel.findById(id);
     if (!song) {
       return res.status(404).json({ error: "id is not valid" });
     }
-
     return res.status(200).json({
       id: song.id as string,
       song: song.song,
@@ -65,24 +61,20 @@ export const createSong = async (
 ) => {
   try {
     const { song, singer, link, song_list_id } = req.body;
-
     // Check if the songlist exists
     const songlist = await SongListModel.findById(song_list_id);
     if (!songlist) {
       return res.status(404).json({ error: "song_list_id is not valid" });
     }
-
     const new_song = await SongModel.create({
       song,
       singer,
       link,
       song_list_id,
     });
-
     // Add the song to the list
     songlist.songs.push(new_song._id);
     await songlist.save();
-
     return res.status(201).json({
       id: new_song.id as string,
     });
@@ -120,7 +112,6 @@ export const updateSong = async (
         return res.status(404).json({ error: "song_list_id is not valid" });
       }
     }
-
     const newSong = await SongModel.findByIdAndUpdate(
       id,
       {
@@ -131,9 +122,7 @@ export const updateSong = async (
       },
       { new: true },
     );
-
     if (!newSong) {return res.status(404).json({ error: "id is not valid" });}
-
     // If the user wants to update the song_list_id, we need to update the songlist as well
     if (song_list_id) {
       // Remove the song from the old songlist
@@ -141,7 +130,6 @@ export const updateSong = async (
       if (!oldSongList) {return res.status(404).json({ error: "song_list_id is not valid" });}
       oldSongList.songs = oldSongList.songs.filter((songId) => songId.toString() !== id);
       await oldSongList.save();
-
       // Add the song to the new list
       const newSongList = await SongListModel.findById(song_list_id);
       if (!newSongList) {return res.status(404).json({ error: "song_list_id is not valid" });}
@@ -164,22 +152,18 @@ export const deleteSong = async (
 ) => {
   const session = await SongModel.startSession();
   session.startTransaction();
-
   try {
     const { id } = req.params;
-
     const deletedSong = await SongModel.findByIdAndDelete(id);
     if (!deletedSong) {
       return res.status(404).json({ error: "id is not valid" });
     }
-
     const songlist = await SongListModel.findById(deletedSong.song_list_id);
     if (!songlist) {
       return res.status(404).json({ error: "song_list_id is not valid" });
     }
     songlist.songs = songlist.songs.filter((songId) => songId.toString() !== id);
     await songlist.save();
-
     session.commitTransaction();
     return res.status(200).send("OK");
   } catch (error) {

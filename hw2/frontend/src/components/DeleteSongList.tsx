@@ -26,7 +26,7 @@ export default function DeleteSongList(props: DeleteSongListProps) {
     if (!open) return (
         <></>
     );
-  
+
     return (
         <IconButton color="error" onClick={handleDelete}> 
           <HighlightOffSharpIcon/>

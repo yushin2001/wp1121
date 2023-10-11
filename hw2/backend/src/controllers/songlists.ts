@@ -11,11 +11,11 @@ import type {
 } from "@lib/shared_types";
 import type { Request, Response } from "express";
 
+
 // Get all songlists
 export const getSongLists = async (_: Request, res: Response<GetSongListsResponse>) => {
   try {
     const songlists = await SongListModel.find({});
-
     // Return id, name, description of the list
     const songlistsToReturn = songlists.map((songlist) => {
       return {
@@ -43,7 +43,6 @@ export const getSongList = async (
     if (!songlists) {
       return res.status(404).json({ error: "id is not valid" });
     }
-
     return res.status(200).json({
       id: songlists.id,
       name: songlists.name,
@@ -78,7 +77,6 @@ export const updateSongList = async (
   try {
     const { id } = req.params;
     const { name, description } = req.body;
-
     // Update the songlist
     const newSongList = await SongListModel.findByIdAndUpdate(
       id,
@@ -88,7 +86,6 @@ export const updateSongList = async (
       },
       { new: true },
     );
-
     if (!newSongList) {
       return res.status(404).json({ error: "id is not valid" });
     }
@@ -106,7 +103,6 @@ export const deleteSongList = async (
 ) => {
   const session = await SongListModel.startSession();
   session.startTransaction();
-
   try {
     const { id } = req.params;
     const deletedSongList = await SongListModel.findByIdAndDelete(id).session(session);

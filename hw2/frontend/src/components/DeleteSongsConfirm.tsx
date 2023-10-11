@@ -53,7 +53,7 @@ export default function DeleteSongsConfirm(props: DeleteSongsConfirmProps) {
       <Dialog open={openConfirm} onClose={onClick}>
         
         <DialogTitle className="flex gap-4">
-            Are you sure you want to delete songs below?
+            Are you sure you want to delete?
         </DialogTitle>
   
         <DialogContent className="w-[600px] space-y-3">

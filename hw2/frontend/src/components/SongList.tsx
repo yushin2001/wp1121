@@ -21,7 +21,13 @@ export default function SongList({ id, name, description, songs, children }: Son
   const [countnumber, setCountnumber] = useState((songcount > 1)?true:false);
 
   const handleOpen = () => {
-    if (openContent === false) setOpenContent(true);
+    if (openContent === false) {
+      setOpenContent(true);
+      setSongcount(songs.length);
+      if (songcount > 1){
+        setCountnumber(true);
+      }
+    }
     else {
       setOpenContent(false);
       setSongcount(songs.length);
@@ -33,7 +39,6 @@ export default function SongList({ id, name, description, songs, children }: Son
 
   return (
     <>
-      {/* Entire list includes songs and add song button */}
       <Stack direction="column">
         <div>
           {children}

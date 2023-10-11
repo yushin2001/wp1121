@@ -52,7 +52,7 @@ export default function SongDialog(props: SongDialogProps) {
   const [newLink, setNewLink] = useState(link);
   const [newSongListId, setNewSongListId] = useState(songlistId);
 
-  const { songlists, fetchSongs } = useSongs();
+  const { songlists, fetchSongLists, fetchSongs } = useSongs();
 
   const handleClose = () => {
     onClose();
@@ -75,31 +75,18 @@ export default function SongDialog(props: SongDialogProps) {
           newLink === link &&
           newSongListId === songlistId
         ) {return;}
-        else if (
-          newSong === song &&
-          newSinger === singer &&
-          newLink === link &&
-          newSongListId !== songlistId        
-        ) {
-          await createSong({
-            song: newSong,
-            singer: newSinger,
-            link: newLink,
-            song_list_id: newSongListId,
-          });
-          fetchSongs();          
-        }
         else{
           await deleteSong(songId);
           await createSong({
             song: newSong,
             singer: newSinger,
             link: newLink,
-            song_list_id: songlistId,
+            song_list_id: newSongListId,
           });
           fetchSongs();
         }
       }
+      fetchSongLists();
       fetchSongs();
     } catch (error) {
       alert("Error: Failed to save song");
