@@ -107,8 +107,8 @@ export default function SongListContent({ id, name, description, songs, openCont
             if (deletedone === true){
                 setDeletedone(false);
                 setOpenDeleteSongsConfirm(false);
-                setSelectedRow([]);
                 fetchSongs();
+                setSelectedRow([]);
             }
             else{
                 setOpenDeleteSongsConfirm(false);
