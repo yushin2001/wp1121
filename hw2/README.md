@@ -48,9 +48,6 @@ yarn dev
 ```bash
 cd frontend
 yarn
-yarn add @mui/x-data-grid
-yarn add @mui/material @emotion/react @emotion/styled
-yarn add @mui/x-data-grid-generator
 yarn dev
 ```
 
