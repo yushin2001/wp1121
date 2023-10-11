@@ -58,18 +58,18 @@ export default function SongListContent({ id, name, description, songs, openCont
     const [edittingDescription, setEdittingDescription] = useState(false);
     const inputRefDescription = useRef<HTMLInputElement>(null);
     const [openDeleteSongsConfirm, setOpenDeleteSongsConfirm] = useState(false);
+    const [deletedone, setDeletedone] = useState(false);
 
     //select
     const [selectedRow, setSelectedRow] = useState<SongProps[]>([]);
     const handleSelectRow = (song: SongProps) => {
         if (selectedRow.includes(song)){
-            setSelectedRow(prev => prev.filter(element => element !== song ));
+            setSelectedRow((prev => prev.filter(element => element !== song )));
         }
         else {
             setSelectedRow(prevArray => [...prevArray, song]);
         }
     }
-
     const handleUpdateName = async () => {
         if (!inputRefName.current) return;
         const newName = inputRefName.current.value;
@@ -97,17 +97,29 @@ export default function SongListContent({ id, name, description, songs, openCont
         setEdittingDescription(false);
     };
     const handleDelete = async () => {
-        setOpenDeleteSongsConfirm(true);
+        if (selectedRow.length === 0){
+            alert("Please select song")
+        }
+        else setOpenDeleteSongsConfirm(true);
     };
     const DeleteConfirmWindow = async () => {
         if (openDeleteSongsConfirm === true) {
-            fetchSongs();
-            setSelectedRow([]);
-            setOpenDeleteSongsConfirm(false);
+            if (deletedone === true){
+                setDeletedone(false);
+                setOpenDeleteSongsConfirm(false);
+                setSelectedRow([]);
+                fetchSongs();
+            }
+            else{
+                setOpenDeleteSongsConfirm(false);
+            }
         }
         else {
             setOpenDeleteSongsConfirm(true);
         }
+    };
+    const handleDeleteDone = async () => {
+        setDeletedone(true);
     };
 
     return (
@@ -208,7 +220,7 @@ export default function SongListContent({ id, name, description, songs, openCont
                 <Divider variant="middle" sx={{ mt: 2, mb: 2 }} />
 
                 {/* Songs */}
-                <Stack direction="column" className="px-5">
+                <Stack direction="column" className="px-5 pb-5">
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
 
@@ -257,7 +269,8 @@ export default function SongListContent({ id, name, description, songs, openCont
                 <DeleteSongsConfirm
                 songs={selectedRow}
                 openConfirm={openDeleteSongsConfirm}
-                onClick={() => DeleteConfirmWindow()}
+                onClick={DeleteConfirmWindow}
+                onDelete={handleDeleteDone}
                 />
 
             </Dialog>

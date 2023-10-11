@@ -21,11 +21,13 @@ export type DeleteSongsConfirmProps = {
     songs: SongProps[];
     openConfirm: boolean;
     onClick: () => void;
+    onDelete: () => void;
 };
 
 export default function DeleteSongsConfirm(props: DeleteSongsConfirmProps) {
-    const { songs, openConfirm, onClick } = props;
+    const { songs, openConfirm, onClick, onDelete } = props;
     const { fetchSongs } = useSongs();
+
     const handleClose = () => {
         onClick();
     };
@@ -41,6 +43,7 @@ export default function DeleteSongsConfirm(props: DeleteSongsConfirmProps) {
     const handleDelete = async () => {
         try {
             deletemove();
+            onDelete();
             fetchSongs();
         } catch (error) {
             alert("Error: Failed to delete song");
@@ -59,7 +62,7 @@ export default function DeleteSongsConfirm(props: DeleteSongsConfirmProps) {
         <DialogContent className="w-[600px] space-y-3">
 
             {/* Songs */}
-            <Stack direction="column" className="px-5">
+            <Stack direction="column">
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
 

@@ -32,7 +32,7 @@ export default function MyPlaylist(_: MyPlaylistProps) {
             setOpendelete(false);
         }
     }
-
+ 
     useEffect(() => {
         fetchSongLists();
         fetchSongs();
