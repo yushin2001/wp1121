@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useRef, useState} from "react";
+import { useRef, useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
@@ -31,6 +31,7 @@ import useSongs from "@/hooks/useSongs";
 import { updateSongList } from "@/utils/client";
 import SongDialog from "./SongDialog";
 import logo from './logo.jpeg';
+import DeleteSongsConfirm from './DeleteSongsConfirm';
 
 export type SongListContentProps = {
     id: string;
@@ -51,11 +52,12 @@ const Transition = React.forwardRef(function Transition(
 
 export default function SongListContent({ id, name, description, songs, openContent, onClick }: SongListContentProps) {
     const [openNewSongDialog, setOpenNewSongDialog] = useState(false);
-    const { fetchSongLists } = useSongs();
+    const { fetchSongLists, fetchSongs } = useSongs();
     const [edittingName, setEdittingName] = useState(false);
     const inputRefName = useRef<HTMLInputElement>(null);
     const [edittingDescription, setEdittingDescription] = useState(false);
     const inputRefDescription = useRef<HTMLInputElement>(null);
+    const [openDeleteSongsConfirm, setOpenDeleteSongsConfirm] = useState(false);
 
     //select
     const [selectedRow, setSelectedRow] = useState<SongProps[]>([]);
@@ -93,6 +95,19 @@ export default function SongListContent({ id, name, description, songs, openCont
           }
         }
         setEdittingDescription(false);
+    };
+    const handleDelete = async () => {
+        setOpenDeleteSongsConfirm(true);
+    };
+    const DeleteConfirmWindow = async () => {
+        if (openDeleteSongsConfirm === true) {
+            fetchSongs();
+            setSelectedRow([]);
+            setOpenDeleteSongsConfirm(false);
+        }
+        else {
+            setOpenDeleteSongsConfirm(true);
+        }
     };
 
     return (
@@ -181,7 +196,7 @@ export default function SongListContent({ id, name, description, songs, openCont
                                 <AddIcon className="mr-2" />
                                 Add
                                 </Button>
-                                <Button variant="contained">
+                                <Button variant="contained" onClick={() => handleDelete()}>
                                 <DeleteIcon className="mr-2"/>
                                 DELETE
                                 </Button>
@@ -237,6 +252,12 @@ export default function SongListContent({ id, name, description, songs, openCont
                 open={openNewSongDialog}
                 onClose={() => setOpenNewSongDialog(false)}
                 songlistId={id}
+                />
+
+                <DeleteSongsConfirm
+                songs={selectedRow}
+                openConfirm={openDeleteSongsConfirm}
+                onClick={() => DeleteConfirmWindow()}
                 />
 
             </Dialog>
