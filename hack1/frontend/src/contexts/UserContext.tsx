@@ -43,9 +43,11 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   /* Reminder: Don't import this useEffect hook if you are tired of being redirected to the login page. */
   /* Warning: But remember to add it back before submitting your work. */
   useEffect(() => {
-    if (authenticated === false){
-    navigate('/login');}
-  },[navigate, authenticated, location]);
+    if (authenticated === false){ 
+      if (location.pathname !== 'login'){
+        if (location.pathname !== 'register') navigate('/login');
+      }
+  }},[navigate, authenticated, location]);
   /* End of TODO 1.2 */
 
   const login = async (username: string, password: string) => {
