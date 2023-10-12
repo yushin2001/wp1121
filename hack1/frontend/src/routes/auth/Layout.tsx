@@ -82,7 +82,7 @@ const AuthLayout = () => {
                 className="last-of-type:border-r-0"
                 data-testid={`tab-${tab.path}`}
               >
-                <NavLink to={`/${tab.path}`}> {tab.title} </NavLink>
+                 <NavLink to={`/${tab.path}`}> {tab.title} </NavLink>
               </TabsTrigger>
               /* End of TODO 1.3 */
             ))}
@@ -160,8 +160,6 @@ const AuthLayout = () => {
               {/* It should be controlled by the `confirmPassword` state. */}
               {/* It should have placeholder text "Confirm Password". */}
               {/* It should be required only if in the register page. */}
-              {location.pathname === '/register'
-              ? 
               <Input
               id="confirm-password"
               data-testid="input-confirm-password"
@@ -169,9 +167,10 @@ const AuthLayout = () => {
               name="confirm-password"
               autoComplete="new-password"
               placeholder='Confirm Password'
+              value={confirmPassword}
+              required={(location.pathname === 'register')?true:false}
               onChange={(e) => setConfirmPassword(e.target.value)}
               />
-              : <></>}
               {/* End of TODO 1.5 */}
             </div>
           </div>
