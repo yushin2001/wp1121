@@ -96,7 +96,9 @@ const AuthLayout = () => {
             {/* The logo should have alt text "VSCoddit Logo". */}
             {/* The title should be "VSCoddit" */}
             <img data-testid="header-logo" src='/vscoddit.svg' className="h-5 w-5 brightness-200" alt='VSCoddit Logo'/>
-            <span data-testid="header-title"> VSCoddit </span>
+            <span data-testid="header-title"> 
+              <header> VSCoddit </header>
+            </span>
             {/* END of TODO 1.1 */}
           </CardTitle>
           <CardDescription>

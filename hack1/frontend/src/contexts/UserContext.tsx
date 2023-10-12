@@ -44,8 +44,8 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   /* Warning: But remember to add it back before submitting your work. */
   useEffect(() => {
     if (authenticated === false){ 
-      if (location.pathname !== 'login'){
-        if (location.pathname !== 'register') navigate('/login');
+      if (location.pathname !== '/login'){
+        if (location.pathname !== '/register') navigate('/login');
       }
   }},[navigate, authenticated, location]);
   /* End of TODO 1.2 */
