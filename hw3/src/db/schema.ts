@@ -9,32 +9,14 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-// schemas define the structure of the tables in the database
-// watch this playlist to learn more about database schemas:
-// although it uses MySQL, the concepts are the same
-// https://planetscale.com/learn/courses/mysql-for-developers/schema/introduction-to-schema
-
 export const usersTable = pgTable(
   "users",
   {
-    // It is recommended to use something that means nothing outside of the database
-    // as the primary key, so that you don't have to change it if the data it represents
-    // changes. For example, if you use a user's email as the primary key, and then
-    // the user changes their email, you have to update all the foreign keys that
-    // reference that email. If you use a serial primary key, you don't have to worry
-    // about that.
     id: serial("id").primaryKey(),
-    // It is a good idea to set a maximum length for varchars, so that you don't
-    // waste space in the database. It is also a good idea to move as much constraints
-    // to the database as possible, so that you don't have to worry about them in
-    // your application code.
     handle: varchar("handle", { length: 50 }).notNull().unique(),
     displayName: varchar("display_name", { length: 50 }).notNull(),
   },
   (table) => ({
-    // indexes are used to speed up queries. Good indexes can make your queries
-    // run orders of magnitude faster. learn more about indexes here:
-    // https://planetscale.com/learn/courses/mysql-for-developers/indexes/introduction-to-indexes
     handleIndex: index("handle_index").on(table.handle),
   }),
 );
@@ -85,9 +67,7 @@ export const likesTable = pgTable(
   (table) => ({
     tweetIdIndex: index("tweet_id_index").on(table.tweetId),
     userHandleIndex: index("user_handle_index").on(table.userHandle),
-    // unique constraints ensure that there are no duplicate combinations of
-    // values in the table. In this case, we want to ensure that a user can't
-    // like the same tweet twice.
+    // unique constraints: ensure that a user can't like the same tweet twice.
     uniqCombination: unique().on(table.userHandle, table.tweetId),
   }),
 );

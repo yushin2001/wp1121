@@ -2,11 +2,11 @@ import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-export default function useLike() {
+export default function useJoin() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const likeTweet = async ({
+  const likeActivity = async ({
     tweetId,
     userHandle,
   }: {
@@ -33,7 +33,7 @@ export default function useLike() {
     setLoading(false);
   };
 
-  const unlikeTweet = async ({
+  const unlikeActivity = async ({
     tweetId,
     userHandle,
   }: {
@@ -61,8 +61,8 @@ export default function useLike() {
   };
 
   return {
-    likeTweet,
-    unlikeTweet,
+    likeActivity,
+    unlikeActivity,
     loading,
   };
 }

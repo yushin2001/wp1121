@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { MessageCircle, Repeat2, Share } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 
 import { Separator } from "@/components/ui/separator";
 import { getAvatar } from "@/lib/utils";
@@ -8,7 +8,7 @@ import { getAvatar } from "@/lib/utils";
 import LikeButton from "./LikeButton";
 import TimeText from "./TimeText";
 
-type TweetProps = {
+type ActivityProps = {
   username?: string;
   handle?: string;
   id: number;
@@ -17,12 +17,12 @@ type TweetProps = {
   content: string;
   likes: number;
   createdAt: Date;
-  liked?: boolean;
+  joined?: boolean;
 };
 
 // note that the Tweet component is also a server component
 // all client side things are abstracted away in other components
-export default function Tweet({
+export default function Activity({
   username,
   handle,
   id,
@@ -31,8 +31,8 @@ export default function Tweet({
   content,
   likes,
   createdAt,
-  liked,
-}: TweetProps) {
+  joined,
+}: ActivityProps) {
   return (
     <>
       <Link
@@ -68,18 +68,12 @@ export default function Tweet({
               <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
                 <MessageCircle size={20} className="-scale-x-100" />
               </button>
-              <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
-                <Repeat2 size={22} />
-              </button>
               <LikeButton
                 initialLikes={likes}
-                initialLiked={liked}
+                initialLiked={joined}
                 tweetId={id}
                 handle={handle}
               />
-              <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
-                <Share size={18} />
-              </button>
             </div>
           </article>
         </div>

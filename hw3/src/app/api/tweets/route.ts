@@ -19,15 +19,8 @@ const postTweetRequestSchema = z.object({
 // you can use z.infer to get the typescript type from a zod schema
 type PostTweetRequest = z.infer<typeof postTweetRequestSchema>;
 
-// This API handler file would be trigger by http requests to /api/likes
-// POST requests would be handled by the POST function
-// GET requests would be handled by the GET function
-// etc.
-// read more about Next.js API routes here:
-// https://nextjs.org/docs/app/building-your-application/routing/route-handlers
 export async function POST(request: NextRequest) {
   const data = await request.json();
-
   try {
     // parse will throw an error if the data doesn't match the schema
     postTweetRequestSchema.parse(data);
@@ -41,18 +34,7 @@ export async function POST(request: NextRequest) {
   // that we know what we're doing and that the data is of type LikeTweetRequest.
   // This is safe now because we've already validated the data with zod.
   const { handle, content, replyToTweetId } = data as PostTweetRequest;
-
   try {
-    // This piece of code runs the following SQL query:
-    // INSERT INTO tweets (
-    //  user_handle,
-    //  content,
-    //  reply_to_tweet_id
-    // ) VALUES (
-    //  {handle},
-    //  {content},
-    //  {replyToTweetId}
-    // )
     await db
       .insert(tweetsTable)
       .values({
@@ -62,13 +44,10 @@ export async function POST(request: NextRequest) {
       })
       .execute();
   } catch (error) {
-    // The NextResponse object is a easy to use API to handle responses.
-    // IMHO, it's more concise than the express API.
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 },
     );
   }
-
   return new NextResponse("OK", { status: 200 });
 }
