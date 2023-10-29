@@ -6,63 +6,58 @@ export default function useJoin() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const likeActivity = async ({
-    tweetId,
+  const joinActivity = async ({
+    activityId,
     userHandle,
   }: {
-    tweetId: number;
+    activityId: number;
     userHandle: string;
   }) => {
     if (loading) return;
     setLoading(true);
-
-    const res = await fetch("/api/likes", {
+    const res = await fetch("/api/joins", {
       method: "POST",
       body: JSON.stringify({
-        tweetId,
+        activityId,
         userHandle,
       }),
     });
-
     if (!res.ok) {
       const body = await res.json();
       throw new Error(body.error);
     }
-
     router.refresh();
     setLoading(false);
   };
 
-  const unlikeActivity = async ({
-    tweetId,
+  const unjoinActivity = async ({
+    activityId,
     userHandle,
   }: {
-    tweetId: number;
+    activityId: number;
     userHandle: string;
   }) => {
     if (loading) return;
 
     setLoading(true);
-    const res = await fetch("/api/likes", {
+    const res = await fetch("/api/joins", {
       method: "DELETE",
       body: JSON.stringify({
-        tweetId,
+        activityId,
         userHandle,
       }),
     });
-
     if (!res.ok) {
       const body = await res.json();
       throw new Error(body.error);
     }
-
     router.refresh();
     setLoading(false);
   };
 
   return {
-    likeActivity,
-    unlikeActivity,
+    joinActivity,
+    unjoinActivity,
     loading,
   };
 }

@@ -31,3 +31,18 @@ export function validateUsername(username?: string | null) {
   if (!username) return false;
   return /^[a-zA-Z0-9 ]{1,50}$/.test(username);
 }
+
+
+// 確認「新增活動」
+export function validateName(name?: string | null) {
+  if (!name) return false;
+  return true;
+}
+export function validatestartTime(startTime?: string | null) {
+  if (!startTime) return false;
+  return /^[a-zA-Z0-9 ]{1,50}$/.test(startTime);
+}
+export function validatedueTime(dueTime?: string | null) {
+  if (!dueTime) return false;
+  return /^[a-zA-Z0-9 ]{1,50}$/.test(dueTime);
+}
