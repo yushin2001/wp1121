@@ -6,8 +6,8 @@ import { db } from "@/db";
 import Activity from "@/components/Activity";
 import { joinsTable, activitiesTable, usersTable } from "@/db/schema";
 import ProfileButton from "@/components/ProfileButton";
-import SearchBoxButtonButton from "@/components/SearchBoxButton";
-import { Button } from "@/components/ui/button";
+import SearchBoxButton from "@/components/SearchBoxButton";
+import TestPop from "@/components/TestPop";
 
 type HomePageProps = {
   searchParams: {
@@ -88,10 +88,8 @@ export default async function Home({
         <Separator />
 
         <div className="flex w-full flex-row px-3 pt-3 items-center gap-4">
-          <SearchBoxButtonButton />
-          <Button>
-            新增活動
-          </Button>
+          <SearchBoxButton />
+          <TestPop/>
         </div>
 
         {activities.map((activity) => (
