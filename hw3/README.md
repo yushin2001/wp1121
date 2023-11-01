@@ -30,7 +30,13 @@ POSTGRES_URL="postgres://postgres:postgres@localhost:5432/joinme"
 yarn migrate
 ```
 
-7. Start the app
+7. dowload package
+
+```bash
+yarn add @mui/x-date-pickers
+```
+
+8. Start the app
 
 ```bash
 yarn dev

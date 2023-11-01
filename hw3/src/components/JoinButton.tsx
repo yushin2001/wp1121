@@ -5,46 +5,44 @@ import type { EventHandler, MouseEvent } from "react";
 
 import { Heart } from "lucide-react";
 
-import useLike from "@/hooks/useLike";
+import useJoin from "@/hooks/useJoin";
 import { cn } from "@/lib/utils";
 
 type JoinButtonProps = {
   initialJoins: number;
   initialJoined?: boolean;
-  tweetId: number;
+  activityId: number;
   handle?: string;
 };
 
 export default function LikeButton({
   initialJoins,
   initialJoined,
-  tweetId,
+  activityId,
   handle,
 }: JoinButtonProps) {
-  const [liked, setLiked] = useState(initialJoined);
-  const [likesCount, setLikesCount] = useState(initialJoins);
-  const { likeTweet, unlikeTweet, loading } = useLike();
+  const [joined, setJoined] = useState(initialJoined);
+  const [joinsCount, setJoinsCount] = useState(initialJoins);
+  const { joinActivity, unjoinActivity, loading } = useJoin();
 
   const handleClick: EventHandler<MouseEvent> = async (e) => {
-    // since the parent node of the button is a Link, which will cause the page to navigate to the activity page. 
-    // So we stop the event propagation and prevent the default behavior of the event.
     e.stopPropagation();
     e.preventDefault();
     if (!handle) return;
-    if (liked) {
-      await unlikeTweet({
-        tweetId,
+    if (joined) {
+      await unjoinActivity({
+        activityId,
         userHandle: handle,
       });
-      setLikesCount((prev) => prev - 1);
-      setLiked(false);
+      setJoinsCount((prev) => prev - 1);
+      setJoined(false);
     } else {
-      await likeTweet({
-        tweetId,
+      await joinActivity({
+        activityId,
         userHandle: handle,
       });
-      setLikesCount((prev) => prev + 1);
-      setLiked(true);
+      setJoinsCount((prev) => prev + 1);
+      setJoined(true);
     }
   };
 
@@ -52,7 +50,7 @@ export default function LikeButton({
     <button
       className={cn(
         "flex w-16 items-center gap-1 hover:text-brand",
-        liked && "text-brand",
+        joined && "text-brand",
       )}
       onClick={handleClick}
       disabled={loading}
@@ -60,12 +58,12 @@ export default function LikeButton({
       <div
         className={cn(
           "flex items-center gap-1 rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10",
-          liked && "bg-brand/10",
+          joined && "bg-brand/10",
         )}
       >
         <Heart size={18} />
       </div>
-      {likesCount > 0 && likesCount}
+      {joinsCount > 0 && joinsCount}
     </button>
   );
 }

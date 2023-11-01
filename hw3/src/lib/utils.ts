@@ -33,16 +33,29 @@ export function validateUsername(username?: string | null) {
 }
 
 
-// 確認「新增活動」
+//「新增活動」
 export function validateName(name?: string | null) {
   if (!name) return false;
   return true;
 }
-export function validatestartTime(startTime?: string | null) {
+
+export function validatestartTime(startTime?: Date | null) {
   if (!startTime) return false;
-  return /^[a-zA-Z0-9 ]{1,50}$/.test(startTime);
 }
-export function validatedueTime(dueTime?: string | null) {
+
+export function validatedueTime(dueTime?: Date | null) {
   if (!dueTime) return false;
-  return /^[a-zA-Z0-9 ]{1,50}$/.test(dueTime);
+}
+
+function getDayDiff(startDate: Date, endDate: Date): number {
+  const msInDay = 24 * 60 * 60 * 1000;
+  return(Number(endDate) - Number(startDate) / msInDay);
+}
+
+export function validateTime(StartTime: Date, DueTime: Date){
+  if (!StartTime) return false;
+  if (!DueTime) return false;
+  const difference = getDayDiff(StartTime, DueTime);
+  if (difference > 7) return false;
+  if (difference < 0) return false;
 }

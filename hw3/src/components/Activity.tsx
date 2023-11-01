@@ -5,7 +5,7 @@ import { MessageCircle } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { getAvatar } from "@/lib/utils";
 
-import LikeButton from "./LikeButton";
+import JoinButton from "./JoinButton";
 import TimeText from "./TimeText";
 
 type ActivityProps = {
@@ -14,22 +14,20 @@ type ActivityProps = {
   id: number;
   authorName: string;
   authorHandle: string;
-  content: string;
-  likes: number;
+  name: string;
+  joins: number;
   createdAt: Date;
   joined?: boolean;
 };
 
-// note that the Tweet component is also a server component
-// all client side things are abstracted away in other components
 export default function Activity({
   username,
   handle,
   id,
   authorName,
   authorHandle,
-  content,
-  likes,
+  name,
+  joins,
   createdAt,
   joined,
 }: ActivityProps) {
@@ -38,7 +36,7 @@ export default function Activity({
       <Link
         className="w-full px-4 pt-3 transition-colors hover:bg-gray-50"
         href={{
-          pathname: `/tweet/${id}`,
+          pathname: `/activity/${id}`,
           query: {
             username,
             handle,
@@ -63,15 +61,15 @@ export default function Activity({
               </time>
             </p>
             {/* `white-space: pre-wrap` tells html to render \n and \t chracters  */}
-            <article className="mt-2 whitespace-pre-wrap">{content}</article>
+            <article className="mt-2 whitespace-pre-wrap">{name}</article>
             <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
               <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
                 <MessageCircle size={20} className="-scale-x-100" />
               </button>
-              <LikeButton
-                initialLikes={likes}
-                initialLiked={joined}
-                tweetId={id}
+              <JoinButton
+                initialJoins={joins}
+                initialJoined={joined}
+                activityId={id}
                 handle={handle}
               />
             </div>

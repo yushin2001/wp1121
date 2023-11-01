@@ -8,11 +8,7 @@ const envSchema = z.object({
 
 type Env = z.infer<typeof envSchema>;
 
-// typing your environment variables prevents you from
-// accidentally using an undefined environment variable
-// or typing it incorrectly
 export const env: Env = {
-  // non-null assertion is safe here because we throw an error if it's not defined
   POSTGRES_URL: process.env.POSTGRES_URL!,
 };
 

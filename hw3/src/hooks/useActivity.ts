@@ -10,10 +10,14 @@ export default function useActivity() {
     handle,
     name,
     replyToActivityId,
+    startTime,
+    dueTime
   }: {
     handle: string;
     name: string;
     replyToActivityId?: number;
+    startTime: Date;
+    dueTime: Date;
   }) => {
     setLoading(true);
 
@@ -23,6 +27,8 @@ export default function useActivity() {
         handle,
         name,
         replyToActivityId,
+        startTime,
+        dueTime
       }),
     });
 
@@ -39,4 +45,4 @@ export default function useActivity() {
     postActivity,
     loading,
   };
-}
+} 

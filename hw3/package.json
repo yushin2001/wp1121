@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^8.1.0",
+    "@mui/x-date-pickers": "^6.17.0",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-separator": "^1.0.3",
