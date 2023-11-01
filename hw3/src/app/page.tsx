@@ -1,11 +1,13 @@
 import { eq, desc, isNull, sql } from "drizzle-orm";
 
 import NameDialog from "@/components/NameDialog";
-import Tweet from "@/components/Tweet";
-import TweetInput from "@/components/TweetInput";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
-import { likesTable, tweetsTable, usersTable } from "@/db/schema";
+import Activity from "@/components/Activity";
+import { joinsTable, activitiesTable, usersTable } from "@/db/schema";
+import ProfileButton from "@/components/ProfileButton";
+import SearchBoxButtonButton from "@/components/SearchBoxButton";
+import { Button } from "@/components/ui/button";
 
 type HomePageProps = {
   searchParams: {
@@ -33,69 +35,84 @@ export default async function Home({
       .execute();
   }
 
-  const likesSubquery = db.$with("likes_count").as(
+  const joinsSubquery = db.$with("joins_count").as(
     db
       .select({
-        tweetId: likesTable.tweetId,
-        likes: sql<number | null>`count(*)`.mapWith(Number).as("likes"),
+        activityId: joinsTable.activityId,
+        joins: sql<number | null>`count(*)`.mapWith(Number).as("joins"),
       })
-      .from(likesTable)
-      .groupBy(likesTable.tweetId),
+      .from(joinsTable)
+      .groupBy(joinsTable.activityId),
   );
 
-  const likedSubquery = db.$with("liked").as(
+  const joinedSubquery = db.$with("joined").as(
     db
       .select({
-        tweetId: likesTable.tweetId,
-        liked: sql<number>`1`.mapWith(Boolean).as("liked"),
+        activityId: joinsTable.activityId,
+        joined: sql<number>`1`.mapWith(Boolean).as("joined"),
       })
-      .from(likesTable)
-      .where(eq(likesTable.userHandle, handle ?? "")),
+      .from(joinsTable)
+      .where(eq(joinsTable.userHandle, handle ?? "")),
   );
 
-  const tweets = await db
-    .with(likesSubquery, likedSubquery)
+  const activities = await db
+    .with(joinsSubquery, joinedSubquery)
     .select({
-      id: tweetsTable.id,
-      content: tweetsTable.content,
+      id: activitiesTable.id,
+      name: activitiesTable.name,
       username: usersTable.displayName,
       handle: usersTable.handle,
-      likes: likesSubquery.likes,
-      createdAt: tweetsTable.createdAt,
-      liked: likedSubquery.liked,
+      joins: joinsSubquery.joins,
+      createdAt: activitiesTable.createdAt,
+      joined: joinedSubquery.joined,
+      startTime: activitiesTable.startTime,
+      dueTime: activitiesTable.dueTime
     })
-    .from(tweetsTable)
-    .where(isNull(tweetsTable.replyToTweetId))
-    .orderBy(desc(tweetsTable.createdAt))
-    .innerJoin(usersTable, eq(tweetsTable.userHandle, usersTable.handle))
-    .leftJoin(likesSubquery, eq(tweetsTable.id, likesSubquery.tweetId))
-    .leftJoin(likedSubquery, eq(tweetsTable.id, likedSubquery.tweetId))
+    .from(activitiesTable)
+    .where(isNull(activitiesTable.replyToActivityId))
+    .orderBy(desc(activitiesTable.createdAt))
+    .innerJoin(usersTable, eq(activitiesTable.userHandle, usersTable.handle))
+    .leftJoin(joinsSubquery, eq(activitiesTable.id, joinsSubquery.activityId))
+    .leftJoin(joinedSubquery, eq(activitiesTable.id, joinedSubquery.activityId))
     .execute();
 
   return (
     <>
       <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
-        <h1 className="mb-2 bg-white px-4 text-xl font-bold">Home</h1>
-        <div className="w-full px-4 pt-3">
-          <TweetInput />
+
+        <div className="flex w-full flex-row py-3 items-center">
+            <h1 className="mb-2 bg-white px-4 text-xl font-bold">Home</h1>
+            <ProfileButton />
         </div>
+
         <Separator />
-        {tweets.map((tweet) => (
-          <Tweet
-            key={tweet.id}
-            id={tweet.id}
+
+        <div className="flex w-full flex-row px-3 pt-3 items-center gap-4">
+          <SearchBoxButtonButton />
+          <Button>
+            新增活動
+          </Button>
+        </div>
+
+        {activities.map((activity) => (
+          <Activity
+            key={activity.id}
+            id={activity.id}
             username={username}
             handle={handle}
-            authorName={tweet.username}
-            authorHandle={tweet.handle}
-            content={tweet.content}
-            likes={tweet.likes}
-            liked={tweet.liked}
-            createdAt={tweet.createdAt!}
+            authorName={activity.username}
+            authorHandle={activity.handle}
+            name={activity.name}
+            joins={activity.joins}
+            joined={activity.joined}
+            createdAt={activity.createdAt!}
           />
         ))}
+
       </div>
+
       <NameDialog />
+
     </>
   );
 }

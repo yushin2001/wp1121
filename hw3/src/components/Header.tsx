@@ -9,8 +9,6 @@ import {
 import activity from "@/assets/activity.png";
 import { cn } from "@/lib/utils";
 
-import ProfileButton from "./ProfileButton";
-
 export default function Header() {
   return (
     <aside className="flex h-screen flex-col justify-between px-6 py-6">
@@ -23,7 +21,6 @@ export default function Header() {
         <HeaderButton Icon={Home} text="Home" active />
         <HeaderButton Icon={Search} text="Explore" />
       </div>
-      <ProfileButton />
     </aside>
   );
 }

@@ -56,7 +56,7 @@ export const activitiesTable = pgTable(
         onDelete: "cascade",
         onUpdate: "cascade",
       }),
-    replyToTweetId: integer("reply_to_tweet_id"),
+    replyToActivityId: integer("reply_to_activity_id"),
     createdAt: timestamp("created_at").default(sql`now()`),
     startTime: timestamp("start_time").notNull(),
     dueTime: timestamp("due_time").notNull()
@@ -65,7 +65,7 @@ export const activitiesTable = pgTable(
     userHandleIndex: index("user_handle_index").on(table.userHandle),
     createdAtIndex: index("created_at_index").on(table.createdAt),
     replyToAndTimeIndex: index("reply_to_time_index").on(
-      table.replyToTweetId,
+      table.replyToActivityId,
       table.createdAt,
     ),
   }),
