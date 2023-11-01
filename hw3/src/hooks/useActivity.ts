@@ -16,8 +16,8 @@ export default function useActivity() {
     handle: string;
     name: string;
     replyToActivityId?: number;
-    startTime: Date;
-    dueTime: Date;
+    startTime?: Date;
+    dueTime?: Date;
   }) => {
     setLoading(true);
 

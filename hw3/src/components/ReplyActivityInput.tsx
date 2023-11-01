@@ -4,38 +4,34 @@ import { useRef } from "react";
 
 import GrowingTextarea from "@/components/GrowingTextarea";
 import UserAvatar from "@/components/UserAvatar";
-import useTweet from "@/hooks/useTweet";
+import useActivity from "@/hooks/useActivity";
 import useUserInfo from "@/hooks/useUserInfo";
 import { cn } from "@/lib/utils";
 
-type ReplyInputProps = {
-  replyToTweetId: number;
+type ReplyActivityInputProps = {
+  replyToActivityId: number;
   replyToHandle: string;
 };
 
 export default function ReplyInput({
-  replyToTweetId,
+  replyToActivityId,
   replyToHandle,
-}: ReplyInputProps) {
+}: ReplyActivityInputProps) {
   const { handle } = useUserInfo();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const { postTweet, loading } = useTweet();
+  const { postActivity, loading } = useActivity();
 
   const handleReply = async () => {
-    const content = textareaRef.current?.value;
-    if (!content) return;
+    const name = textareaRef.current?.value;
+    if (!name) return;
     if (!handle) return;
-
     try {
-      await postTweet({
+      await postActivity({
         handle,
-        content,
-        replyToTweetId,
+        name,
+        replyToActivityId
       });
       textareaRef.current.value = "";
-      // this triggers the onInput event on the growing textarea
-      // thus triggering the resize
-      // for more info, see: https://developer.mozilla.org/en-US/docs/Web/API/Event
       textareaRef.current.dispatchEvent(
         new Event("input", { bubbles: true, composed: true }),
       );
@@ -46,14 +42,12 @@ export default function ReplyInput({
   };
 
   return (
-    // this allows us to focus (put the cursor in) the textarea when the user
-    // clicks anywhere on the div
     <div onClick={() => textareaRef.current?.focus()}>
       <div className="grid grid-cols-[fit-content(48px)_1fr] gap-4 px-4 pt-4">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <UserAvatar className="col-start-1 row-start-2 h-12 w-12" />
         <p className="col-start-2 row-start-1 text-gray-500">
-          Replying to <span className="text-brand">@{replyToHandle}</span>
+          Replying to <span className="text-brand"> @{replyToHandle} </span>
         </p>
         <GrowingTextarea
           ref={textareaRef}
