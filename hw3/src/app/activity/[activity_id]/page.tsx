@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { eq, desc, sql, and } from "drizzle-orm";
 import {
   ArrowLeft,
-  MessageCircle,
   MoreHorizontal
 } from "lucide-react";
 
@@ -99,6 +98,8 @@ export default async function ActivityPage({
     joins: numJoins,
     createdAt: ActivityData.createdAt,
     joined: Boolean(joined),
+    startTime: ActivityData.startTime,
+    dueTime: ActivityData.dueTime,
   };
 
   const joinsSubquery = db.$with("joins_count").as(
@@ -177,36 +178,31 @@ export default async function ActivityPage({
             </button>
           </div>
 
-          <article className="mt-3 whitespace-pre-wrap text-xl">
-            {activity.name}
-          </article>
-
           <time className="my-4 block text-sm text-gray-500">
-            <TimeText date={activity.createdAt} format="h:mm A · D MMM YYYY" />
+            <TimeText date={activity.createdAt} format="YYYY MM D · h:mm A " />
           </time>
 
-          <Separator />
-          <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
-            <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
-              <MessageCircle size={20} className="-scale-x-100" />
-            </button>
+          <div className="flex flex-row space-x-80" >
+            <article className="mt-2 mb-3 whitespace-pre-wrap text-xl">
+              <h2 className="text-xl font-bold"> 活動名稱：{activity.name} </h2>
+              <h4 className="text-xl"> 開始時間：{activity.startTime} </h4>
+              <h4 className="text-xl"> 結束時間：{activity.dueTime} </h4>
+            </article>
             <JoinButton
-              handle={handle}
-              initialJoins={activity.joins}
-              initialJoined={activity.joined}
-              activityId={activity.id}
-            />
+                handle={handle}
+                initialJoins={activity.joins}
+                initialJoined={activity.joined}
+                activityId={activity.id}
+              />
           </div>
+
           <Separator />
 
         </div>
 
-
         <ReplyActivityInput replyToActivityId={activity.id} replyToHandle={activity.handle} />
 
-
         <Separator />
-
 
         {replies.map((reply) => (
           <Activity

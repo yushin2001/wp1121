@@ -14,42 +14,29 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { cn, validatestartTime, validatedueTime, validateName, validateTime } from "@/lib/utils";
-import useActivity from "@/hooks/useActivity";
+import { cn, validateName } from "@/lib/utils";
+import useTest from "@/hooks/useTest";
 import useUserInfo from "@/hooks/useUserInfo";
 
 export default function NewActivity() {
   const { handle } = useUserInfo();
-
   const [dialogOpen, setDialogOpen] = useState(false);
-
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const [nameError, setNameError] = useState(false);
   const startTimeInputRef = useRef<HTMLInputElement>(null);
   const dueTimeInputRef = useRef<HTMLInputElement>(null);
-  const [nameError, setNameError] = useState(false);
-  const [startError, setStartError] = useState(false);
-  const [dueError, setDueError] = useState(false);
-  const [timeError, setTimeError] = useState(false);
 
   // 儲存新增的活動
-  const { postActivity, loading } = useActivity();
+  const { postTest, loading } = useTest();
 
   const handleSave = () => {
     const name = nameInputRef.current?.value;
+    const newnameError = !validateName(name);
     const start = startTimeInputRef.current?.value;
     const due = dueTimeInputRef.current?.value;
-
-    const newnameError = !validateName(name);
-    const newstartError = !validatestartTime(start);
-    const newdueError = !validatedueTime(due);
-    const newtimeError = !validateTime(start, due);
-
     setNameError(newnameError);
-    setStartError(newstartError);
-    setDueError(newdueError);
-    setTimeError(newtimeError);
 
-    if (newnameError || newstartError || newdueError || newtimeError) {
+    if (newnameError) {
       return false;
     }
     if (!handle) return false;
@@ -57,11 +44,11 @@ export default function NewActivity() {
     if (!start) return false;
     if (!due) return false;
     try {
-      postActivity({
+      postTest({
         handle: handle,
         name: name,
-        startTime: start,
-        dueTime: due
+        startTime: (start + ":00"),
+        dueTime: (due + ":00")
       });
       setDialogOpen(false);
       return true;
@@ -86,7 +73,7 @@ export default function NewActivity() {
           <DialogHeader>
             <DialogTitle> 新增活動 </DialogTitle>
             <DialogDescription>
-              新增活動名稱、開始日期時間、結束日期時間。
+              新增活動名稱。
             </DialogDescription>
           </DialogHeader>
 
@@ -106,48 +93,30 @@ export default function NewActivity() {
                 </p>
               )}
             </div>
-
+          </div>
+          <div className = "grid gap-4 py-4">
             <div className = "grid grid-cols-4 items-center gap-4">
-              <Label htmlFor = "name" className = "text-right">
+              <Label htmlFor="name" className="text-right">
                 From
               </Label>
-              <div className = "col-span-3 flex items-center gap-2">
-                <Input
-                  placeholder = "YYYY-MM-DD HH"
-                  className = {cn(startError && "border-red-500", "col-span-3")}
-                  ref = {startTimeInputRef}
-                />
-              </div>
-              {startError && (
-                <p className = "col-span-3 col-start-2 text-xs text-red-500">
-                  Invalid start time.
-                </p>
-              )}
+              <Input
+                placeholder = "YYYY-MM-DD HH"
+                className = {cn("col-span-3")}
+                ref = {startTimeInputRef}
+              />
             </div>
-
-            <div className="grid grid-cols-4 items-center gap-4">
+          </div>
+          <div className = "grid gap-4 py-4">
+            <div className = "grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
                 To
               </Label>
-              <div className="col-span-3 flex items-center gap-2">
-                <Input
-                  placeholder = "YYYY-MM-DD HH"
-                  className = {cn(startError && "border-red-500", "col-span-3")}
-                  ref = {dueTimeInputRef}
-                />
-              </div>
-              {dueError && (
-                <p className="col-span-3 col-start-2 text-xs text-red-500">
-                  Invalid due time.
-                </p>
-              )}
-              {timeError && (
-                <p className="col-span-3 col-start-2 text-xs text-red-500">
-                  start time need to be earlier than end time, and differ by up to 7 days.
-                </p>
-              )}
+              <Input
+                placeholder = "YYYY-MM-DD HH"
+                className = {cn("col-span-3")}
+                ref = {dueTimeInputRef}
+              />
             </div>
-
           </div>
 
           <DialogFooter>

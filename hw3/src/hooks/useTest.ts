@@ -2,11 +2,11 @@ import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-export default function useActivity() {
+export default function useATest() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const postActivity = async ({
+  const postTest = async ({
     handle,
     name,
     replyToActivityId,
@@ -16,12 +16,12 @@ export default function useActivity() {
     handle: string;
     name: string;
     replyToActivityId?: number;
-    startTime?: string;
-    dueTime?: string;
+    startTime?: string,
+    dueTime?: string
   }) => {
     setLoading(true);
 
-    const res = await fetch("/api/activities", {
+    const res = await fetch("/api/tests", {
       method: "POST",
       body: JSON.stringify({
         handle,
@@ -40,7 +40,7 @@ export default function useActivity() {
   };
 
   return {
-    postActivity,
+    postTest,
     loading,
   };
 } 

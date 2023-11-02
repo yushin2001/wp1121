@@ -1,21 +1,19 @@
-// 顯示於主頁面
-
 import Link from "next/link";
+import { MessageCircle } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { getAvatar } from "@/lib/utils";
-import JoinButton from "./JoinButton";
 import TimeText from "./TimeText";
 
-type ActivityProps = {
+type TestProps = {
   username?: string;
   handle?: string;
   id: number;
   authorName: string;
   authorHandle: string;
   name: string;
-  joins: number;
-  joined?: boolean;
   createdAt: Date;
+  startTime: Date;
+  dueTime: Date;
 };
 
 export default function Activity({
@@ -25,16 +23,16 @@ export default function Activity({
   authorName,
   authorHandle,
   name,
-  joins,
-  joined,
   createdAt,
-}: ActivityProps) {
+  startTime,
+  dueTime
+}: TestProps) {
   return (
     <>
       <Link
         className="w-full px-4 pt-3 transition-colors hover:bg-gray-50"
         href={{
-          pathname: `/activity/${id}`,
+          pathname: `/test/${id}`,
           query: {
             username,
             handle,
@@ -55,18 +53,17 @@ export default function Activity({
                 @{authorHandle}
               </span>
               <time className="ml-2 font-normal text-gray-400">
-                <TimeText date={createdAt} format="YYYY MM D · h:mm A" />
+                <TimeText date={createdAt} format="h:mm A · D MMM YYYY" />
+                <TimeText date={startTime} format="YYYY MM D · h:mm" />
+                <TimeText date={dueTime} format="YYYY MM D · h:mm" />
               </time>
             </p>
             {/* `white-space: pre-wrap` tells html to render \n and \t chracters  */}
             <article className="mt-2 whitespace-pre-wrap">{name}</article>
             <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
-              <JoinButton
-                initialJoins={joins}
-                initialJoined={joined}
-                activityId={id}
-                handle={handle}
-              />
+              <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
+                <MessageCircle size={20} className="-scale-x-100" />
+              </button>
             </div>
           </article>
         </div>

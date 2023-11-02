@@ -34,8 +34,8 @@ export const activitiesTable = pgTable(
       }),
     replyToActivityId: integer("reply_to_activity_id"),
     createdAt: timestamp("created_at").default(sql`now()`),
-    startTime: timestamp("start_time").notNull(),
-    dueTime: timestamp("due_time").notNull()
+    startTime: varchar("start_time"),
+    dueTime: varchar("due_time")
   },
   (table) => ({
     userHandleIndex: index("user_handle_index").on(table.userHandle),
@@ -61,7 +61,32 @@ export const joinsTable = pgTable(
   (table) => ({
     activityIdIndex: index("activity_id_index").on(table.activityId),
     userHandleIndex: index("user_handle_index").on(table.userHandle),
-    // unique constraints: ensure that a user can't join the same activity twice.
     uniqCombination: unique().on(table.userHandle, table.activityId),
+  }),
+);
+
+export const testsTable = pgTable(
+  "tests",
+  {
+    id: serial("id").primaryKey(),
+    name: varchar("name", { length: 100 }).notNull(),
+    userHandle: varchar("user_handle", { length: 50 })
+      .notNull()
+      .references(() => usersTable.handle, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+    replyToActivityId: integer("reply_to_activity_id"),
+    createdAt: timestamp("created_at").default(sql`now()`),
+    startTime: varchar("start_time"),
+    dueTime: varchar("due_time")
+  },
+  (table) => ({
+    userHandleIndex: index("user_handle_index").on(table.userHandle),
+    createdAtIndex: index("created_at_index").on(table.createdAt),
+    replyToAndTimeIndex: index("reply_to_time_index").on(
+      table.replyToActivityId,
+      table.createdAt,
+    ),
   }),
 );

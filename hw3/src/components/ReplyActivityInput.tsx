@@ -52,7 +52,7 @@ export default function ReplyInput({
         <GrowingTextarea
           ref={textareaRef}
           wrapperClassName="col-start-2 row-start-2"
-          className="bg-transparent text-xl outline-none placeholder:text-gray-500"
+          className="bg-transparent text-xl outline-none placeholder:text-gray-400"
           placeholder="Add your reply"
         />
       </div>

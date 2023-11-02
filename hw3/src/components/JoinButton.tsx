@@ -55,15 +55,17 @@ export default function LikeButton({
       onClick={handleClick}
       disabled={loading}
     >
+
       <div
         className={cn(
           "flex items-center gap-1 rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10",
           joined && "bg-brand/10",
-        )}
-      >
-        <Heart size={18} />
+        )}>
+        <Heart size={20} />
       </div>
+
       {joinsCount > 0 && joinsCount}
+
     </button>
   );
 }
