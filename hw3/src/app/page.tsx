@@ -7,7 +7,7 @@ import Activity from "@/components/Activity";
 import { joinsTable, activitiesTable, usersTable } from "@/db/schema";
 import ProfileButton from "@/components/ProfileButton";
 import SearchBoxButton from "@/components/SearchBoxButton";
-import TestPop from "@/components/TestPop";
+import NewActivity from "@/components/NewActivity";
 
 type HomePageProps = {
   searchParams: {
@@ -89,7 +89,7 @@ export default async function Home({
 
         <div className="flex w-full flex-row px-3 pt-3 items-center gap-4">
           <SearchBoxButton />
-          <TestPop/>
+          <NewActivity/>
         </div>
 
         {activities.map((activity) => (

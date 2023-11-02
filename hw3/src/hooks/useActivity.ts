@@ -16,8 +16,8 @@ export default function useActivity() {
     handle: string;
     name: string;
     replyToActivityId?: number;
-    startTime?: Date;
-    dueTime?: Date;
+    startTime: Date;
+    dueTime: Date;
   }) => {
     setLoading(true);
 
@@ -31,12 +31,10 @@ export default function useActivity() {
         dueTime
       }),
     });
-
     if (!res.ok) {
       const body = await res.json();
       throw new Error(body.error);
     }
-
     router.refresh();
     setLoading(false);
   };

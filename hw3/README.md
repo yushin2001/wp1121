@@ -34,6 +34,9 @@ yarn migrate
 
 ```bash
 yarn add @mui/x-date-pickers
+yarn add @mui/lab
+yarn add moment
+yarn add next@canary
 ```
 
 8. Start the app

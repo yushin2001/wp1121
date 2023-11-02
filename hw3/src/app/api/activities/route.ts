@@ -8,9 +8,9 @@ import { activitiesTable } from "@/db/schema";
 const postActivityRequestSchema = z.object({
   handle: z.string().min(1).max(50),
   name: z.string().min(1).max(100),
-  replyToTweetId: z.number().optional(),
-  startTime: z.date().min(new Date("2023-11-4")).max(new Date("3000-01-01")),
-  dueTime: z.date().min(new Date("2023-11-4")).max(new Date("3000-01-01"))
+  replyToActivityId: z.number().optional(),
+  startTime: z.date(),
+  dueTime: z.date()
 });
 
 type PostActivityRequest = z.infer<typeof postActivityRequestSchema>;
@@ -23,14 +23,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { handle, name, replyToTweetId, startTime, dueTime } = data as PostActivityRequest;
+  const { handle, name, replyToActivityId, startTime, dueTime } = data as PostActivityRequest;
   try {
     await db
       .insert(activitiesTable)
       .values({
         userHandle: handle,
         name,
-        replyToTweetId,
+        replyToActivityId,
         startTime,
         dueTime
       })

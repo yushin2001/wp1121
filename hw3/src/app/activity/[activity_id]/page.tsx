@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 
 import JoinButton from "@/components/JoinButton";
-import ReplyInput from "@/components/ReplyInput";
+import ReplyActivityInput from "@/components/ReplyActivityInput";
 import TimeText from "@/components/TimeText";
 import Activity from "@/components/Activity";
 import { Separator } from "@/components/ui/separator";
@@ -27,7 +27,7 @@ type ActivityPageProps = {
   };
 };
 
-export default async function TweetPage({
+export default async function ActivityPage({
   params: { activity_id },
   searchParams: { username, handle },
 }: ActivityPageProps) {
@@ -133,7 +133,7 @@ export default async function TweetPage({
       joined: joinedSubquery.joined,
     })
     .from(activitiesTable)
-    .where(eq(activitiesTable.replyToTweetId, activity_id_num))
+    .where(eq(activitiesTable.replyToActivityId, activity_id_num))
     .orderBy(desc(activitiesTable.createdAt))
     .innerJoin(usersTable, eq(activitiesTable.userHandle, usersTable.handle))
     .leftJoin(joinsSubquery, eq(activitiesTable.id, joinsSubquery.activityId))
@@ -149,7 +149,7 @@ export default async function TweetPage({
           <Link href={{ pathname: "/", query: { username, handle } }}>
             <ArrowLeft size={18} />
           </Link>
-          <h1 className="text-xl font-bold">Tweet</h1>
+          <h1 className="text-xl font-bold">Activity</h1>
         </div>
 
 
@@ -202,7 +202,7 @@ export default async function TweetPage({
         </div>
 
 
-        <ReplyInput replyToTweetId={activity.id} replyToHandle={activity.handle} />
+        <ReplyActivityInput replyToActivityId={activity.id} replyToHandle={activity.handle} />
 
 
         <Separator />

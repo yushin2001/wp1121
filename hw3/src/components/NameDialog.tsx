@@ -5,9 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 
-// all components is src/components/ui are lifted from shadcn/ui
-// this is a good set of components built on top of tailwindcss
-// see how to use it here: https://ui.shadcn.com/
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -74,11 +71,6 @@ export default function NameDialog() {
     return true;
   };
 
-  // You might notice that the dialog doesn't close when you click outside of
-  // it. This is beacuse we perform some validation when the dialog closes.
-  // If you pass `setDialogOpen` directly to the Dialog component, it will
-  // behave like a normal dialog and close when you click outside of it.
-  //
   // The Dialog component calls onOpenChange when the dialog wants to open or
   // close itself. We can perform some checks here to prevent the dialog from
   // closing if the input is invalid.
@@ -98,7 +90,7 @@ export default function NameDialog() {
         <DialogHeader>
           <DialogTitle>Welcome to Twitter!</DialogTitle>
           <DialogDescription>
-            Tell us your name to start tweeting.
+            Tell us your name to start.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">

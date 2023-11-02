@@ -39,23 +39,35 @@ export function validateName(name?: string | null) {
   return true;
 }
 
-export function validatestartTime(startTime?: Date | null) {
+export function validatestartTime(startTime?: string | null) {
   if (!startTime) return false;
+  const error = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9])$/.test(startTime);
+  if (!error) return false;
+  else return true;
 }
 
-export function validatedueTime(dueTime?: Date | null) {
+export function validatedueTime(dueTime?: string | null) {
   if (!dueTime) return false;
+  const error = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9])$/.test(dueTime);
+  if (!error) return false;
+  else return true;
 }
 
 function getDayDiff(startDate: Date, endDate: Date): number {
   const msInDay = 24 * 60 * 60 * 1000;
-  return(Number(endDate) - Number(startDate) / msInDay);
+  const diff = Number(endDate) - Number(startDate);
+  const diff_day = diff / msInDay;
+  return(diff_day);
 }
 
-export function validateTime(StartTime: Date, DueTime: Date){
-  if (!StartTime) return false;
-  if (!DueTime) return false;
-  const difference = getDayDiff(StartTime, DueTime);
-  if (difference > 7) return false;
-  if (difference < 0) return false;
+export function validateTime(StartTime?: string | null, DueTime?: string | null){
+  // if (!StartTime) return false;
+  // if (!DueTime) return false;
+  const start = new Date(StartTime+":00");
+  const due = new Date(DueTime+":00");
+  const difference = getDayDiff(start, due);
+  const too_large_check = (difference > 7);
+  const later_check = (difference <= 0);
+  if (too_large_check || later_check) return false;
+  else return true;
 }

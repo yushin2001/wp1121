@@ -25,7 +25,7 @@ export const activitiesTable = pgTable(
   "activities",
   {
     id: serial("id").primaryKey(),
-    name: varchar("content", { length: 100 }).notNull(),
+    name: varchar("name", { length: 100 }).notNull(),
     userHandle: varchar("user_handle", { length: 50 })
       .notNull()
       .references(() => usersTable.handle, {
