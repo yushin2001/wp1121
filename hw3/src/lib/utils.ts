@@ -41,16 +41,40 @@ export function validateName(name?: string | null) {
 
 export function validatestartTime(startTime?: string | null) {
   if (!startTime) return false;
-  const error = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9])$/.test(startTime);
-  if (!error) return false;
-  else return true;
+  else{
+    const error = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9])$/.test(startTime);
+    if (!error) return false;
+    const dateObject = new Date(startTime+":00");
+    if (!isNaN(dateObject.getTime())) {
+      const today = new Date();
+      if (dateObject <= today) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 }
 
 export function validatedueTime(dueTime?: string | null) {
   if (!dueTime) return false;
-  const error = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9])$/.test(dueTime);
-  if (!error) return false;
-  else return true;
+  else{
+    const error = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9])$/.test(dueTime);
+    if (!error) return false;
+    const dateObject = new Date(dueTime+":00");
+    if (!isNaN(dateObject.getTime())) {
+      const today = new Date();
+      if (dateObject <= today) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 }
 
 function getDayDiff(startDate: Date, endDate: Date): number {
@@ -61,8 +85,6 @@ function getDayDiff(startDate: Date, endDate: Date): number {
 }
 
 export function validateTime(StartTime?: string | null, DueTime?: string | null){
-  // if (!StartTime) return false;
-  // if (!DueTime) return false;
   const start = new Date(StartTime+":00");
   const due = new Date(DueTime+":00");
   const difference = getDayDiff(start, due);

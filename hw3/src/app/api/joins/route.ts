@@ -1,8 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
-
 import { and, eq, sql } from "drizzle-orm";
 import { z } from "zod";
-
 import { db } from "@/db";
 import { joinsTable } from "@/db/schema";
 
@@ -15,15 +13,12 @@ type JoinActivityRequest = z.infer<typeof joinActivityRequestSchema>;
 
 export async function GET(request: NextRequest) {
   const data = await request.json();
-
   try {
     joinActivityRequestSchema.parse(data);
   } catch (error) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
-
   const { activityId, userHandle } = data as JoinActivityRequest;
-
   try {
     const [exist] = await db
       .select({ dummy: sql`1` })
@@ -35,7 +30,6 @@ export async function GET(request: NextRequest) {
         ),
       )
       .execute();
-
     return NextResponse.json({ liked: Boolean(exist) }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
@@ -47,15 +41,12 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const data = await request.json();
-
   try {
     joinActivityRequestSchema.parse(data);
   } catch (error) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
-
   const { activityId, userHandle } = data as JoinActivityRequest;
-
   try {
     await db
       .insert(joinsTable)
@@ -71,21 +62,17 @@ export async function POST(request: NextRequest) {
       { status: 500 },
     );
   }
-
   return new NextResponse("OK", { status: 200 });
 }
 
 export async function DELETE(request: NextRequest) {
   const data = await request.json();
-
   try {
     joinActivityRequestSchema.parse(data);
   } catch (error) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
-
   const { activityId, userHandle } = data as JoinActivityRequest;
-
   try {
     await db
       .delete(joinsTable)
@@ -102,6 +89,5 @@ export async function DELETE(request: NextRequest) {
       { status: 500 },
     );
   }
-
   return new NextResponse("OK", { status: 200 });
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { forwardRef } from "react";
-
 import { cn } from "@/lib/utils";
 
 type GrowingTextareaProps = {
@@ -11,6 +10,7 @@ type GrowingTextareaProps = {
   value?: string;
   attend: boolean;
   onChange?: (value: string) => void;
+  handleReply: () => void;
 };
 
 // forwardRef is used here because we want this component to behave as a normal textarea
@@ -18,7 +18,7 @@ type GrowingTextareaProps = {
 // for more information, please refer to the following link
 // https://react.dev/reference/react/forwardRef
 const GrowingTextarea = forwardRef<HTMLTextAreaElement, GrowingTextareaProps>(
-  ({ className, wrapperClassName, placeholder, value, attend, onChange }, ref) => {
+  ({ className, wrapperClassName, placeholder, value, attend, onChange, handleReply}, ref) => {
     return (
       <div
         className={cn(
@@ -44,6 +44,12 @@ const GrowingTextarea = forwardRef<HTMLTextAreaElement, GrowingTextareaProps>(
             parent.dataset.replicatedValue = target.value + " ";
           }}
           onChange={(e) => onChange?.(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              handleReply();
+            }
+          }}
           ref={ref}
           disabled={!attend}
         ></textarea>

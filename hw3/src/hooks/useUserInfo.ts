@@ -1,7 +1,5 @@
 import { useMemo } from "react";
-
 import { useSearchParams } from "next/navigation";
-
 import { getAvatar } from "@/lib/utils";
 
 // this is a helper function to get user info in client components

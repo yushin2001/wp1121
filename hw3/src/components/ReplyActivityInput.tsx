@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-
 import GrowingTextarea from "@/components/GrowingTextarea";
 import UserAvatar from "@/components/UserAvatar";
 import useActivity from "@/hooks/useActivity";
@@ -9,19 +8,20 @@ import useUserInfo from "@/hooks/useUserInfo";
 import { cn } from "@/lib/utils";
 
 type ReplyActivityInputProps = {
-  replyToActivityId: number;
+  activityId: number;
   replyToHandle: string;
   attend: boolean;
 };
 
 export default function ReplyInput({
-  replyToActivityId,
+  activityId,
   replyToHandle,
   attend
 }: ReplyActivityInputProps) {
   const { handle } = useUserInfo();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { postActivity, loading } = useActivity();
+  const reply_activity = activityId;
 
   const handleReply = async () => {
     const name = textareaRef.current?.value;
@@ -29,9 +29,9 @@ export default function ReplyInput({
     if (!handle) return;
     try {
       await postActivity({
-        handle,
-        name,
-        replyToActivityId
+        name: name,
+        handle: handle,
+        replyToActivityId: reply_activity
       });
       textareaRef.current.value = "";
       textareaRef.current.dispatchEvent(
@@ -39,7 +39,7 @@ export default function ReplyInput({
       );
     } catch (e) {
       console.error(e);
-      alert("Error posting reply");
+      alert("Must be between 1 and 80 characters long.");
     }
   };
 
@@ -59,15 +59,16 @@ export default function ReplyInput({
             className="bg-transparent text-base outline-none placeholder:text-gray-400"
             placeholder="輸入留言"
             attend={attend}
+            handleReply={handleReply}
           />
         )}
         {!attend && (
           <GrowingTextarea
-            ref={textareaRef}
             wrapperClassName="col-start-2 row-start-2"
             className="bg-transparent text-base outline-none placeholder:text-gray-400"
             placeholder="參加活動以加入討論"
             attend={attend}
+            handleReply={handleReply}
           />
         )}
 

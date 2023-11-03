@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans } from "next/font/google";
-
 import Header from "@/components/Header";
 import { Separator } from "@/components/ui/separator";
-
 import "./globals.css";
 
 const noto = Noto_Sans({

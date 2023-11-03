@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import type { EventHandler, MouseEvent } from "react";
-
 import { CheckCircle } from "lucide-react";
-
 import useJoin from "@/hooks/useJoin";
 import { cn } from "@/lib/utils";
 
@@ -44,7 +42,7 @@ export default function JoinButton({
   return (
     <button
       className={cn(
-        "flex w-16 items-center gap-1 hover:bg-gray-200 rounded-xl w-fit h-10"
+        "flex w-16 items-center gap-1 hover:bg-gray-200 rounded w-fit h-10 p-2 border"
       )}
       onClick={handleClick}
       disabled={loading}

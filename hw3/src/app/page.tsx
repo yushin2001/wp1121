@@ -1,4 +1,4 @@
-import { eq, desc, isNull, sql } from "drizzle-orm";
+import { eq, desc, sql, isNull } from "drizzle-orm";
 import NameDialog from "@/components/NameDialog";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
@@ -32,8 +32,7 @@ export default async function Home({
       })
       .execute();
   }
-
-  //activity
+  
   const joinsSubquery = db.$with("joins_count").as(
     db
       .select({
@@ -77,8 +76,7 @@ export default async function Home({
     <>
       <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
 
-        <div className="flex w-full flex-row py-3 items-center">
-            <h1 className="mb-2 bg-white px-4 text-xl font-bold">Home</h1>
+        <div className="flex w-full flex-row p-3 items-center">
             <ProfileButton />
         </div>
 

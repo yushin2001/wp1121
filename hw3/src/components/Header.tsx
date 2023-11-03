@@ -1,11 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-
 import {
   Home,
-  Search,
 } from "lucide-react";
-
 import activity from "@/assets/activity.png";
 import { cn } from "@/lib/utils";
 
@@ -13,13 +10,14 @@ export default function Header() {
   return (
     <aside className="flex h-screen flex-col justify-between px-6 py-6">
       <div className="flex flex-col gap-2">
-        <div className="p-2">
+        <div className="ml-9">
           <Link href="/">
             <Image src={activity} alt="Activity" width={80} height={80} />
           </Link>
         </div>
-        <HeaderButton Icon={Home} text="Home" active />
-        <HeaderButton Icon={Search} text="Explore" />
+        <Link href="/">
+          <HeaderButton Icon={Home} text="Home" active />
+        </Link>
       </div>
     </aside>
   );

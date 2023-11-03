@@ -1,14 +1,11 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { eq, desc, sql, and } from "drizzle-orm";
-import {
-  ArrowLeft,
-  MoreHorizontal
-} from "lucide-react";
+import { eq, desc, and } from "drizzle-orm";
+import { ArrowLeft, MoreHorizontal } from "lucide-react";
 import JoinButton from "@/components/JoinButton";
 import ReplyActivityInput from "@/components/ReplyActivityInput";
 import TimeText from "@/components/TimeText";
-import Activity from "@/components/Activity";
+import Reply from "@/components/Reply";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { joinsTable, activitiesTable, usersTable } from "@/db/schema";
@@ -100,48 +97,23 @@ export default async function ActivityPage({
     dueTime: ActivityData.dueTime,
   };
 
-  const joinsSubquery = db.$with("joins_count").as(
-    db
-      .select({
-        activityId: joinsTable.activityId,
-        joins: sql<number | null>`count(*)`.mapWith(Number).as("joins"),
-      })
-      .from(joinsTable)
-      .groupBy(joinsTable.activityId),
-  );
-
-  const joinedSubquery = db.$with("joined").as(
-    db
-      .select({
-        activityId: joinsTable.activityId,
-        joined: sql<number>`1`.mapWith(Boolean).as("joined"),
-      })
-      .from(joinsTable)
-      .where(eq(joinsTable.userHandle, handle ?? "")),
-  );
-
   const replies = await db
-    .with(joinsSubquery, joinedSubquery)
-    .select({
-      id: activitiesTable.id,
-      name: activitiesTable.name,
-      username: usersTable.displayName,
-      handle: usersTable.handle,
-      joins: joinsSubquery.joins,
-      createdAt: activitiesTable.createdAt,
-      joined: joinedSubquery.joined,
-    })
-    .from(activitiesTable)
-    .where(eq(activitiesTable.replyToActivityId, activity_id_num))
-    .orderBy(desc(activitiesTable.createdAt))
-    .innerJoin(usersTable, eq(activitiesTable.userHandle, usersTable.handle))
-    .leftJoin(joinsSubquery, eq(activitiesTable.id, joinsSubquery.activityId))
-    .leftJoin(joinedSubquery, eq(activitiesTable.id, joinedSubquery.activityId))
-    .execute();
+  .select({
+    id: activitiesTable.id,
+    name: activitiesTable.name,
+    username: usersTable.displayName,
+    handle: usersTable.handle,
+    createdAt: activitiesTable.createdAt,
+  })
+  .from(activitiesTable)
+  .where(eq(activitiesTable.replyToActivityId, activity_id_num))
+  .orderBy(desc(activitiesTable.createdAt))
+  .innerJoin(usersTable, eq(activitiesTable.userHandle, usersTable.handle))
+  .execute();
 
   return (
     <>
-      <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
+      <div className="flex h-screen w-full max-w-2xl flex-col pt-2">
 
         <div className="mb-2 flex items-center gap-8 px-4">
           <Link href={{ pathname: "/", query: { username, handle } }}>
@@ -179,16 +151,11 @@ export default async function ActivityPage({
             <TimeText date={activity.createdAt} format="YYYY-MM-D · h:mm A " />
           </time>
 
+          <h2 className="text-xl font-bold bg-brand/10 rounded-md p-3 mt-2 mb-2"> 活動名稱：{activity.name} </h2>
+          <h4 className="text-lg flex-row bg-brand/10 rounded-md p-2 mt-1 mb-1"> 開始時間：{activity.startTime}:00 </h4>
+          <h4 className="text-lg flex-row bg-brand/10 rounded-md p-2 mt-1 mb-1"> 結束時間：{activity.dueTime}:00 </h4>
           
-          <h2 className="text-xl font-bold"> 活動名稱：{activity.name} </h2>
-
-          <div className="flex flex-row gap-1">
-            <h4 className="text-xl flex-row"> 開始時間：{activity.startTime}:00 </h4>
-            |
-            <h4 className="text-xl flex-row"> 結束時間：{activity.dueTime}:00 </h4>
-          </div>
-          
-          <div className="flex flex-row gap-1 pb-2">
+          <div className="flex flex-row pb-3 pt-2">
             <JoinButton
               handle={handle}
               initialJoined={activity.joined}
@@ -200,21 +167,16 @@ export default async function ActivityPage({
 
         </div>
 
-        <ReplyActivityInput replyToActivityId={activity.id} replyToHandle={activity.handle} attend={activity.joined}/>
-
+        <ReplyActivityInput activityId={activity.id} replyToHandle={activity.handle} attend={activity.joined}/>
+        
         <Separator />
 
         {replies.map((reply) => (
-          <Activity
+          <Reply
             key={reply.id}
-            id={reply.id}
-            username={username}
-            handle={handle}
             authorName={reply.username}
             authorHandle={reply.handle}
             name={reply.name}
-            joins={reply.joins}
-            joined={reply.joined}
             createdAt={reply.createdAt!}
           />
         ))}

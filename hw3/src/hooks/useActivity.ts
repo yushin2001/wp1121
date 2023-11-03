@@ -19,7 +19,6 @@ export default function useActivity() {
     dueTime?: string;
   }) => {
     setLoading(true);
-
     const res = await fetch("/api/activities", {
       method: "POST",
       body: JSON.stringify({
@@ -30,16 +29,17 @@ export default function useActivity() {
         dueTime
       }),
     });
-    if (!res.ok) {
+    if (!(res.status === 200)) {
+      setLoading(false);
       const body = await res.json();
       throw new Error(body.error);
     }
     router.refresh();
     setLoading(false);
   };
-
+  
   return {
     postActivity,
     loading,
   };
-} 
+}

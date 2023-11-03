@@ -96,10 +96,10 @@ export default function NameDialog() {
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Name
+              名稱
             </Label>
             <Input
-              placeholder="Web Programming"
+              placeholder="輸入顯示名稱"
               defaultValue={searchParams.get("username") ?? ""}
               className={cn(usernameError && "border-red-500", "col-span-3")}
               ref={usernameInputRef}
@@ -114,12 +114,12 @@ export default function NameDialog() {
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Handle
+              ID
             </Label>
             <div className="col-span-3 flex items-center gap-2">
               <span>@</span>
               <Input
-                placeholder="web.prog"
+                placeholder="輸入ID"
                 defaultValue={searchParams.get("handle") ?? ""}
                 className={cn(handleError && "border-red-500")}
                 ref={handleInputRef}

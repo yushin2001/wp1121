@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { useRouter } from "next/navigation";
 
 export default function useJoin() {
@@ -38,7 +37,6 @@ export default function useJoin() {
     userHandle: string;
   }) => {
     if (loading) return;
-
     setLoading(true);
     const res = await fetch("/api/joins", {
       method: "DELETE",

@@ -1,4 +1,3 @@
-// 在主畫面跳出的「新增活動」視窗
 "use client";
 
 import { useRef, useState } from "react";
@@ -101,7 +100,7 @@ export default function NewActivity() {
               />
               {nameError && (
                 <p className = "col-span-3 col-start-2 text-xs text-red-500">
-                  Invalid activity name.
+                  Invalid activity name, must be between 1 and 80 characters long.
                 </p>
               )}
             </div>
@@ -119,7 +118,7 @@ export default function NewActivity() {
               </div>
               {startError && (
                 <p className = "col-span-3 col-start-2 text-xs text-red-500">
-                  Invalid start time.
+                  Please follow the format YYYY-MM-DD HH. Start time need to be valid and cannot be earlier than now.
                 </p>
               )}
             </div>
@@ -137,7 +136,7 @@ export default function NewActivity() {
               </div>
               {dueError && (
                 <p className="col-span-3 col-start-2 text-xs text-red-500">
-                  Invalid due time.
+                  Please follow the format YYYY-MM-DD HH. Due time need to be valid and cannot be earlier than now.
                 </p>
               )}
               {timeError && (

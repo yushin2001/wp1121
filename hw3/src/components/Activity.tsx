@@ -1,5 +1,3 @@
-// 顯示於主頁面
-
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { getAvatar } from "@/lib/utils";
