@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { EventHandler, MouseEvent } from "react";
 
-import { Heart } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 
 import useJoin from "@/hooks/useJoin";
 import { cn } from "@/lib/utils";
@@ -15,7 +15,7 @@ type JoinButtonProps = {
   handle?: string;
 };
 
-export default function LikeButton({
+export default function JoinButton({
   initialJoins,
   initialJoined,
   activityId,
@@ -49,22 +49,20 @@ export default function LikeButton({
   return (
     <button
       className={cn(
-        "flex w-16 items-center gap-1 hover:text-brand",
-        joined && "text-brand",
+        "flex w-16 items-center gap-1 hover:bg-gray-200 rounded-full"
       )}
       onClick={handleClick}
       disabled={loading}
     >
 
-      <div
-        className={cn(
-          "flex items-center gap-1 rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10",
-          joined && "bg-brand/10",
-        )}>
-        <Heart size={20} />
-      </div>
+        {joined && (
+            <CheckCircle size={20}  color="green"/>
+        )}
+        {!joined && (
+            <CheckCircle size={20}/>
+        )}
 
-      {joinsCount > 0 && joinsCount}
+      {joinsCount}人參加
 
     </button>
   );

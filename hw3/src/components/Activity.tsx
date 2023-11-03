@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { getAvatar } from "@/lib/utils";
-import JoinButton from "./JoinButton";
+import JoinButtonRead from "./JoinButtonRead";
 import TimeText from "./TimeText";
 
 type ActivityProps = {
@@ -55,17 +55,15 @@ export default function Activity({
                 @{authorHandle}
               </span>
               <time className="ml-2 font-normal text-gray-400">
-                <TimeText date={createdAt} format="YYYY MM D · h:mm A" />
+                <TimeText date={createdAt} format="YYYY-MM-D · h:mm A" />
               </time>
             </p>
             {/* `white-space: pre-wrap` tells html to render \n and \t chracters  */}
             <article className="mt-2 whitespace-pre-wrap">{name}</article>
             <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
-              <JoinButton
+              <JoinButtonRead
                 initialJoins={joins}
                 initialJoined={joined}
-                activityId={id}
-                handle={handle}
               />
             </div>
           </article>

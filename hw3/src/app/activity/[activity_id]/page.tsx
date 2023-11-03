@@ -145,7 +145,6 @@ export default async function ActivityPage({
     <>
       <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
 
-
         <div className="mb-2 flex items-center gap-8 px-4">
           <Link href={{ pathname: "/", query: { username, handle } }}>
             <ArrowLeft size={18} />
@@ -179,22 +178,24 @@ export default async function ActivityPage({
           </div>
 
           <time className="my-4 block text-sm text-gray-500">
-            <TimeText date={activity.createdAt} format="YYYY MM D · h:mm A " />
+            <TimeText date={activity.createdAt} format="YYYY-MM-D · h:mm A " />
           </time>
 
-          <div className="flex flex-row space-x-80" >
-            <article className="mt-2 mb-3 whitespace-pre-wrap text-xl">
-              <h2 className="text-xl font-bold"> 活動名稱：{activity.name} </h2>
-              <h4 className="text-xl"> 開始時間：{activity.startTime} </h4>
-              <h4 className="text-xl"> 結束時間：{activity.dueTime} </h4>
-            </article>
-            <JoinButton
-                handle={handle}
-                initialJoins={activity.joins}
-                initialJoined={activity.joined}
-                activityId={activity.id}
-              />
+          
+          <h2 className="text-xl font-bold"> 活動名稱：{activity.name} </h2>
+
+          <div className="flex flex-row gap-1">
+          <h4 className="text-xl flex-row"> 開始時間：{activity.startTime}:00 </h4>
+          |
+          <h4 className="text-xl flex-row"> 結束時間：{activity.dueTime}:00 </h4>
           </div>
+          
+          <JoinButton
+            handle={handle}
+            initialJoins={activity.joins}
+            initialJoined={activity.joined}
+            activityId={activity.id}
+          />
 
           <Separator />
 

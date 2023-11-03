@@ -2,11 +2,9 @@ import { eq, desc, isNull, sql } from "drizzle-orm";
 import NameDialog from "@/components/NameDialog";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
-import Test from "@/components/Test";
-import { testsTable, usersTable, joinsTable, activitiesTable } from "@/db/schema";
+import { usersTable, joinsTable, activitiesTable } from "@/db/schema";
 import ProfileButton from "@/components/ProfileButton";
 import SearchBoxButton from "@/components/SearchBoxButton";
-import NewTest from "@/components/NewTest";
 import NewActivity from "@/components/NewActivity";
 import Activity from "@/components/Activity";
 
@@ -76,24 +74,6 @@ export default async function Home({
     .leftJoin(joinedSubquery, eq(activitiesTable.id, joinedSubquery.activityId))
     .execute();
 
-
-    //test
-    const tests = await db
-    .select({
-      id: testsTable.id,
-      name: testsTable.name,
-      username: usersTable.displayName,
-      handle: usersTable.handle,
-      createdAt: testsTable.createdAt,
-      startTime: testsTable.startTime,
-      dueTime: testsTable.dueTime
-    })
-    .from(testsTable)
-    .where(isNull(testsTable.replyToActivityId))
-    .orderBy(desc(testsTable.createdAt))
-    .innerJoin(usersTable, eq(testsTable.userHandle, usersTable.handle))
-    .execute();
-
   return (
     <>
       <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
@@ -107,26 +87,8 @@ export default async function Home({
 
         <div className="flex w-full flex-row px-3 pt-3 pb-3 items-center gap-4">
           <SearchBoxButton />
-          <NewTest/>
           <NewActivity/>
         </div>
-
-        <Separator />
-
-        {tests.map((test) => (
-          <Test
-            key={test.id}
-            id={test.id}
-            username={username}
-            handle={handle}
-            authorName={test.username}
-            authorHandle={test.handle}
-            name={test.name}
-            createdAt={test.createdAt!}
-            startTime={test.startTime!}
-            dueTime={test.dueTime!}
-          />
-        ))}
 
         <Separator /> 
 
@@ -142,8 +104,6 @@ export default async function Home({
             joins={activity.joins}
             joined={activity.joined}
             createdAt={activity.createdAt!}
-            startTime={activity.startTime!}
-            dueTime={activity.dueTime!}
           />
         ))}
 
