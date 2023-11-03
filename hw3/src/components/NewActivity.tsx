@@ -2,7 +2,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -152,6 +151,7 @@ export default function NewActivity() {
 
           <DialogFooter>
             <Button onClick={handleSave} disabled={loading}> 新增 </Button>
+            
           </DialogFooter>
 
         </DialogContent>

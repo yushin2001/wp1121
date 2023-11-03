@@ -1,12 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-
 import { eq, desc, sql, and } from "drizzle-orm";
 import {
   ArrowLeft,
   MoreHorizontal
 } from "lucide-react";
-
 import JoinButton from "@/components/JoinButton";
 import ReplyActivityInput from "@/components/ReplyActivityInput";
 import TimeText from "@/components/TimeText";
@@ -185,23 +183,24 @@ export default async function ActivityPage({
           <h2 className="text-xl font-bold"> 活動名稱：{activity.name} </h2>
 
           <div className="flex flex-row gap-1">
-          <h4 className="text-xl flex-row"> 開始時間：{activity.startTime}:00 </h4>
-          |
-          <h4 className="text-xl flex-row"> 結束時間：{activity.dueTime}:00 </h4>
+            <h4 className="text-xl flex-row"> 開始時間：{activity.startTime}:00 </h4>
+            |
+            <h4 className="text-xl flex-row"> 結束時間：{activity.dueTime}:00 </h4>
           </div>
           
-          <JoinButton
-            handle={handle}
-            initialJoins={activity.joins}
-            initialJoined={activity.joined}
-            activityId={activity.id}
-          />
+          <div className="flex flex-row gap-1 pb-2">
+            <JoinButton
+              handle={handle}
+              initialJoined={activity.joined}
+              activityId={activity.id}
+            />
+          </div>
 
           <Separator />
 
         </div>
 
-        <ReplyActivityInput replyToActivityId={activity.id} replyToHandle={activity.handle} />
+        <ReplyActivityInput replyToActivityId={activity.id} replyToHandle={activity.handle} attend={activity.joined}/>
 
         <Separator />
 

@@ -26,8 +26,8 @@ export default function JoinButtonRead({
             <CheckCircle size={20}/>
         )}
 
-      {initialJoins}人參加
-
+        {initialJoins}人參加
+      
       </div>
   );
 }

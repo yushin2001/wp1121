@@ -11,11 +11,13 @@ import { cn } from "@/lib/utils";
 type ReplyActivityInputProps = {
   replyToActivityId: number;
   replyToHandle: string;
+  attend: boolean;
 };
 
 export default function ReplyInput({
   replyToActivityId,
   replyToHandle,
+  attend
 }: ReplyActivityInputProps) {
   const { handle } = useUserInfo();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -49,21 +51,35 @@ export default function ReplyInput({
         <p className="col-start-2 row-start-1 text-gray-500">
           Replying to <span className="text-brand"> @{replyToHandle} </span>
         </p>
-        <GrowingTextarea
-          ref={textareaRef}
-          wrapperClassName="col-start-2 row-start-2"
-          className="bg-transparent text-xl outline-none placeholder:text-gray-400"
-          placeholder="Add your reply"
-        />
+
+        {attend && (
+          <GrowingTextarea
+            ref={textareaRef}
+            wrapperClassName="col-start-2 row-start-2"
+            className="bg-transparent text-base outline-none placeholder:text-gray-400"
+            placeholder="輸入留言"
+            attend={attend}
+          />
+        )}
+        {!attend && (
+          <GrowingTextarea
+            ref={textareaRef}
+            wrapperClassName="col-start-2 row-start-2"
+            className="bg-transparent text-base outline-none placeholder:text-gray-400"
+            placeholder="參加活動以加入討論"
+            attend={attend}
+          />
+        )}
+
       </div>
       <div className="p-4 text-end">
         <button
           className={cn(
-            "my-2 rounded-full bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
+            "my-2 rounded-xl bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
             "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40",
           )}
           onClick={handleReply}
-          disabled={loading}
+          disabled={loading || !attend}
         >
           Reply
         </button>

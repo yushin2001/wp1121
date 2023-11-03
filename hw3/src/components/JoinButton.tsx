@@ -9,20 +9,17 @@ import useJoin from "@/hooks/useJoin";
 import { cn } from "@/lib/utils";
 
 type JoinButtonProps = {
-  initialJoins: number;
   initialJoined?: boolean;
   activityId: number;
   handle?: string;
 };
 
 export default function JoinButton({
-  initialJoins,
   initialJoined,
   activityId,
   handle,
 }: JoinButtonProps) {
   const [joined, setJoined] = useState(initialJoined);
-  const [joinsCount, setJoinsCount] = useState(initialJoins);
   const { joinActivity, unjoinActivity, loading } = useJoin();
 
   const handleClick: EventHandler<MouseEvent> = async (e) => {
@@ -34,14 +31,12 @@ export default function JoinButton({
         activityId,
         userHandle: handle,
       });
-      setJoinsCount((prev) => prev - 1);
       setJoined(false);
     } else {
       await joinActivity({
         activityId,
         userHandle: handle,
       });
-      setJoinsCount((prev) => prev + 1);
       setJoined(true);
     }
   };
@@ -49,20 +44,24 @@ export default function JoinButton({
   return (
     <button
       className={cn(
-        "flex w-16 items-center gap-1 hover:bg-gray-200 rounded-full"
+        "flex w-16 items-center gap-1 hover:bg-gray-200 rounded-xl w-fit h-10"
       )}
       onClick={handleClick}
       disabled={loading}
     >
 
         {joined && (
+          <>
             <CheckCircle size={20}  color="green"/>
+            <>我已參加</>
+          </>
         )}
         {!joined && (
+          <>
             <CheckCircle size={20}/>
+            <>我想參加</>
+        </>
         )}
-
-      {joinsCount}人參加
 
     </button>
   );

@@ -64,3 +64,22 @@ export const joinsTable = pgTable(
     uniqCombination: unique().on(table.userHandle, table.activityId),
   }),
 );
+
+export const repliesTable = pgTable(
+  "replies",
+  {
+    id: serial("id").primaryKey(),
+    comment: varchar("comment", { length: 200 }).notNull(),
+    userHandle: varchar("user_handle", { length: 50 })
+      .notNull()
+      .references(() => usersTable.handle, { onDelete: "cascade" }),
+    activityId: integer("activity_id")
+      .notNull()
+      .references(() => activitiesTable.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at").default(sql`now()`),
+  },
+  (table) => ({
+    activityIdIndex: index("activity_id_index").on(table.activityId),
+    userHandleIndex: index("user_handle_index").on(table.userHandle),
+  }),
+);

@@ -34,12 +34,13 @@ export async function POST(request: NextRequest) {
         startTime,
         dueTime
       })
+      .returning({ insertedId: activitiesTable.id })
       .execute();
+    return new NextResponse("OK", { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 },
     );
   }
-  return new NextResponse("OK", { status: 200 });
 }

@@ -4,7 +4,6 @@ import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { usersTable, joinsTable, activitiesTable } from "@/db/schema";
 import ProfileButton from "@/components/ProfileButton";
-import SearchBoxButton from "@/components/SearchBoxButton";
 import NewActivity from "@/components/NewActivity";
 import Activity from "@/components/Activity";
 
@@ -86,7 +85,6 @@ export default async function Home({
         <Separator />
 
         <div className="flex w-full flex-row px-3 pt-3 pb-3 items-center gap-4">
-          <SearchBoxButton />
           <NewActivity/>
         </div>
 

@@ -9,6 +9,7 @@ type GrowingTextareaProps = {
   className?: string;
   placeholder?: string;
   value?: string;
+  attend: boolean;
   onChange?: (value: string) => void;
 };
 
@@ -17,7 +18,7 @@ type GrowingTextareaProps = {
 // for more information, please refer to the following link
 // https://react.dev/reference/react/forwardRef
 const GrowingTextarea = forwardRef<HTMLTextAreaElement, GrowingTextareaProps>(
-  ({ className, wrapperClassName, placeholder, value, onChange }, ref) => {
+  ({ className, wrapperClassName, placeholder, value, attend, onChange }, ref) => {
     return (
       <div
         className={cn(
@@ -44,6 +45,7 @@ const GrowingTextarea = forwardRef<HTMLTextAreaElement, GrowingTextareaProps>(
           }}
           onChange={(e) => onChange?.(e.target.value)}
           ref={ref}
+          disabled={!attend}
         ></textarea>
       </div>
     );
@@ -52,5 +54,4 @@ const GrowingTextarea = forwardRef<HTMLTextAreaElement, GrowingTextareaProps>(
 
 // this name is used by react devtools to identify this component
 GrowingTextarea.displayName = "GrowingTextarea";
-
 export default GrowingTextarea;

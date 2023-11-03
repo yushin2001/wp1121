@@ -1,33 +1,27 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function useActivity() {
+export default function useReply() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const postActivity = async ({
+  const postReply = async ({
+    comment,
     handle,
-    name,
-    replyToActivityId,
-    startTime,
-    dueTime
+    activityId
   }: {
+    comment: string;
     handle: string;
-    name: string;
-    replyToActivityId?: number;
-    startTime?: string;
-    dueTime?: string;
+    activityId: number
   }) => {
     setLoading(true);
 
-    const res = await fetch("/api/activities", {
+    const res = await fetch("/api/replies", {
       method: "POST",
       body: JSON.stringify({
+        comment,
         handle,
-        name,
-        replyToActivityId,
-        startTime,
-        dueTime
+        activityId
       }),
     });
     if (!res.ok) {
@@ -39,7 +33,7 @@ export default function useActivity() {
   };
 
   return {
-    postActivity,
+    postReply,
     loading,
   };
 } 
