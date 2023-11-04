@@ -18,9 +18,7 @@ import useUserInfo from "@/hooks/useUserInfo";
 
 export default function NewActivity() {
   const { handle } = useUserInfo();
-
   const [dialogOpen, setDialogOpen] = useState(false);
-
   const nameInputRef = useRef<HTMLInputElement>(null);
   const startTimeInputRef = useRef<HTMLInputElement>(null);
   const dueTimeInputRef = useRef<HTMLInputElement>(null);
@@ -36,12 +34,10 @@ export default function NewActivity() {
     const name = nameInputRef.current?.value;
     const start = startTimeInputRef.current?.value;
     const due = dueTimeInputRef.current?.value;
-
     const newnameError = !validateName(name);
     const newstartError = !validatestartTime(start);
     const newdueError = !validatedueTime(due);
     const newtimeError = !validateTime(start, due);
-
     setNameError(newnameError);
     setStartError(newstartError);
     setDueError(newdueError);

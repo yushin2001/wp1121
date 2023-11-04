@@ -1,7 +1,6 @@
 "use client";
 
 import { CheckCircle } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 
 type JoinButtonReadProps = {

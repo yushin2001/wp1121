@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Home,
-} from "lucide-react";
+import { Home } from "lucide-react";
 import activity from "@/assets/activity.png";
 import { cn } from "@/lib/utils";
 

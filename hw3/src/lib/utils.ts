@@ -32,8 +32,6 @@ export function validateUsername(username?: string | null) {
   return /^[a-zA-Z0-9 ]{1,50}$/.test(username);
 }
 
-
-//「新增活動」
 export function validateName(name?: string | null) {
   if (!name) return false;
   return true;
