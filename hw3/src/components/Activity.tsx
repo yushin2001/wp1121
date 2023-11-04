@@ -28,6 +28,7 @@ export default function Activity({
 }: ActivityProps) {
   return (
     <>
+      <Separator />
       <Link
         className="w-full px-4 pt-3 transition-colors hover:bg-gray-50"
         href={{

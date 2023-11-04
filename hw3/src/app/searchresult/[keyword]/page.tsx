@@ -1,39 +1,57 @@
-import { eq, desc, sql, isNull } from "drizzle-orm";
-import NameDialog from "@/components/NameDialog";
+import { redirect } from "next/navigation";
+import { eq, desc, and, like, sql, isNull } from "drizzle-orm";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
-import { usersTable, joinsTable, activitiesTable } from "@/db/schema";
+import { joinsTable, activitiesTable, usersTable } from "@/db/schema";
 import ProfileButton from "@/components/ProfileButton";
 import NewActivity from "@/components/NewActivity";
 import Activity from "@/components/Activity";
 import SearchBoxButton from "@/components/SearchBoxButton";
+import { cn } from "@/lib/utils";
 
-type HomePageProps = {
+type SearchResultPageProps = {
+  params: {
+    keyword: string;
+  };
   searchParams: {
+    key: string;
     username?: string;
     handle?: string;
   };
 };
 
-export default async function Home({
+export default async function SearchResultPage({
+  params: { keyword },
   searchParams: { username, handle },
-}: HomePageProps) {
-  if (username && handle) {
-    await db
-      .insert(usersTable)
-      .values({
-        displayName: username,
-        handle,
-      })
-      .onConflictDoUpdate({
-        target: usersTable.handle,
-        set: {
-          displayName: username,
-        },
-      })
-      .execute();
-  }
+}: SearchResultPageProps) {
+  const errorRedirect = () => {
+    const params = new URLSearchParams();
+    username && params.set("username", username);
+    handle && params.set("handle", handle);
+    redirect(`/?${params.toString()}`);
+  };
+
+  const ActivityData = await db
+    .select({
+      id: activitiesTable.id,
+    })
+    .from(activitiesTable)
+    .where(
+      and(
+        like(activitiesTable.name, `%${keyword}%`),
+        isNull(activitiesTable.replyToActivityId),
+      )
+    )
+    .orderBy(desc(activitiesTable.createdAt))
+    .execute();
+
   
+  if (keyword === "") {
+    errorRedirect();
+  }
+
+  const noresult = (ActivityData.length === 0)? "查無結果" : "";
+
   const joinsSubquery = db.$with("joins_count").as(
     db
       .select({
@@ -66,7 +84,12 @@ export default async function Home({
       dueTime: activitiesTable.dueTime
     })
     .from(activitiesTable)
-    .where(isNull(activitiesTable.replyToActivityId))
+    .where(
+      and(
+        like(activitiesTable.name, `%${keyword}%`),
+        isNull(activitiesTable.replyToActivityId),
+      )
+    )
     .orderBy(desc(activitiesTable.createdAt))
     .innerJoin(usersTable, eq(activitiesTable.userHandle, usersTable.handle))
     .leftJoin(joinsSubquery, eq(activitiesTable.id, joinsSubquery.activityId))
@@ -74,7 +97,6 @@ export default async function Home({
     .execute();
 
   return (
-    <>
       <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
 
         <div className="flex w-full flex-row p-3 items-center">
@@ -88,7 +110,11 @@ export default async function Home({
           <NewActivity/>
         </div>
 
-        <Separator /> 
+        <Separator />
+
+        <div className={cn("mt-2 whitespace-pre-wrap", "pl-2 pb-2")}>
+          <article>關鍵字：{keyword}   {noresult}</article>
+        </div>
 
         {activities.map((activity) => (
           <Activity
@@ -104,11 +130,6 @@ export default async function Home({
             createdAt={activity.createdAt!}
           />
         ))}
-
       </div>
-
-      <NameDialog />
-
-    </>
   );
 }

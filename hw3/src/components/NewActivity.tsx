@@ -1,6 +1,5 @@
 "use client";
 
-// redirect(`/newactivity`)
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {

@@ -86,7 +86,7 @@ export default function NameDialog() {
     <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Welcome to Twitter!</DialogTitle>
+          <DialogTitle>Welcome to Join Me!</DialogTitle>
           <DialogDescription>
             Tell us your name to start.
           </DialogDescription>
