@@ -1,5 +1,6 @@
 "use client";
 
+// redirect(`/newactivity`)
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -118,7 +119,7 @@ export default function NewActivity() {
               </div>
               {startError && (
                 <p className = "col-span-3 col-start-2 text-xs text-red-500">
-                  Please follow the format YYYY-MM-DD HH. Start time need to be valid and cannot be earlier than now.
+                  Please follow the format YYYY-MM-DD HH, and start time need to be valid.
                 </p>
               )}
             </div>
@@ -136,7 +137,7 @@ export default function NewActivity() {
               </div>
               {dueError && (
                 <p className="col-span-3 col-start-2 text-xs text-red-500">
-                  Please follow the format YYYY-MM-DD HH. Due time need to be valid and cannot be earlier than now.
+                  Please follow the format YYYY-MM-DD HH, due time need to be valid.
                 </p>
               )}
               {timeError && (

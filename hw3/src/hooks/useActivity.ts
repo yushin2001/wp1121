@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import useUserInfo from "@/hooks/useUserInfo";
+import { useSearchParams } from "next/navigation";
 
 export default function useActivity() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { username } = useUserInfo();
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
 
   const postActivity = async ({
     handle,
@@ -33,6 +38,11 @@ export default function useActivity() {
       setLoading(false);
       const body = await res.json();
       throw new Error(body.error);
+    }
+    if (replyToActivityId === undefined){
+      params.set("username", username!);
+      params.set("handle", handle!);
+      router.push(`/newactivity/?${params.toString()}`);
     }
     router.refresh();
     setLoading(false);

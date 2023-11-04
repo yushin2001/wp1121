@@ -15,7 +15,6 @@ type ActivityProps = {
   joined?: boolean;
   createdAt: Date;
 };
-
 export default function Activity({
   username,
   handle,

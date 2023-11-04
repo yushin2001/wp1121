@@ -46,14 +46,7 @@ export function validatestartTime(startTime?: string | null) {
     if (!error) return false;
     const dateObject = new Date(startTime+":00");
     if (!isNaN(dateObject.getTime())) {
-      const today = new Date();
-      if (dateObject <= today) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
+      return true;
     }
   }
 }
@@ -65,14 +58,7 @@ export function validatedueTime(dueTime?: string | null) {
     if (!error) return false;
     const dateObject = new Date(dueTime+":00");
     if (!isNaN(dateObject.getTime())) {
-      const today = new Date();
-      if (dateObject <= today) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
+      return true;
     }
   }
 }

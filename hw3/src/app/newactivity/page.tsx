@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { eq, asc, and } from "drizzle-orm";
+import { eq, asc, and, desc, isNull } from "drizzle-orm";
 import { ArrowLeft, MoreHorizontal } from "lucide-react";
 import JoinButton from "@/components/JoinButton";
 import ReplyActivityInput from "@/components/ReplyActivityInput";
@@ -11,10 +11,7 @@ import { db } from "@/db";
 import { joinsTable, activitiesTable, usersTable } from "@/db/schema";
 import { getAvatar } from "@/lib/utils";
 
-type ActivityPageProps = {
-  params: {
-    activity_id: string;
-  };
+type NewActivityPageProps = {
   searchParams: {
     username?: string;
     handle?: string;
@@ -22,19 +19,14 @@ type ActivityPageProps = {
 };
 
 export default async function ActivityPage({
-  params: { activity_id },
   searchParams: { username, handle },
-}: ActivityPageProps) {
+}: NewActivityPageProps) {
   const errorRedirect = () => {
     const params = new URLSearchParams();
     username && params.set("username", username);
     handle && params.set("handle", handle);
     redirect(`/?${params.toString()}`);
   };
-  const activity_id_num = parseInt(activity_id);
-  if (isNaN(activity_id_num)) {
-    errorRedirect();
-  }
 
   const [ActivityData] = await db
     .select({
@@ -46,7 +38,9 @@ export default async function ActivityPage({
       dueTime: activitiesTable.dueTime
     })
     .from(activitiesTable)
-    .where(eq(activitiesTable.id, activity_id_num))
+    .where(isNull(activitiesTable.replyToActivityId))
+    .orderBy(desc(activitiesTable.createdAt))
+    .limit(1)
     .execute();
 
   if (!ActivityData) {
@@ -58,7 +52,7 @@ export default async function ActivityPage({
       id: joinsTable.id,
     })
     .from(joinsTable)
-    .where(eq(joinsTable.activityId, activity_id_num))
+    .where(eq(joinsTable.activityId, ActivityData.id))
     .execute();
 
   const numJoins = joins.length;
@@ -70,7 +64,7 @@ export default async function ActivityPage({
     .from(joinsTable)
     .where(
       and(
-        eq(joinsTable.activityId, activity_id_num),
+        eq(joinsTable.activityId, ActivityData.id),
         eq(joinsTable.userHandle, handle ?? ""),
       ),
     )
@@ -106,7 +100,7 @@ export default async function ActivityPage({
     createdAt: activitiesTable.createdAt,
   })
   .from(activitiesTable)
-  .where(eq(activitiesTable.replyToActivityId, activity_id_num))
+  .where(eq(activitiesTable.replyToActivityId, ActivityData.id))
   .orderBy(asc(activitiesTable.createdAt))
   .innerJoin(usersTable, eq(activitiesTable.userHandle, usersTable.handle))
   .execute();
@@ -121,7 +115,6 @@ export default async function ActivityPage({
           </Link>
           <h1 className="text-xl font-bold">Activity</h1>
         </div>
-
 
         <div className="flex flex-col px-4 pt-3">
 
