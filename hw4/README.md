@@ -17,8 +17,6 @@
    NEXT_PUBLIC_PUSHER_CLUSTER=
 
    AUTH_SECRET=<this can be any random string>
-   AUTH_GITHUB_ID=
-   AUTH_GITHUB_SECRET=
    ```
 
 3. Get Pusher credentials
@@ -86,31 +84,7 @@ We use the latest version (v5) of NextAuth, which is still in beta. So there are
    yarn add next-auth@beta
    ```
 
-2. Get Github OAuth credentials
-
-   - Go to `Settings` tab of your Github account
-   - Click `Developer settings` on the left sidebar
-   - Click `OAuth Apps` on the left sidebar
-   - Click `New OAuth App` or `Registr a new application`
-   - Enter the following information:
-     - `Application name`: `Notion Clone` (or any name you like)
-     - `Homepage URL`: `http://localhost:3000`
-     - `Authorization callback URL`: `http://localhost:3000/api/auth/callback/github`
-   - Click `Register application`
-   - Copy the `Client ID` and `Client Secret` to your `.env.local` file:
-
-     ```text
-     AUTH_GITHUB_ID=<Client ID>
-     AUTH_GITHUB_SECRET=<Client Secret>
-     ```
-
-     Before copying the Clinet Secret, you may need to click on `Generate a new client secret` first.
-
-     Note that in NextAuth v5, the prefix `AUTH_` is required for the env variables.
-
-     Note that you do not have to add those keys to `src/lib/env/private.ts` since they are automatically handled by NextAuth.
-
-3. Add `AUTH_SECRET` to `.env.local`:
+2. Add `AUTH_SECRET` to `.env.local`:
 
    ```text
    AUTH_SECRET=any-random-string
@@ -119,17 +93,3 @@ We use the latest version (v5) of NextAuth, which is still in beta. So there are
    This is used to encrypt the session token. You can use any random string here. Make sure to keep it secret and update it regularly.
 
    Note that you do not have to add those keys to `src/lib/env/private.ts` since they are automatically handled by NextAuth.
-
-4. Create `./src/lib/auth.ts`
-
-   ```ts
-   import NextAuth from "next-auth";
-   import GitHub from "next-auth/providers/github";
-
-   export const {
-     handlers: { GET, POST },
-     auth,
-   } = NextAuth({
-     providers: [GitHub],
-   });
-   ```
