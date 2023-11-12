@@ -3,6 +3,7 @@
 ## Run the project
 
 1. Install dependencies
+
    ```bash
    yarn
    ```
@@ -40,7 +41,6 @@
    ```
 8. Open http://localhost:3000 in your browser
 
-
 ## Pusher Setup
 
 1.  Install pusher
@@ -75,7 +75,6 @@
 
 6.  Go to `App Settings` tab, scroll down to `Enable authorized connections` and enable it.
     Note: If you enable the `Enable client events` option, every connection will last only 30 seconds if not authorized. So if you just want to do some experiments, you might need to disable this option.
-
 
 ## NextAuth Setup
 
