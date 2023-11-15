@@ -1,8 +1,6 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
-
 import { db } from "@/db";
 import { usersTable } from "@/db/schema";
 import { authSchema } from "@/validators/auth";
@@ -10,7 +8,7 @@ import { authSchema } from "@/validators/auth";
 export default CredentialsProvider({
   name: "credentials",
   credentials: {
-    username: { label: "Userame", type: "text" },
+    username: { label: "Userame", type: "text", optional: true },
     password: { label: "Password", type: "password" },
   },
   async authorize(credentials) {
@@ -29,19 +27,19 @@ export default CredentialsProvider({
 
     const [existedUser] = await db
       .select({
+        id: usersTable.displayId,
         username: usersTable.username,
         provider: usersTable.provider,
         hashedPassword: usersTable.hashedPassword,
       })
       .from(usersTable)
-      .where(eq(usersTable.username, validatedCredentials.username))
+      .where(eq(usersTable.username, validatedCredentials.username.toLowerCase()))
       .execute();
+
     if (!existedUser) {
       // Sign up
-      if (!username) {
-        console.log("Name is required.");
-        return null;
-      }
+      console.log("User not existed, please sign up.");
+      return null;
       const hashedPassword = await bcrypt.hash(password, 10);
       const [createdUser] = await db
         .insert(usersTable)
@@ -52,7 +50,8 @@ export default CredentialsProvider({
         })
         .returning();
       return {
-        name: createdUser.username
+        name: createdUser.username,
+        id: createdUser.displayId,
       };
     }
 
@@ -63,7 +62,8 @@ export default CredentialsProvider({
       return null;
     }
     return {
-      name: existedUser.username
+      name: existedUser.username,
+      id: existedUser.id,
     };
   },
 });

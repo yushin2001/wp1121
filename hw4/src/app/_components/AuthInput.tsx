@@ -1,6 +1,5 @@
 import React from "react";
-
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/input"; // Run: npx shadcn-ui@latest add input label
 import { Label } from "@/components/ui/label";
 
 type Props = {

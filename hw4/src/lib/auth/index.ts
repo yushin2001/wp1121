@@ -3,7 +3,6 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { usersTable } from "@/db/schema";
 import CredentialsProvider from "./CredentialsProvider";
-import "next-auth";
 
 export const {
   handlers: { GET, POST },
@@ -12,25 +11,27 @@ export const {
   providers: [CredentialsProvider],
   callbacks: {
     async session({ session, token }) {
-      const name = token.name || session?.user?.name;
-      if (!name) return session;
+      const username = token.name || session?.user?.username;
+      if (!username) return session;
       const [user] = await db
         .select({
+          id: usersTable.displayId,
           username: usersTable.username,
           provider: usersTable.provider,
         })
         .from(usersTable)
-        .where(eq(usersTable.username, name.toLowerCase()))
+        .where(eq(usersTable.username, username.toLowerCase()))
         .execute();
 
       return {
         ...session,
         user: {
-          name: user.username,
+          id: user.id,
+          username: user.username,
           provider: user.provider,
         },
       };
-    }
+    },
   },
   pages: {
     signIn: "/",

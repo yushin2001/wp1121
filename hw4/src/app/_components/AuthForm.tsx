@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import AuthInput from "./AuthInput";
+import { Button } from "@/components/ui/button"; // Run: npx shadcn-ui@latest add button
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Run: npx shadcn-ui@latest add card
 import { publicEnv } from "@/lib/env/public";
+import AuthInput from "./AuthInput";
 
 function AuthForm() {
   const [username, setUsername] = useState<string>("");
@@ -15,12 +15,14 @@ function AuthForm() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // TODO: sign in logic
     signIn("credentials", {
       username,
       password,
       callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/docs`,
     });
   };
+
   return (
     <Card className="min-w-[300px]">
       <CardHeader>
@@ -28,14 +30,12 @@ function AuthForm() {
       </CardHeader>
       <CardContent className=" flex flex-col gap-2">
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-          {isSignUp && (
-            <AuthInput
-              label="Username"
-              type="text"
-              value={username}
-              setValue={setUsername}
-            />
-          )}
+          <AuthInput
+            label="Username"
+            type="text"
+            value={username}
+            setValue={setUsername}
+          />
           <AuthInput
             label="Password"
             type="password"
@@ -78,6 +78,12 @@ function AuthForm() {
             Sign {isSignUp ? "Up" : "In"}
           </Button>
         </form>
+        <div className="flex w-full items-center gap-1 py-2">
+          <div className="h-[1px] grow border-t"></div>
+          <p className="text-xs text-gray-400">or</p>
+          <div className="h-[1px] grow border-t"></div>
+        </div>
+
       </CardContent>
     </Card>
   );

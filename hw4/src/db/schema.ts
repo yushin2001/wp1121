@@ -7,8 +7,6 @@ import {
   uuid,
   varchar,
   unique,
-  integer,
-  primaryKey
 } from "drizzle-orm/pg-core";
 
 // Checkout the many-to-many relationship in the following tutorial:
@@ -17,66 +15,81 @@ import {
 export const usersTable = pgTable(
   "users",
   {
-    username: varchar("username", { length: 100 }).notNull().unique().primaryKey(),
+    id: serial("id").primaryKey(),
+    displayId: uuid("display_id").defaultRandom().notNull().unique(),
+    username: varchar("username", { length: 100 }).notNull().unique(),
     hashedPassword: varchar("hashed_password", { length: 100 }).notNull(),
-    provider: varchar("provider", { length: 100 }).notNull().default("credentials"),
+    provider: varchar("provider", {
+      length: 100,
+      enum: ["credentials"],
+    })
+      .notNull()
+      .default("credentials"),
   },
   (table) => ({
-    displayUsernameIndex: index("display_username_index").on(table.username)
+    displayIdIndex: index("display_id_index").on(table.displayId)
   }),
 );
 
-/*
 export const usersRelations = relations(usersTable, ({ many }) => ({
-	chatboxTable: many(chatboxTable),
+  usersToDocumentsTable: many(usersToDocumentsTable),
 }));
 
-export const chatboxTable = pgTable(
-    "chatbox",
-    {
-        user1: integer('user1_username')
-        .notNull()
-        .references(() => usersTable.username, {
-            onDelete: "cascade",
-            onUpdate: "cascade",
-        }),
-        user2: integer("user2_username")
-        .notNull()
-        .references(() => usersTable.username, {
-          onDelete: "cascade",
-          onUpdate: "cascade",
-        }),
-    }, (t) => ({
-		pk: primaryKey(t.userId, t.groupId),
-	}),
-);
-
-export const messagesTable = pgTable(
-  "messages",
+export const documentsTable = pgTable(
+  "documents",
   {
     id: serial("id").primaryKey(),
-    chatboxid: uuid("chatbox_id")
-    .notNull()
-    .references(() => chatboxTable.pk, {
-      onDelete: "cascade",
-      onUpdate: "cascade",
-    }),
-    content: varchar("content", { length: 500 }).notNull()
-  }
+    displayId: uuid("display_id").defaultRandom().notNull().unique(),
+    title: varchar("title", { length: 100 }).notNull(),
+    content: text("content").notNull(),
+  },
+  (table) => ({
+    displayIdIndex: index("display_id_index").on(table.displayId),
+  }),
 );
-*/
 
+export const documentsRelations = relations(documentsTable, ({ many }) => ({
+  usersToDocumentsTable: many(usersToDocumentsTable),
+}));
 
-/*
+export const usersToDocumentsTable = pgTable(
+  "users_to_documents",
+  {
+    id: serial("id").primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => usersTable.displayId, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+    documentId: uuid("document_id")
+      .notNull()
+      .references(() => documentsTable.displayId, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+  },
+  (table) => ({
+    userAndDocumentIndex: index("user_and_document_index").on(
+      table.userId,
+      table.documentId,
+    ),
+    // This is a unique constraint on the combination of userId and documentId.
+    // This ensures that there is no duplicate entry in the table.
+    uniqCombination: unique().on(table.documentId, table.userId),
+  }),
+);
 
--- many to many
-1 user -> many chatboxes
-1 chatbox -> 2(many) users
-
--- one to many
-1 chatbox -> many messages
-1 messgae -> 1 chatbox
-1 user -> many messages
-1 message -> 1 user
-
-*/
+export const usersToDocumentsRelations = relations(
+  usersToDocumentsTable,
+  ({ one }) => ({
+    document: one(documentsTable, {
+      fields: [usersToDocumentsTable.documentId],
+      references: [documentsTable.displayId],
+    }),
+    user: one(usersTable, {
+      fields: [usersToDocumentsTable.userId],
+      references: [usersTable.displayId],
+    }),
+  }),
+);
