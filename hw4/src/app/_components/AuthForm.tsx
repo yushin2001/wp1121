@@ -78,11 +78,6 @@ function AuthForm() {
             Sign {isSignUp ? "Up" : "In"}
           </Button>
         </form>
-        <div className="flex w-full items-center gap-1 py-2">
-          <div className="h-[1px] grow border-t"></div>
-          <p className="text-xs text-gray-400">or</p>
-          <div className="h-[1px] grow border-t"></div>
-        </div>
 
       </CardContent>
     </Card>

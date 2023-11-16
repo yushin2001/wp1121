@@ -20,8 +20,8 @@
    NEXT_PUBLIC_PUSHER_CLUSTER=
 
    AUTH_SECRET=<this can be any random string>
-   AUTH_GITHUB_ID=
-   AUTH_GITHUB_SECRET=
+
+   POSTGRES_URL=postgres://postgres:postgres@localhost:5432/message-clone
    ```
 
 5. Start the database
@@ -29,24 +29,17 @@
    docker compose up -d
    ```
 
-6. Add `POSTGRES_URL` to `.env.local`:
-
-   ```text
-   ...
-   POSTGRES_URL=postgres://postgres:postgres@localhost:5432/notion-clone
-   ```
-
-7. Run migrations
+6. Run migrations
    ```bash
    yarn migrate
    ```
 
-8. Start the development server
+7. Start the development server
    ```bash
    yarn dev
    ```
 
-9. Open http://localhost:3000 in your browser
+8. Open http://localhost:3000 in your browser
 
 
 ## Pusher Setup

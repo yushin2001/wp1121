@@ -38,8 +38,6 @@ export default CredentialsProvider({
 
     if (!existedUser) {
       // Sign up
-      console.log("User not existed, please sign up.");
-      return null;
       const hashedPassword = await bcrypt.hash(password, 10);
       const [createdUser] = await db
         .insert(usersTable)
