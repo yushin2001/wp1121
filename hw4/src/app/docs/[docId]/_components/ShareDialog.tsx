@@ -1,6 +1,8 @@
 import { RxAvatar } from "react-icons/rx";
+
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
+
 import { addDocumentAuthor, getDocumentAuthors } from "./actions";
 
 type Props = {

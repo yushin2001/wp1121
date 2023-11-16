@@ -1,6 +1,8 @@
 import CredentialsProvider from "next-auth/providers/credentials";
+
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
+
 import { db } from "@/db";
 import { usersTable } from "@/db/schema";
 import { authSchema } from "@/validators/auth";
@@ -35,9 +37,13 @@ export default CredentialsProvider({
       .from(usersTable)
       .where(eq(usersTable.username, validatedCredentials.username.toLowerCase()))
       .execute();
-
+      
     if (!existedUser) {
       // Sign up
+      if (!username) {
+        console.log("Name is required.");
+        return null;
+      }
       const hashedPassword = await bcrypt.hash(password, 10);
       const [createdUser] = await db
         .insert(usersTable)

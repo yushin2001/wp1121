@@ -22,7 +22,6 @@ function AuthForm() {
       callbackUrl: `${publicEnv.NEXT_PUBLIC_BASE_URL}/docs`,
     });
   };
-
   return (
     <Card className="min-w-[300px]">
       <CardHeader>

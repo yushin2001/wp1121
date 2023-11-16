@@ -8,7 +8,7 @@
 2. Get Pusher credentials
    Please refer to the [Pusher Setup](#pusher-setup) section for more details.
 
-3. Get Github OAuth credentials
+3. Get OAuth credentials
    Please refer to the [NextAuth Setup](#nextauth-setup) section for more details.
 
 4. Create `.env.local` file in the project root and add the following content:

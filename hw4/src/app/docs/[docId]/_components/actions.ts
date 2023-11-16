@@ -10,7 +10,7 @@ export async function getDocumentAuthors(docId: string) {
       user: {
         columns: {
           displayId: true,
-          username: true,
+          username: true
         },
       },
     },

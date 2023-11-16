@@ -31,7 +31,7 @@ export const {
           provider: user.provider,
         },
       };
-    },
+    }
   },
   pages: {
     signIn: "/",

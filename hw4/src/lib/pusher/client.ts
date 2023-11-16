@@ -1,4 +1,5 @@
 import PusherClient from "pusher-js";
+
 import { publicEnv } from "@/lib/env/public";
 
 export const pusherClient = new PusherClient(publicEnv.NEXT_PUBLIC_PUSHER_KEY, {
