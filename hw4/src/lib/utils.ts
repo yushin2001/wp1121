@@ -1,6 +1,9 @@
 import { faker } from "@faker-js/faker";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { eq } from "drizzle-orm";
+import { db } from "@/db";
+import { usersTable } from "@/db/schema";
 
 // this utility function is used to merge tailwind classes safely
 export function cn(...inputs: ClassValue[]) {
@@ -25,4 +28,25 @@ function getSeed(username: string) {
 export function validateUsername(username?: string | null) {
   if (!username) return false;
   return /^[a-zA-Z0-9 ]{1,50}$/.test(username);
+}
+
+export function validatePassword(password?: string | null) {
+  if(!password) return false;
+}
+
+export function validateNewChatbox(username?: string | null) {
+  if(!username) return false;
+  const exist_user = db
+    .select({
+      id: usersTable.username,
+    })
+    .from(usersTable)
+    .where(eq(usersTable.username, username))
+    .execute();
+  if(!exist_user) {
+    return false;
+  }  
+  else {
+    return true;
+  }
 }

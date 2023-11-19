@@ -1,5 +1,5 @@
 import { eq, or, desc } from "drizzle-orm";
-import NameDialog from "@/components/NameDialog";
+import LoginDialog from "@/components/LoginDialog";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { usersTable, chatboxesTable, messagesTable } from "@/db/schema";
@@ -93,7 +93,7 @@ export default async function Home({
 
       </div>
 
-      <NameDialog />
+      <LoginDialog />
 
     </>
   );

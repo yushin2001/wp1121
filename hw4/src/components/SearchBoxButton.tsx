@@ -8,8 +8,8 @@ import useUserInfo from "@/hooks/useUserInfo";
 
 export default function SearchBoxButton(){
   const keywordInputRef = useRef<HTMLInputElement>(null);
-  const { searchActivity, loading } = useSearch();
-  const { handle } = useUserInfo();
+  const { searchChatbox, loading } = useSearch();
+  const { username } = useUserInfo();
 
   function containsChineseCharacters(input: string): boolean {
     const chineseRegExp = /[\u4e00-\u9fa5]/;
@@ -22,14 +22,13 @@ export default function SearchBoxButton(){
       return;
     }
     const chinese = containsChineseCharacters(key);
-    if (!handle) return;
+    if (!username) return;
     if (chinese) {
       alert("Keyword must be English.");
       return;
     }
     try{
-      searchActivity({
-        handle: handle,
+      searchChatbox({
         keyword: key,
       });
     }
@@ -42,10 +41,9 @@ export default function SearchBoxButton(){
 
   const handelBack = () => {
     const key = "";
-    if (!handle) return;
+    if (!username) return;
     try{
-      searchActivity({
-        handle: handle,
+      searchChatbox({
         keyword: key,
       });
     }
@@ -59,7 +57,7 @@ export default function SearchBoxButton(){
   return (
     <div className="flex flex-row items-center gap-4 grid grid-cols-4">
         <Input
-        placeholder = "搜尋想參加的活動"
+        placeholder = "搜尋聊天室"
         className="col-span-2"
         ref = {keywordInputRef}
         />
@@ -67,7 +65,7 @@ export default function SearchBoxButton(){
             查詢
         </Button>
         <Button onClick={handelBack} disabled={loading}>
-            查看所有活動
+            查看所有聊天室
         </Button>
     </div>
   );

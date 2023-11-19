@@ -20,7 +20,7 @@ export default function useChatbox() {
     content: string,
   }) => {
     setLoading(true);
-    const res = await fetch("/api/chatboxes", {
+    const res = await fetch("/api/messages", {
       method: "POST",
       body: JSON.stringify({
         replyToChatboxId,
@@ -41,9 +41,34 @@ export default function useChatbox() {
     router.refresh();
     setLoading(false);
   };
+
+  const postNewChatbox = async ({
+    user1,
+    user2,
+  }: {
+    user1: string,
+    user2: string,
+  }) => {
+    setLoading(true);
+    const res = await fetch("/api/chatboxes", {
+      method: "POST",
+      body: JSON.stringify({
+        user1,
+        user2
+      }),
+    });
+    if (!(res.status === 200)) {
+      setLoading(false);
+      const body = await res.json();
+      throw new Error(body.error);
+    }
+    router.refresh();
+    setLoading(false);
+  };
   
   return {
     postChatbox,
+    postNewChatbox,
     loading,
   };
 }

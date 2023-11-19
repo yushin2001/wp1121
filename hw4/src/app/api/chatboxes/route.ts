@@ -1,33 +1,29 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { db } from "@/db";
-import { messagesTable } from "@/db/schema";
+import { chatboxesTable } from "@/db/schema";
 
-const postMessageRequestSchema = z.object({
-    replyToChatboxId: z.string(),
-    sendername: z.string().min(1).max(80),
-    receivername: z.string().min(1).max(80),
-    content: z.string().min(1).max(80)
+const postNewChatboxRequestSchema = z.object({
+    user1: z.string().min(1).max(80),
+    user2: z.string().min(1).max(80)
 });
 
-type PostMessageyRequest = z.infer<typeof postMessageRequestSchema>;
+type PostNewChatboxRequest = z.infer<typeof postNewChatboxRequestSchema>;
 
 export async function POST(request: NextRequest) {
   const data = await request.json();
   try {
-    postMessageRequestSchema.parse(data);
+    postNewChatboxRequestSchema.parse(data);
   } catch (error) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
-  const { replyToChatboxId, sendername, receivername, content } = data as PostMessageyRequest;
+  const { user1, user2 } = data as PostNewChatboxRequest;
   try {
     await db
-      .insert(messagesTable)
+      .insert(chatboxesTable)
       .values({
-        chatboxId: replyToChatboxId,
-        sendername: sendername,
-        receivername: receivername,
-        content: content
+        user1: user1,
+        user2: user2
       })
       .execute();
       return new NextResponse("OK", { status: 200 });

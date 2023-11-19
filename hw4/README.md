@@ -1,4 +1,4 @@
-# Web Programming HW#3
+# Web Programming HW#4
 
 ## Running the app
 
@@ -21,7 +21,7 @@ docker compose up -d
 ### 5. Create a `.env.local` file in the root of the project and add a _valid_ Postgres URL.
 
 ```bash
-POSTGRES_URL="postgres://postgres:postgres@localhost:5432/joinme"
+POSTGRES_URL="postgres://postgres:postgres@localhost:5432/messenger"
 ```
 
 ### 6. Run the migrations

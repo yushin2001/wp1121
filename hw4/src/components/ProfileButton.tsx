@@ -6,7 +6,7 @@ import useUserInfo from "@/hooks/useUserInfo";
 import { Button } from "@/components/ui/button";
 
 export default function ProfileButton() {
-  const { username, handle } = useUserInfo();
+  const { username } = useUserInfo();
   const router = useRouter();
 
   return (
@@ -14,9 +14,8 @@ export default function ProfileButton() {
       <UserAvatar />
       <div className="w-30 max-lg:hidden">
         <p className="text-sm font-bold">{username ?? "..."}</p>
-        <p className="text-sm text-gray-500">{`@${handle}`}</p>
       </div>
-      <Button onClick={() => router.push("/")}> 切換使用者 </Button>
+      <Button onClick={() => router.push("/")}> 登出 </Button>
     </div>
   );
 }

@@ -4,7 +4,7 @@ services:
   postgresql:
     image: postgres
     environment:
-      POSTGRES_DB: joinme
+      POSTGRES_DB: messenger
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       PGDATA: /var/lib/postgresql/data

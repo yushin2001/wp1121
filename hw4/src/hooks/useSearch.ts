@@ -10,31 +10,28 @@ export default function useSearch() {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
 
-  const searchActivity = async ({
-    handle,
+  
+  const searchChatbox = async ({
     keyword
   }: {
-    handle: string;
     keyword?: string;
   }) => {
     setLoading(true); 
     if (keyword === undefined || keyword === "" || keyword === null){
       params.set("username", username!);
-      params.set("handle", handle!);
       setLoading(false);
       router.push(`/?${params.toString()}`);
     }
     else{
       params.set("username", username!);
-      params.set("handle", handle!);
       router.push(`/searchresult/${keyword}?${params.toString()}`);
       router.refresh();
       setLoading(false);
     }
   };
-  
+
   return {
-    searchActivity,
+    searchChatbox,
     loading,
   };
 }

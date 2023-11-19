@@ -70,7 +70,7 @@ export default async function ChatboxPage({
             key={message.id}
             authorName={message.sender}
             content={message.content}
-            createdAt={message.createdAt!}
+            createdAt={message.createdAt}
           />
         ))}
 

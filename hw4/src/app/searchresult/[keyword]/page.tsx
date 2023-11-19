@@ -1,12 +1,12 @@
 import { redirect } from "next/navigation";
-import { eq, desc, and, like, sql, isNull } from "drizzle-orm";
+import { eq, desc, and, like, or } from "drizzle-orm";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
-import { joinsTable, activitiesTable, usersTable } from "@/db/schema";
+import { chatboxesTable, messagesTable } from "@/db/schema";
 import ProfileButton from "@/components/ProfileButton";
-import NewActivity from "@/components/NewActivity";
-import Activity from "@/components/Activity";
+import Chatbox from "@/components/Chatbox";
 import SearchBoxButton from "@/components/SearchBoxButton";
+import NewChatbox from "@/components/NewChatbox";
 import { cn } from "@/lib/utils";
 
 type SearchResultPageProps = {
@@ -15,34 +15,56 @@ type SearchResultPageProps = {
   };
   searchParams: {
     key: string;
-    username?: string;
+    username: string;
     handle?: string;
   };
 };
 
 export default async function SearchResultPage({
   params: { keyword },
-  searchParams: { username, handle },
+  searchParams: { username },
 }: SearchResultPageProps) {
   const errorRedirect = () => {
     const params = new URLSearchParams();
     username && params.set("username", username);
-    handle && params.set("handle", handle);
     redirect(`/?${params.toString()}`);
   };
 
-  const ActivityData = await db
+  const messageSubquery = db.$with("message").as(
+    db
+      .select({
+        chatboxId: messagesTable.chatboxId,
+        content: messagesTable.content,
+        sender: messagesTable.sendername,
+        receiver: messagesTable.receivername,
+        createdAt: messagesTable.createdAt
+      })
+      .from(messagesTable)
+      .orderBy(desc(messagesTable.createdAt))
+  );
+
+  const chatboxes = await db
+    .with(messageSubquery)
     .select({
-      id: activitiesTable.id,
+      id: chatboxesTable.id,
+      sender: messageSubquery.sender,
+      receiver: messageSubquery.receiver,
+      content: messageSubquery.content,
+      createdAt: messageSubquery.createdAt
     })
-    .from(activitiesTable)
-    .where(
+    .from(chatboxesTable)
+    .where(or(
       and(
-        like(activitiesTable.name, `%${keyword}%`),
-        isNull(activitiesTable.replyToActivityId),
+        like(chatboxesTable.user1, `%${keyword}%`),
+        eq(chatboxesTable.user2, username)
+      ),
+      and(
+        like(chatboxesTable.user2, `%${keyword}%`),
+        eq(chatboxesTable.user1, username),
       )
-    )
-    .orderBy(desc(activitiesTable.createdAt))
+    ))
+    .leftJoin(messageSubquery, eq(messageSubquery.chatboxId, chatboxesTable.id))
+    .orderBy(desc(messagesTable.createdAt))
     .execute();
 
   
@@ -50,51 +72,7 @@ export default async function SearchResultPage({
     errorRedirect();
   }
 
-  const noresult = (ActivityData.length === 0)? "查無結果" : "";
-
-  const joinsSubquery = db.$with("joins_count").as(
-    db
-      .select({
-        activityId: joinsTable.activityId,
-        joins: sql<number | null>`count(*)`.mapWith(Number).as("joins"),
-      })
-      .from(joinsTable)
-      .groupBy(joinsTable.activityId),
-  );
-  const joinedSubquery = db.$with("joined").as(
-    db
-      .select({
-        activityId: joinsTable.activityId,
-        joined: sql<number>`1`.mapWith(Boolean).as("joined"),
-      })
-      .from(joinsTable)
-      .where(eq(joinsTable.userHandle, handle ?? "")),
-  );
-  const activities = await db
-    .with(joinsSubquery, joinedSubquery)
-    .select({
-      id: activitiesTable.id,
-      name: activitiesTable.name,
-      username: usersTable.displayName,
-      handle: usersTable.handle,
-      joins: joinsSubquery.joins,
-      createdAt: activitiesTable.createdAt,
-      joined: joinedSubquery.joined,
-      startTime: activitiesTable.startTime,
-      dueTime: activitiesTable.dueTime
-    })
-    .from(activitiesTable)
-    .where(
-      and(
-        like(activitiesTable.name, `%${keyword}%`),
-        isNull(activitiesTable.replyToActivityId),
-      )
-    )
-    .orderBy(desc(activitiesTable.createdAt))
-    .innerJoin(usersTable, eq(activitiesTable.userHandle, usersTable.handle))
-    .leftJoin(joinsSubquery, eq(activitiesTable.id, joinsSubquery.activityId))
-    .leftJoin(joinedSubquery, eq(activitiesTable.id, joinedSubquery.activityId))
-    .execute();
+  const newChatbox = (chatboxes.length === 0)? true : false;
 
   return (
       <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
@@ -107,27 +85,29 @@ export default async function SearchResultPage({
 
         <div className="flex w-full flex-row px-3 pt-3 pb-3 items-center gap-4">
           <SearchBoxButton/>
-          <NewActivity/>
         </div>
 
         <Separator />
 
         <div className={cn("mt-2 whitespace-pre-wrap", "pl-2 pb-2")}>
-          <article>關鍵字：{keyword}   {noresult}</article>
+          <article>關鍵字：{keyword}</article>
         </div>
 
-        {activities.map((activity) => (
-          <Activity
-            key={activity.id}
-            id={activity.id}
+        {newChatbox?
+          <NewChatbox/>
+        :
+        <></>
+        }
+
+
+        {chatboxes.map((chatbox) => (
+          <Chatbox
+            key={chatbox.id}
+            id={chatbox.id}
             username={username}
-            handle={handle}
-            authorName={activity.username}
-            authorHandle={activity.handle}
-            name={activity.name}
-            joins={activity.joins}
-            joined={activity.joined}
-            createdAt={activity.createdAt!}
+            content={chatbox.content}
+            createdAt={chatbox.createdAt}
+            theOther={(chatbox.receiver == username)? chatbox.sender : chatbox.receiver}
           />
         ))}
       </div>
