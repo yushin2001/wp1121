@@ -1,95 +1,68 @@
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
-  index,
-  text,
   pgTable,
   serial,
-  uuid,
-  varchar,
   unique,
+  varchar,
+  timestamp,
 } from "drizzle-orm/pg-core";
-
-// Checkout the many-to-many relationship in the following tutorial:
-// https://orm.drizzle.team/docs/rqb#many-to-many
 
 export const usersTable = pgTable(
   "users",
   {
-    id: serial("id").primaryKey(),
-    displayId: uuid("display_id").defaultRandom().notNull().unique(),
-    username: varchar("username", { length: 100 }).notNull(),
-    hashedPassword: varchar("hashed_password", { length: 100 }).notNull(),
-    provider: varchar("provider", {
-      length: 100,
-      enum: ["credentials"],
-    })
-      .notNull()
-      .default("credentials"),
-  },
-  (table) => ({
-    displayIdIndex: index("display_id_index").on(table.displayId)
-  }),
+    username: varchar("username").primaryKey().unique(),
+    hashedpassword: varchar("hashed_password", { length: 50 }).notNull(),
+  }
 );
 
-export const usersRelations = relations(usersTable, ({ many }) => ({
-  usersToDocumentsTable: many(usersToDocumentsTable),
+export const userstochatboxesRelations = relations(usersTable, ({ many }) => ({
+  chatboxesTable: many(chatboxesTable),
 }));
 
-export const documentsTable = pgTable(
-  "documents",
+export const chatboxesTable = pgTable(
+  "chatboxes",
   {
     id: serial("id").primaryKey(),
-    displayId: uuid("display_id").defaultRandom().notNull().unique(),
-    title: varchar("title", { length: 100 }).notNull(),
-    content: text("content").notNull(),
+    user1: varchar("user1")
+    .notNull()
+    .references(() => usersTable.username, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+    user2: varchar("user2")
+    .notNull()
+    .references(() => usersTable.username, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
   },
   (table) => ({
-    displayIdIndex: index("display_id_index").on(table.displayId),
+    uniqCombination: unique().on(table.user1, table.user2),
   }),
 );
 
-export const documentsRelations = relations(documentsTable, ({ many }) => ({
-  usersToDocumentsTable: many(usersToDocumentsTable),
+export const chatboxestomessagesRelations = relations(chatboxesTable, ({ many }) => ({
+  messagesTable: many(messagesTable),
 }));
 
-export const usersToDocumentsTable = pgTable(
-  "users_to_documents",
+export const userstomessagesRelations = relations(usersTable, ({ many }) => ({
+  messagesTable: many(messagesTable),
+}));
+
+export const messagesTable = pgTable(
+  "messages",
   {
     id: serial("id").primaryKey(),
-    userId: uuid("user_id")
+    chatboxId: varchar("chatbox_id")
       .notNull()
-      .references(() => usersTable.displayId, {
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      }),
-    documentId: uuid("document_id")
+      .references(() => chatboxesTable.id, { onDelete: "cascade" }),
+    sendername: varchar("sender_username")
       .notNull()
-      .references(() => documentsTable.displayId, {
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      }),
+      .references(() => usersTable.username, { onDelete: "cascade" }),
+    receivername: varchar("receiver_username")
+      .notNull()
+      .references(() => usersTable.username, { onDelete: "cascade" }),
+    content: varchar("content").notNull(),
+    createdAt: timestamp("created_at").default(sql`now()`).notNull(),
   },
-  (table) => ({
-    userAndDocumentIndex: index("user_and_document_index").on(
-      table.userId,
-      table.documentId,
-    ),
-    // This is a unique constraint on the combination of userId and documentId.
-    // This ensures that there is no duplicate entry in the table.
-    uniqCombination: unique().on(table.documentId, table.userId),
-  }),
-);
-
-export const usersToDocumentsRelations = relations(
-  usersToDocumentsTable,
-  ({ one }) => ({
-    document: one(documentsTable, {
-      fields: [usersToDocumentsTable.documentId],
-      references: [documentsTable.displayId],
-    }),
-    user: one(usersTable, {
-      fields: [usersToDocumentsTable.userId],
-      references: [usersTable.displayId],
-    }),
-  }),
 );
