@@ -1,11 +1,7 @@
 'use client';
 
 import clsx from "clsx";
-import { 
-  FieldErrors, 
-  FieldValues, 
-  UseFormRegister 
-} from "react-hook-form";
+import type { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
 interface InputProps {
   label: string;
@@ -17,7 +13,7 @@ interface InputProps {
   disabled?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({
+function Input({
   label,
   id,
   register,
@@ -25,7 +21,7 @@ const Input: React.FC<InputProps> = ({
   errors,
   type = 'text',
   disabled,
-}) => {
+}: InputProps) {
   return ( 
     <div>
       <label 

@@ -44,7 +44,7 @@ function AuthForm() {
       password: ''
     }
   });
-
+ 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
   

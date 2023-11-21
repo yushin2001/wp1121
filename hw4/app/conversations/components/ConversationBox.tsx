@@ -2,7 +2,6 @@
 
 import { useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { Conversation, Message, User } from "@prisma/client";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import clsx from "clsx";
@@ -10,17 +9,17 @@ import clsx from "clsx";
 import Avatar from "@/app/components/Avatar";
 import useOtherUser from "@/app/hooks/useOtherUser";
 import AvatarGroup from "@/app/components/AvatarGroup";
-import { FullConversationType } from "@/app/types";
+import type { FullConversationType } from "@/app/types";
 
 interface ConversationBoxProps {
   data: FullConversationType,
   selected?: boolean;
 }
 
-const ConversationBox: React.FC<ConversationBoxProps> = ({ 
+function ConversationBox({ 
   data, 
   selected 
-}) => {
+}: ConversationBoxProps){
   const otherUser = useOtherUser(data);
   const session = useSession();
   const router = useRouter();

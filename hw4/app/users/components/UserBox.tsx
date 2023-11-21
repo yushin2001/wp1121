@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
-import {  User } from "@prisma/client";
+import type {  User } from "@prisma/client";
 
 import Avatar from "@/app/components/Avatar";
 import LoadingModal from "@/app/components/modals/LoadingModal";
@@ -10,9 +10,7 @@ interface UserBoxProps {
   data: User
 }
 
-const UserBox: React.FC<UserBoxProps> = ({ 
-  data
-}) => {
+function UserBox({ data }: UserBoxProps){
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 

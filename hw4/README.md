@@ -77,6 +77,10 @@ yarn prisma db push
 yarn dev
 ```
 
+### 7. See the app
+
+Go to http://localhost:3000
+
 ## Linter checks
 
 If you only want to do linter checks, you can execute the code below.

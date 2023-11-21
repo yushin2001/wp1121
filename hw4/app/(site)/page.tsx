@@ -1,7 +1,7 @@
 import Image from "next/image";
 import AuthForm from "./components/AuthForm";
 
-const Auth = () => {
+function Auth() {
   return (
     <div 
       className="

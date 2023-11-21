@@ -3,8 +3,9 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { User } from '@prisma/client';
+import type { FieldValues, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import type { User } from '@prisma/client';
 import { CldUploadButton } from 'next-cloudinary';
 
 import Input from "../inputs/Input";
@@ -19,11 +20,11 @@ interface SettingsModalProps {
   currentUser: User;
 }
 
-const SettingsModal: React.FC<SettingsModalProps> = ({ 
+function SettingsModal({ 
   isOpen, 
   onClose, 
-  currentUser = {}
-}) => {
+  currentUser
+}: SettingsModalProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 

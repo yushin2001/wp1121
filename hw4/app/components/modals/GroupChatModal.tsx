@@ -1,15 +1,10 @@
 'use client';
-
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation';
-import { 
-  FieldValues, 
-  SubmitHandler, 
-  useForm 
-} from 'react-hook-form';
-import { User } from '@prisma/client';
-
+import type { FieldValues, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import type { User } from '@prisma/client';
 import Input from "../inputs/Input";
 import Select from '../inputs/Select';
 import Modal from './Modal';
@@ -22,11 +17,11 @@ interface GroupChatModalProps {
   users: User[];
 }
 
-const GroupChatModal: React.FC<GroupChatModalProps> = ({ 
+function GroupChatModal ({ 
   isOpen, 
   onClose, 
   users = []
-}) => {
+}: GroupChatModalProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 

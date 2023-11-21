@@ -4,7 +4,7 @@ import useConversation from "@/app/hooks/useConversation";
 import useRoutes from "@/app/hooks/useRoutes";
 import MobileItem from "./MobileItem";
 
-const MobileFooter = () => {
+function MobileFooter() {
   const routes = useRoutes();
   const { isOpen } = useConversation();
 

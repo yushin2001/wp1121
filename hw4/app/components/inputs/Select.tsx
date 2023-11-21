@@ -29,7 +29,7 @@ function Select({ label, value, onChange, options, disabled } : SelectProps){
         isDisabled={disabled}
         value={value}
         onChange={onChange}
-        isMulti
+        isMulti={false}
         options={options}
         menuPortalTarget={document.body}
         styles={{

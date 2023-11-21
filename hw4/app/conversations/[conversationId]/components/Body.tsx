@@ -6,14 +6,14 @@ import { useEffect, useRef, useState } from "react";
 import { pusherClient } from "@/app/libs/pusher";
 import useConversation from "@/app/hooks/useConversation";
 import MessageBox from "./MessageBox";
-import { FullMessageType } from "@/app/types";
+import type { FullMessageType } from "@/app/types";
 import { find } from "lodash";
 
 interface BodyProps {
   initialMessages: FullMessageType[];
 }
 
-const Body: React.FC<BodyProps> = ({ initialMessages = [] }) => {
+function Body({ initialMessages = [] }: BodyProps){
   const bottomRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState(initialMessages);
   

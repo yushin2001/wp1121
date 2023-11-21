@@ -4,7 +4,7 @@ import { HiChevronLeft } from 'react-icons/hi'
 import { HiEllipsisHorizontal } from 'react-icons/hi2';
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Conversation, User } from "@prisma/client";
+import type { Conversation, User } from "@prisma/client";
 
 import useOtherUser from "@/app/hooks/useOtherUser";
 import useActiveList from "@/app/hooks/useActiveList";
@@ -19,7 +19,8 @@ interface HeaderProps {
   }
 }
 
-const Header: React.FC<HeaderProps> = ({ conversation }) => {
+
+function Header({ conversation }: HeaderProps) {
   const otherUser = useOtherUser(conversation);
   const [drawerOpen, setDrawerOpen] = useState(false);
 

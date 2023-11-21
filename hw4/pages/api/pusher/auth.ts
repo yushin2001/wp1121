@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next"
+import type { NextApiRequest, NextApiResponse } from "next"
 import { getServerSession } from "next-auth";
 import { pusherServer } from "@/app/libs/pusher";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";

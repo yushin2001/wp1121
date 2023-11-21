@@ -1,18 +1,17 @@
 'use client';
 
-import { User } from "@prisma/client";
+import type { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
-import { MdOutlineGroupAdd } from 'react-icons/md';
 import clsx from "clsx";
-import { find, uniq } from 'lodash';
-
+import { find } from 'lodash';
 import useConversation from "@/app/hooks/useConversation";
 import { pusherClient } from "@/app/libs/pusher";
-import GroupChatModal from "@/app/components/modals/GroupChatModal";
+// import GroupChatModal from "@/app/components/modals/GroupChatModal";
+import Search from "@/app/components/inputs/Search";
 import ConversationBox from "./ConversationBox";
-import { FullConversationType } from "@/app/types";
+import type { FullConversationType } from "@/app/types";
 
 interface ConversationListProps {
   initialItems: FullConversationType[];
@@ -20,12 +19,11 @@ interface ConversationListProps {
   title?: string;
 }
 
-const ConversationList: React.FC<ConversationListProps> = ({ 
+function ConversationList({ 
   initialItems, 
   users
-}) => {
+}: ConversationListProps) {
   const [items, setItems] = useState(initialItems);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const router = useRouter();
   const session = useSession();
@@ -79,10 +77,8 @@ const ConversationList: React.FC<ConversationListProps> = ({
 
   return (
     <>
-      <GroupChatModal 
-        users={users} 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)}
+      <Search
+        users={users}
       />
       <aside className={clsx(`
         fixed 
@@ -97,25 +93,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
         border-gray-200 
       `, isOpen ? 'hidden' : 'block w-full left-0')}>
         <div className="px-5">
-          <div className="flex justify-between mb-4 pt-4">
-            <div className="text-2xl font-bold text-neutral-800">
-              Messages
-            </div>
-            <div 
-              onClick={() => setIsModalOpen(true)} 
-              className="
-                rounded-full 
-                p-2 
-                bg-gray-100 
-                text-gray-600 
-                cursor-pointer 
-                hover:opacity-75 
-                transition
-              "
-            >
-              <MdOutlineGroupAdd size={20} />
-            </div>
-          </div>
+
           {items.map((item) => (
             <ConversationBox
               key={item.id}
@@ -130,3 +108,40 @@ const ConversationList: React.FC<ConversationListProps> = ({
 }
  
 export default ConversationList;
+
+
+/*
+import { MdOutlineGroupAdd } from 'react-icons/md';
+const [isModalOpen, setIsModalOpen] = useState(false); 
+*/
+
+/*
+  <GroupChatModal 
+    users={users} 
+    isOpen={isModalOpen} 
+    onClose={() => setIsModalOpen(false)}
+  />
+*/
+
+
+/*
+  <div className="flex justify-between mb-4 pt-4">
+    <div className="text-2xl font-bold text-neutral-800">
+      Messages
+    </div>
+    <div 
+      onClick={() => setIsModalOpen(true)} 
+      className="
+        rounded-full 
+        p-2 
+        bg-gray-100 
+        text-gray-600 
+        cursor-pointer 
+        hover:opacity-75 
+        transition
+      "
+    >
+      <MdOutlineGroupAdd size={20} />
+    </div>
+  </div>
+*/

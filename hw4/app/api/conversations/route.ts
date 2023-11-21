@@ -10,18 +10,13 @@ export async function POST(
   try {
     const currentUser = await getCurrentUser();
     const body = await request.json();
-    const {
-      userId,
-      isGroup,
-      members,
-      name
-    } = body;
+    const { userId, isGroup, members, name } = body;
 
     if (!currentUser?.id || !currentUser?.name) {
       return new NextResponse('Unauthorized', { status: 400 });
     }
 
-    if (isGroup && (!members || members.length < 2 || !name)) {
+    if (isGroup && (!members)) {
       return new NextResponse('Invalid data', { status: 400 });
     }
 
@@ -47,7 +42,7 @@ export async function POST(
       });
 
        // Update all connections with new conversation
-      newConversation.users.forEach((user) => {
+      newConversation.users.forEach((user: {name: string}) => {
         if (user.name) {
           pusherServer.trigger(user.name, 'conversation:new', newConversation);
         }
@@ -98,7 +93,7 @@ export async function POST(
     });
 
     // Update all connections with new conversation
-    newConversation.users.map((user) => {
+    newConversation.users.map((user: {name: string}) => {
       if (user.name) {
         pusherServer.trigger(user.name, 'conversation:new', newConversation);
       }

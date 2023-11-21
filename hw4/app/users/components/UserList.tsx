@@ -1,6 +1,6 @@
 'use client';
 
-import { User } from "@prisma/client";
+import type { User } from "@prisma/client";
 
 import UserBox from "./UserBox";
 
@@ -8,9 +8,7 @@ interface UserListProps {
   items: User[];
 }
 
-const UserList: React.FC<UserListProps> = ({ 
-  items, 
-}) => {
+function UserList({ items }: UserListProps) {
   return ( 
     <aside 
       className="

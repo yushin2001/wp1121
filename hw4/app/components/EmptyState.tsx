@@ -1,4 +1,4 @@
-const EmptyState = () => {
+function EmptyState(){
   return ( 
     <div 
       className="

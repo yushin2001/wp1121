@@ -9,11 +9,11 @@ interface ImageModalProps {
   src?: string | null;
 }
 
-const ImageModal: React.FC<ImageModalProps> = ({ 
+function ImageModal({ 
   isOpen, 
   onClose, 
   src
-}) => {
+}: ImageModalProps){
   if (!src) {
     return null;
   }

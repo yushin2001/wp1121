@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { pusherClient } from "../libs/pusher";
-import { Channel, Members } from "pusher-js";
+import type { Channel, Members } from "pusher-js";
 import useActiveList from "./useActiveList";
 
 const useActiveChannel = () => {
@@ -18,15 +18,15 @@ const useActiveChannel = () => {
     channel.bind("pusher:subscription_succeeded", (members: Members) => {
       const initialMembers: string[] = [];
 
-      members.each((member: Record<string, any>) => initialMembers.push(member.id));
+      members.each((member: Record<string, string>) => initialMembers.push(member.id));
       set(initialMembers);
     });
 
-    channel.bind("pusher:member_added", (member: Record<string, any>) => {
+    channel.bind("pusher:member_added", (member: Record<string, string>) => {
       add(member.id)
     });
 
-    channel.bind("pusher:member_removed", (member: Record<string, any>) => {
+    channel.bind("pusher:member_removed", (member: Record<string, string>) => {
       remove(member.id);
     });
 
