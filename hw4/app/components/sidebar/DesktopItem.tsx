@@ -3,7 +3,7 @@ import Link from "next/link";
 
 interface DesktopItemProps {
   label: string;
-  icon: any;
+  icon: React.ElementType;
   href: string;
   onClick?: () => void;
   active?: boolean;

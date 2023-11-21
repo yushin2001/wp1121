@@ -6,12 +6,12 @@ import useActiveList from "../hooks/useActiveList";
 import Image from "next/image";
 
 interface AvatarProps {
-  user?: User;
+  user: User;
 };
 
 function Avatar ({ user }: AvatarProps){
   const { members } = useActiveList();
-  const isActive = members.indexOf(user?.name!) !== -1;
+  const isActive = members.indexOf(user.name!) !== -1;
 
   return (
     <div className="relative">

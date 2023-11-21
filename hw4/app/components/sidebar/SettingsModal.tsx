@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import type { FieldValues, SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import type { User } from '@prisma/client';
-import { CldUploadButton } from 'next-cloudinary';
 
 import Input from "../inputs/Input";
 import Modal from '../modals/Modal';
@@ -33,7 +32,6 @@ function SettingsModal({
   const {
     register,
     handleSubmit,
-    setValue,
     watch,
     formState: {
       errors,
@@ -46,12 +44,6 @@ function SettingsModal({
   });
 
   const image = watch('image');
-
-  const handleUpload = (result: any) => {
-    setValue('image', result.info.secure_url, { 
-      shouldValidate: true 
-    });
-  }
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
@@ -113,20 +105,7 @@ function SettingsModal({
                     className="rounded-full" 
                     src={image || currentUser?.image || '/images/placeholder.jpg'}
                     alt="Avatar"
-                  />
-                  <CldUploadButton 
-                    options={{ maxFiles: 1 }} 
-                    onUpload={handleUpload} 
-                    uploadPreset="pgc9ehd5"
-                  >
-                    <Button
-                      disabled={isLoading}
-                      secondary
-                      type="button"
-                    >
-                      Change
-                    </Button>
-                  </CldUploadButton>
+                  />ss
                 </div>
               </div>
             </div>
