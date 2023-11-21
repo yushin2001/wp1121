@@ -25,7 +25,7 @@ function Header({ conversation }: HeaderProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const { members } = useActiveList();
-  const isActive = members.indexOf(otherUser?.name!) !== -1;
+  const isActive = members.indexOf(otherUser.name!) !== -1;
   const statusText = useMemo(() => {
     if (conversation.isGroup) {
       return `${conversation.users.length} members`;

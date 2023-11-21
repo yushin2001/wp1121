@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
-import { FullMessageType } from "@/app/types";
+import type { FullMessageType } from "@/app/types";
 
 import Avatar from "@/app/components/Avatar";
 import ImageModal from "./ImageModal";
@@ -15,10 +15,10 @@ interface MessageBoxProps {
   isLast?: boolean;
 }
 
-const MessageBox: React.FC<MessageBoxProps> = ({ 
+function MessageBox({ 
   data, 
   isLast
-}) => {
+}: MessageBoxProps){
   const session = useSession();
   const [imageModalOpen, setImageModalOpen] = useState(false);
 

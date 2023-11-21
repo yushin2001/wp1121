@@ -63,7 +63,7 @@ function AuthForm() {
           router.push('/conversations')
         }
       })
-      .catch(() => toast.error('Something went wrong!'))
+      .catch(() => toast.error('Password and confirm password are not matched!'))
       .finally(() => setIsLoading(false))
     }
 
@@ -97,10 +97,7 @@ function AuthForm() {
           sm:px-10
         "
       >
-        <form 
-          className="space-y-6" 
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <Input
             disabled={isLoading}
             register={register}
@@ -118,11 +115,24 @@ function AuthForm() {
             label="Password" 
             type="password"
           />
+          {(variant === 'REGISTER')?
+          <Input 
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required={variant === 'REGISTER'}
+          id="confirmpassword" 
+          label="Confirm Password" 
+          type="password"
+          />: 
+          <></>}
+
           <div>
             <Button disabled={isLoading} fullWidth type="submit">
               {variant === 'LOGIN' ? 'Sign in' : 'Register'}
             </Button>
           </div>
+
         </form>
 
         <div 

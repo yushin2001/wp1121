@@ -3,7 +3,7 @@
 import { Fragment, useMemo, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { IoClose, IoTrash } from 'react-icons/io5'
-import { Conversation, User } from '@prisma/client';
+import type { Conversation, User } from '@prisma/client';
 import { format } from 'date-fns';
 
 import useOtherUser from '@/app/hooks/useOtherUser';
@@ -21,11 +21,11 @@ interface ProfileDrawerProps {
   }
 }
 
-const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
+function ProfileDrawer({
   isOpen,
   onClose,
   data,
-}) => {
+}: ProfileDrawerProps) {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const otherUser = useOtherUser(data);
   
@@ -38,7 +38,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
   }, [data.name, otherUser.name]);
 
   const { members } = useActiveList();
-  const isActive = members.indexOf(otherUser?.name!) !== -1;
+  const isActive = members.indexOf(otherUser.name!) !== -1;
 
   const statusText = useMemo(() => {
     if (data.isGroup) {

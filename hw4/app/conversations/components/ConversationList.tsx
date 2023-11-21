@@ -9,7 +9,6 @@ import { find } from 'lodash';
 import useConversation from "@/app/hooks/useConversation";
 import { pusherClient } from "@/app/libs/pusher";
 // import GroupChatModal from "@/app/components/modals/GroupChatModal";
-import Search from "@/app/components/inputs/Search";
 import ConversationBox from "./ConversationBox";
 import type { FullConversationType } from "@/app/types";
 
@@ -20,14 +19,11 @@ interface ConversationListProps {
 }
 
 function ConversationList({ 
-  initialItems, 
-  users
+  initialItems
 }: ConversationListProps) {
   const [items, setItems] = useState(initialItems);
-
   const router = useRouter();
   const session = useSession();
-
   const { conversationId, isOpen } = useConversation();
 
   const pusherKey = useMemo(() => {
@@ -35,9 +31,7 @@ function ConversationList({
   }, [session.data?.user?.name])
 
   useEffect(() => {
-    if (!pusherKey) {
-      return;
-    }
+    if (!pusherKey) {return;}
 
     pusherClient.subscribe(pusherKey);
 
@@ -49,7 +43,6 @@ function ConversationList({
             messages: conversation.messages
           };
         }
-
         return currentConversation;
       }));
     }
@@ -59,7 +52,6 @@ function ConversationList({
         if (find(current, { id: conversation.id })) {
           return current;
         }
-
         return [conversation, ...current]
       });
     }
@@ -77,9 +69,6 @@ function ConversationList({
 
   return (
     <>
-      <Search
-        users={users}
-      />
       <aside className={clsx(`
         fixed 
         inset-y-0 

@@ -9,8 +9,13 @@ export async function POST(
   const body = await request.json();
   const {
     name,
-    password
+    password,
+    confirmpassword
   } = body;
+
+  if (password !== confirmpassword){
+    return new NextResponse('password and cconfirm password are not matched', { status: 400 });
+  }
 
   const hashedPassword = await bcrypt.hash(password, 12);
 

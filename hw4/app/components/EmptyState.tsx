@@ -16,7 +16,7 @@ function EmptyState(){
     >
       <div className="text-center items-center flex flex-col">
         <h3 className="mt-2 text-2xl font-semibold text-gray-900">
-          Select a chat or start a new conversation
+          Go to people page and press user to start a conversation
         </h3>
       </div>
     </div>
