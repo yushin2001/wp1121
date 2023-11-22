@@ -105,7 +105,7 @@ function SettingsModal({
                     className="rounded-full" 
                     src={image || currentUser?.image || '/images/placeholder.jpg'}
                     alt="Avatar"
-                  />ss
+                  />
                 </div>
               </div>
             </div>

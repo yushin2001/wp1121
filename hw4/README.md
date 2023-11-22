@@ -92,3 +92,8 @@ If you only want to do linter checks, you can execute the code below.
 ```bash
 yarn lint
 ```
+
+## Perfect Requirements
+
+1. **自動滾動**：當出現新訊息時，聊天紀錄自動滾動至最下方。
+2. **已讀功能**：可在聊天紀錄，清楚看到對方是否已讀。
