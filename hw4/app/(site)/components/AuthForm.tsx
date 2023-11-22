@@ -1,8 +1,8 @@
 'use client';
 
 import axios from "axios";
-import { signIn, useSession } from 'next-auth/react';
-import { useCallback, useEffect, useState } from 'react';
+import { signIn } from 'next-auth/react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import type { FieldValues, SubmitHandler } from 'react-hook-form';
 import { useRouter } from "next/navigation";
@@ -13,16 +13,9 @@ import { toast } from "react-hot-toast";
 type Variant = 'LOGIN' | 'REGISTER';
 
 function AuthForm() {
-  const session = useSession();
   const router = useRouter();
   const [variant, setVariant] = useState<Variant>('LOGIN');
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (session?.status === 'authenticated') {
-      router.push('/conversations')
-    }
-  }, [session?.status, router]);
 
   const toggleVariant = useCallback(() => {
     if (variant === 'LOGIN') {
@@ -58,7 +51,6 @@ function AuthForm() {
         if (callback?.error) {
           toast.error('Invalid credentials!');
         }
-
         if (callback?.ok) {
           router.push('/conversations')
         }
@@ -76,7 +68,6 @@ function AuthForm() {
         if (callback?.error) {
           toast.error('Invalid credentials!');
         }
-
         if (callback?.ok) {
           router.push('/conversations')
         }

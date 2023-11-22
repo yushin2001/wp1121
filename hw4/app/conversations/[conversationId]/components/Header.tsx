@@ -20,14 +20,12 @@ interface HeaderProps {
 function Header({ conversation }: HeaderProps) {
   const otherUser = useOtherUser(conversation);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
   const { members } = useActiveList();
   const isActive = members.indexOf(otherUser.name!) !== -1;
   const statusText = useMemo(() => {
     if (conversation.isGroup) {
       return `${conversation.users.length} members`;
     }
-
     return isActive ? 'Active' : 'Offline'
   }, [conversation, isActive]);
 
