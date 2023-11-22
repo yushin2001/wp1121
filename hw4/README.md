@@ -28,14 +28,16 @@ yarn install
         DATABASE_URL=<your connection string>
    ```
 
-!!! Important !!!
-Please replace "?" in your connection string with "%3F" \n
-for example: \n
-\n
-original connection string: \n
-mongodb+srv://username:password@cluster0.l2n8y0f.mongodb.net/?retryWrites=true&w=majority \n
-\n
-after modifying: \n
+Important !!!
+
+Please replace "?" in your connection string with "%3F" 
+
+for example: 
+
+original connection string:
+mongodb+srv://username:password@cluster0.l2n8y0f.mongodb.net/?retryWrites=true&w=majority
+
+after modifying:
 mongodb+srv://username:password@cluster0.l2n8y0f.mongodb.net/%3FretryWrites=true&w=majority \n
 
 
