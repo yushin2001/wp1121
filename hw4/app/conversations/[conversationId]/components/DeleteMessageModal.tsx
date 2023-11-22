@@ -7,31 +7,28 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Modal from '@/app/components/modals/Modal';
 import Button from '@/app/components/Button';
-import useConversation from '@/app/hooks/useConversation';
 import { toast } from 'react-hot-toast';
 
-interface ConfirmModalProps {
-  isOpen?: boolean;
-  onClose: () => void;
+interface DeleteMessageModalProps {
+    messageId: string;
+    isOpen?: boolean;
+    onClose: () => void;
 }
 
-function ConfirmModal({ isOpen, onClose }: ConfirmModalProps){
+function DeleteMessageModal({ messageId, isOpen, onClose }: DeleteMessageModalProps){
   const router = useRouter();
-  const { conversationId } = useConversation();
   const [isLoading, setIsLoading] = useState(false);
-  
   const onDelete = useCallback(() => {
     setIsLoading(true);
-
-    axios.delete(`/api/conversations/${conversationId}`)
+    axios.delete(`/api/messages/${messageId}`)
     .then(() => {
       onClose();
-      router.push('/conversations');
+      router.push(`/conversations`);
       router.refresh();
     })
     .catch(() => toast.error('Something went wrong!'))
     .finally(() => setIsLoading(false))
-  }, [router, conversationId, onClose]);
+  }, [router, messageId, onClose]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -70,11 +67,11 @@ function ConfirmModal({ isOpen, onClose }: ConfirmModalProps){
             as="h3" 
             className="text-base font-semibold leading-6 text-gray-900"
           >
-            Delete conversation
+            Unsend message
           </Dialog.Title>
           <div className="mt-2">
             <p className="text-sm text-gray-500">
-              Are you sure you want to delete this conversation? This action cannot be undone.
+              Are you sure you want to unsend this message? This action cannot be undone.
             </p>
           </div>
         </div>
@@ -85,7 +82,7 @@ function ConfirmModal({ isOpen, onClose }: ConfirmModalProps){
           danger
           onClick={onDelete}
         >
-          Delete
+          Unsend
         </Button>
         <Button
           disabled={isLoading}
@@ -99,4 +96,4 @@ function ConfirmModal({ isOpen, onClose }: ConfirmModalProps){
   )
 }
 
-export default ConfirmModal;
+export default DeleteMessageModal;

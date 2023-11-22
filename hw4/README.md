@@ -38,7 +38,7 @@ original connection string:
 mongodb+srv://username:password@cluster0.l2n8y0f.mongodb.net/?retryWrites=true&w=majority
 
 after modifying:
-mongodb+srv://username:password@cluster0.l2n8y0f.mongodb.net/%3FretryWrites=true&w=majority \n
+mongodb+srv://username:password@cluster0.l2n8y0f.mongodb.net/%3FretryWrites=true&w=majority
 
 
 ### 4. Setup Pusher

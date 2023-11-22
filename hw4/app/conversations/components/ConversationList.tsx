@@ -8,7 +8,6 @@ import clsx from "clsx";
 import { find } from 'lodash';
 import useConversation from "@/app/hooks/useConversation";
 import { pusherClient } from "@/app/libs/pusher";
-// import GroupChatModal from "@/app/components/modals/GroupChatModal";
 import ConversationBox from "./ConversationBox";
 import type { FullConversationType } from "@/app/types";
 
@@ -97,40 +96,3 @@ function ConversationList({
 }
  
 export default ConversationList;
-
-
-/*
-import { MdOutlineGroupAdd } from 'react-icons/md';
-const [isModalOpen, setIsModalOpen] = useState(false); 
-*/
-
-/*
-  <GroupChatModal 
-    users={users} 
-    isOpen={isModalOpen} 
-    onClose={() => setIsModalOpen(false)}
-  />
-*/
-
-
-/*
-  <div className="flex justify-between mb-4 pt-4">
-    <div className="text-2xl font-bold text-neutral-800">
-      Messages
-    </div>
-    <div 
-      onClick={() => setIsModalOpen(true)} 
-      className="
-        rounded-full 
-        p-2 
-        bg-gray-100 
-        text-gray-600 
-        cursor-pointer 
-        hover:opacity-75 
-        transition
-      "
-    >
-      <MdOutlineGroupAdd size={20} />
-    </div>
-  </div>
-*/

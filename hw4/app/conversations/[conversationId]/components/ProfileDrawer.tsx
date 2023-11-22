@@ -34,8 +34,8 @@ function ProfileDrawer({
   }, [otherUser.createdAt]);
   
   const title = useMemo(() => {
-    return data.name || otherUser.name;
-  }, [data.name, otherUser.name]);
+    return otherUser.name;
+  }, [otherUser.name]);
 
   const { members } = useActiveList();
   const isActive = members.indexOf(otherUser.name!) !== -1;
