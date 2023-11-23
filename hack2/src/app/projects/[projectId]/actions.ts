@@ -126,7 +126,15 @@ export async function deleteTask(taskId: string, projectId: string) {
   });
 
   // TODO: 10. Delete the task whose displayId is `taskId`
-
+  await db
+    .delete(tasksTable)
+    .where(
+      and(
+        eq(tasksTable.projectId, projectId),
+        eq(tasksTable.displayId, taskId),
+      )
+    )
+    .returning();
   // TODO: 10. end
 
   revalidatePath(`/projects/${projectId}`);
