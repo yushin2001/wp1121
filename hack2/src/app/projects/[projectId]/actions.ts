@@ -100,7 +100,15 @@ export async function updateTaskComplete(
   });
 
   // TODO: 9. Update the task's `completed` column
-
+  await db
+    .update(tasksTable)
+    .set({ completed: completed })
+    .where(
+      and(
+        eq(tasksTable.projectId, projectId),
+        eq(tasksTable.displayId, taskId),
+      )
+    );
   // TODO: 9. end
 
   revalidatePath(`/projects/${projectId}`);
