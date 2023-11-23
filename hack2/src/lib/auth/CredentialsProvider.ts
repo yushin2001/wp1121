@@ -82,7 +82,7 @@ export default CredentialsProvider({
       return null;
     }
     // TODO: 2.2 Compare password with bcrypt
-    const isValid = await bcrypt.hash(password, 10) === existedUser.hashedPassword; // change this line
+    const isValid = await bcrypt.compare(password, existedUser.hashedPassword); // change this line
     // TODO: 2.2 end
 
     if (!isValid) {
