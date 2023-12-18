@@ -6,4 +6,4 @@ HW3: Join-Me
 
 ### URL
 
-[Join-Me](join-me-angelas-projects-53448ec1.vercel.app)
+(https://join-me-angelas-projects-53448ec1.vercel.app)
